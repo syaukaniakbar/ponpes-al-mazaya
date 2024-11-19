@@ -20,6 +20,10 @@ Route::get('/post', function () {
     return view('pages.post');
 });
 
+Route::get('/aboutus', function () {
+    return view('pages.aboutus');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

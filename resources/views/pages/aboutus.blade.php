@@ -56,69 +56,10 @@
         </div>
     </nav>
 
+    <!-- isi kodingan section dibawah ini -->
+    <section class="aboutus"></section>
 
-    <section class="hero-section bg-green-800 text-white">
-        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-            <div class="mr-auto place-self-center lg:col-span-7">
-                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-5xl dark:text-white">Selamat Datang di Pondok Pesantren Al Mazaya</h1>
-                <p class="max-w-2xl mb-6 font-light  lg:mb-8 md:text-lg lg:text-xl ">Membentuk generasi Muslim yang berilmu, berakhlak mulia, dan siap menghadapi tantangan global.</p>
-                <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center border rounded-lg bg-white text-black hover:text-white hover:bg-green-600 ">
-                    Daftar Sekarang
-                </a>
-            </div>
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png" alt="mockup">
-            </div>
-        </div>
-    </section>
-    <section class="highlight bg-white">
-        <div class="grid max-w-screen-xl px-4 py-16 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 my-32">
-            <!-- Kolom Teks -->
-            <div class="mr-auto place-self-center lg:col-span-7">
-                <h2 class="text-3xl font-bold mb-4">Headline highlighting customer results</h2>
-                <p class="text-lg mb-8">Highlight the Unique Selling Proposition (USP) with a short summary of the main feature and how it benefits customers. The idea here is to keep it short and direct. If the visitor wishes to learn more they will hit the button.</p>
 
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="text-center bg-green-100 p-8 rounded-lg shadow-md">
-                        <h3 class="text-2xl font-bold mb-2">527</h3>
-                        <p>Jumlah siswa</p>
-                    </div>
-                    <div class="text-center bg-green-100 p-8 rounded-lg shadow-md">
-                        <h3 class="text-2xl font-bold mb-2">4236</h3>
-                        <p>Jumlah alumni</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Kolom Gambar -->
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="{{ asset('images/highlight.svg') }}" alt="ponpes-al-mazaya-highlight" class="w-full max-w-md rounded-lg">
-            </div>
-        </div>
-    </section>
-    <section class="profile bg-green-800">
-        <div class="grid max-w-screen-xl px-4 py-16 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 my-32">
-            <!-- Kolom Teks -->
-            <div class="mr-auto place-self-center lg:col-span-7">
-                <h2 class="text-3xl font-bold mb-4">Guru dan Staff Al Mazaya</h2>
-                <p class="text-lg mb-8">Highlight the Unique Selling Proposition (USP) with a short summary of the main feature and how it benefits customers. The idea here is to keep it short and direct. If the visitor wishes to learn more they will hit the button.</p>
-
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="text-center bg-green-100 p-8 rounded-lg shadow-md">
-                        <h3 class="text-2xl font-bold mb-2">527</h3>
-                        <p>Jumlah siswa</p>
-                    </div>
-                    <div class="text-center bg-green-100 p-8 rounded-lg shadow-md">
-                        <h3 class="text-2xl font-bold mb-2">4236</h3>
-                        <p>Jumlah alumni</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Kolom Gambar -->
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="{{ asset('images/highlight.svg') }}" alt="ponpes-al-mazaya-highlight" class="w-full max-w-md rounded-lg">
-            </div>
-        </div>
-    </section>
     <!-- footer -->
     <footer class="bg-green-900 text-white py-8">
         <div class="max-w-screen-xl mx-auto px-4">
@@ -175,8 +116,5 @@
             </p>
         </div>
     </footer>
-
-
-
 
 </html>
