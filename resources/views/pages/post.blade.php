@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tailwind Blog Template</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo-only.ico') }}" type="image/x-icon" />
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
 
@@ -72,7 +73,7 @@
         <div class="block sm:hidden">
             <a
                 href="#"
-                class="block md:hidden text-base font-bold uppercase text-center flex justify-center items-center"
+                class="inline-flex md:hidden text-base font-bold uppercase text-center justify-center items-center"
                 @click="open = !open">
                 Topics <i :class="open ? 'fa-chevron-down': 'fa-chevron-up'" class="fas ml-2"></i>
             </a>
@@ -196,8 +197,8 @@
                 x-on:click="decrement()">
                 &#8592;
             </button>
-            <template x-for="image in images.slice(currentIndex, currentIndex + 6)" :key="images.indexOf(image)">
-                <img class="w-1/6 hover:opacity-75" :src="image">
+            <template x-for="image in images.slice(currentIndex, currentIndex + 6)" :key="image.id">
+                <img class="w-1/6 hover:opacity-75" :src="image.src">
             </template>
             <button
                 class="absolute right-0 bg-blue-800 hover:bg-blue-700 text-white text-2xl font-bold hover:shadow rounded-full w-16 h-16 mr-12"

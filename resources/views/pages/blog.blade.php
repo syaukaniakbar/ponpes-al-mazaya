@@ -7,7 +7,7 @@
     <title>Blog Al-Mazaya</title>
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
-
+    <link rel="shortcut icon" href="{{ asset('images/logo-only.ico') }}" type="image/x-icon" />
     <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>

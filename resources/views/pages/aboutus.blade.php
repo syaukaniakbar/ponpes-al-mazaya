@@ -8,6 +8,7 @@
     <!-- Link Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="//unpkg.com/alpinejs" defer></script>
+    <link rel="shortcut icon" href="{{ asset('images/logo-only.ico') }}" type="image/x-icon" />
 </head>
 
 <body>
