@@ -231,7 +231,7 @@
                     <h2 class="text-lg font-semibold mb-4">Halaman</h2>
                     <ul class="space-y-2">
                         <li><a href="#" class="hover:text-gray-300">Beranda</a></li>
-                        <li><a href="#" class="hover:text-gray-300">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-gray-300">Tentang Al-Mazaya</a></li>
                         <li><a href="#" class="hover:text-gray-300">Artikel Berita</a></li>
                     </ul>
                 </div>
