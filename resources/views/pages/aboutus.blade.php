@@ -57,7 +57,12 @@
     </nav>
 
     <!-- isi kodingan section dibawah ini -->
-    <section class="aboutus"></section>
+    <section class="aboutus">
+
+
+
+
+    </section>
 
 
     <!-- footer -->
