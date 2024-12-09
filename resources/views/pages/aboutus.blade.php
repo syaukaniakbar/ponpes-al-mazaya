@@ -62,12 +62,11 @@
 
     <!-- isi kodingan section dibawah ini -->
     <section class="aboutus">
-        <div class="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32">
+        <div class="relative isolate overflow-hidden bg-gray-900 py-48 sm:py-52">
             <img src="{{ asset('images/hero-section-ponpes.png') }}" class="absolute inset-0 -z-10 size-full object-cover object-right md:object-center" alt="Al-Mazaya Logo" />
 
             <!-- Overlay Gelap -->
             <div class="absolute inset-0 bg-black bg-opacity-55 -z-10"></div>
-
             <div class="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:-z-10 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl" aria-hidden="true">
                 <div class="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-tr from-[#ff4694] to-[#776fff] opacity-20" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
             </div>
@@ -86,26 +85,36 @@
 
     <section class="highlight bg-white">
         <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-8 lg:grid-cols-12 my-32">
-            <!-- Title Headline -->
+            <!-- img section -->
+            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex pl-14">
+                <img src="{{ asset('images/ponpes-headline.png') }}" alt="ponpes-al-mazaya-highlight" class="w-full max-w-lg lg:max-w-xl">
+            </div>
+            <!-- end img section -->
+
             <div class="mr-auto place-self-center lg:col-span-7">
-                <h2 class="text-5xl font-bold mb-4">Headline highlighting customer results</h2>
-                <p class="text-lg mb-8">Highlight the Unique Selling Proposition (USP) with a short summary of the main feature and how it benefits customers. The idea here is to keep it short and direct. If the visitor wishes to learn more they will hit the button.</p>
+                <div class="flex flex-col items-center">
+                    <h2 class="text-5xl font-bold mb-4">Kata Sambutan</h2>
+                    <!-- Garis Bawah -->
+                    <div class="w-64 h-1 bg-black mb-6"></div>
+                </div>
+                <p class="text-lg mb-8">
+                    Alhamdulillah, segala puji dan syukur kita panjatkan kehadirat Allah Subhanahu Wa Ta’ala yang telah melimpahkan nikmat-Nya kepada kita semua, mulai dari nikmat iman, nikmat islam, nikmat sehat dan kesempatan untuk berkarya serta berdakwah di bidang pendidikan sebagai bagian penting dari upaya mewujudkan generasi muslim yang beriman dan bertaqwa.
+                </p>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="text-start  p-4  border-l-4 border-green-500">
+                    <div class="text-start p-4 border-l-4 border-green-500">
                         <p class="font-bold mb-2 text-5xl">527</p>
                         <p>Jumlah siswa</p>
                     </div>
-                    <div class="text-start  p-4  border-l-4 border-green-500">
+                    <div class="text-start p-4 border-l-4 border-green-500">
                         <p class="font-bold mb-2 text-5xl">4236</p>
                         <p>Jumlah alumni</p>
                     </div>
                 </div>
             </div>
 
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex pl-14">
-                <img src="{{ asset('images/ponpes-headline.png') }}" alt="ponpes-al-mazaya-highlight" class="w-full max-w-lg lg:max-w-xl">
-            </div>
+
+
         </div>
     </section>
 

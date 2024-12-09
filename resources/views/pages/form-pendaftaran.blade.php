@@ -1,42 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-main-layout><!-- Menghubungkan ke layout parent -->
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Santri Baru</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="shortcut icon" href="{{ asset('images/logo-only.ico') }}" type="image/x-icon" />
-</head>
+    @section('title', 'Home | Ponpes-Al-Mazaya') <!-- Mengisi bagian @yield('title') di parent -->
 
-<body class="bg-gray-100 font-sans">
-    <nav class="text-black bg-white">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="{{url('/')}}" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="{{asset('images/logo_al_mazaya.png')}}" class="h-8" alt="Al-Mazaya Logo" />
-            </a>
-            <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-                </svg>
-            </button>
-            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-                <ul class="flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0 ">
-                    <li>
-                        <a href="#" class="block py-2 px-3 " aria-current="page">Tentang Al-Mazaya</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block py-2 px-3 ">Artikel Berita</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block py-2 px-3 rounded bg-green-600 text-white">Daftar Sekarang</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-10">
+    <section class="max-w-4xl mx-auto p-8 shadow-lg rounded-lg mt-10 ">
         <h1 class="text-2xl font-bold text-center mb-2">Pendaftaran Santri Baru</h1>
         <p class="text-center text-gray-600 mb-6">Isikan data dengan benar untuk proses pendaftaran.</p>
 
@@ -134,10 +100,8 @@
 
             <!-- Submit Button -->
             <div class="text-center">
-                <button type="submit" class="px-6 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600">Submit</button>
+                <button type="submit" class="px-6 py-2 bg-green-600 text-white font-bold rounded-md hover:bg-blue-600">Submit</button>
             </div>
         </form>
-    </div>
-</body>
-
-</html>
+    </section>
+</x-main-layout>
