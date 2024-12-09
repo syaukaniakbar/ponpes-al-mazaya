@@ -86,12 +86,15 @@
     <section class="highlight bg-white">
         <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-8 lg:grid-cols-12 my-32">
             <!-- img section -->
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex pl-14">
-                <img src="{{ asset('images/ponpes-headline.png') }}" alt="ponpes-al-mazaya-highlight" class="w-full max-w-lg lg:max-w-xl">
+            <div class="flex justify-center items-center lg:col-span-5 lg:justify-start px-4 lg:pr-8 lg:pl-0 mb-6 lg:mb-0">
+                <img
+                    src="{{ asset('images/ponpes-headline.png') }}"
+                    alt="ponpes-al-mazaya-highlight"
+                    class="w-full max-w-xs md:max-w-sm lg:max-w-lg rounded-lg">
             </div>
             <!-- end img section -->
 
-            <div class="mr-auto place-self-center lg:col-span-7">
+            <div class="mr-auto place-self-center lg:col-span-7 px-4 lg:pl-16">
                 <div class="flex flex-col items-center">
                     <h2 class="text-5xl font-bold mb-4">Kata Sambutan</h2>
                     <!-- Garis Bawah -->
@@ -100,23 +103,14 @@
                 <p class="text-lg mb-8">
                     Alhamdulillah, segala puji dan syukur kita panjatkan kehadirat Allah Subhanahu Wa Ta’ala yang telah melimpahkan nikmat-Nya kepada kita semua, mulai dari nikmat iman, nikmat islam, nikmat sehat dan kesempatan untuk berkarya serta berdakwah di bidang pendidikan sebagai bagian penting dari upaya mewujudkan generasi muslim yang beriman dan bertaqwa.
                 </p>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="text-start p-4 border-l-4 border-green-500">
-                        <p class="font-bold mb-2 text-5xl">527</p>
-                        <p>Jumlah siswa</p>
-                    </div>
-                    <div class="text-start p-4 border-l-4 border-green-500">
-                        <p class="font-bold mb-2 text-5xl">4236</p>
-                        <p>Jumlah alumni</p>
-                    </div>
-                </div>
             </div>
-
-
-
         </div>
     </section>
+
+
+
+
+
 
 
     <!-- footer -->
