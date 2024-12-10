@@ -11,16 +11,7 @@ Route::prefix('/')->group(function () {
     Route::get('/pendaftaran', [MainController::class, 'pendaftaran'])->name('pendaftaran');
     Route::get('/al-mazaya-blog', [MainController::class, 'blog'])->name('blog.al-mazaya');
     Route::get('/al-mazaya-blog/{slug}', [MainController::class, 'show'])->name('blog.show');
-});
-
-
-
-Route::get('/post', function () {
-    return view('pages.post');
-});
-
-Route::get('/aboutus', function () {
-    return view('pages.aboutus');
+    Route::get('/about-us', [MainController::class, 'aboutUs'])->name('about-us');
 });
 
 Route::get('/dashboard', function () {

@@ -8,6 +8,8 @@
     <!-- Link Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="//unpkg.com/alpinejs" defer></script>
+    <title>Official Website Pondok Pesantren Al-Mazaya</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo-only.ico') }}" type="image/x-icon" />
 </head>
 
 <body>
@@ -231,7 +233,7 @@
                     <h2 class="text-lg font-semibold mb-4">Halaman</h2>
                     <ul class="space-y-2">
                         <li><a href="#" class="hover:text-gray-300">Beranda</a></li>
-                        <li><a href="#" class="hover:text-gray-300">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-gray-300">Tentang Al-Mazaya</a></li>
                         <li><a href="#" class="hover:text-gray-300">Artikel Berita</a></li>
                     </ul>
                 </div>

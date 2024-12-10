@@ -17,6 +17,11 @@ class MainController extends Controller
         return view('pages.form-pendaftaran');
     }
 
+    public function aboutUs()
+    {
+        return view('pages.about-us');
+    }
+
     public function blog()
     {
         $blogs = Blog::with('user')->paginate(5);
@@ -26,6 +31,17 @@ class MainController extends Controller
     public function show($slug)
     {
         $blog = Blog::where('slug', $slug)->firstOrFail();
-        return view('pages.blog-detail', compact('blog'));
+
+        // Get previous blog
+        $previousBlog = Blog::where('id', '<', $blog->id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // Get next blog
+        $nextBlog = Blog::where('id', '>', $blog->id)
+            ->orderBy('id', 'asc')
+            ->first();
+
+        return view('pages.blog-detail', compact('blog', 'previousBlog', 'nextBlog'));
     }
 }

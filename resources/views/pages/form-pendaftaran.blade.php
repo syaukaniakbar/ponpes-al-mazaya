@@ -1,7 +1,5 @@
 <x-main-layout><!-- Menghubungkan ke layout parent -->
-
-    @section('title', 'Home | Ponpes-Al-Mazaya') <!-- Mengisi bagian @yield('title') di parent -->
-
+    @section('title', 'Pendaftaran | Ponpes-Al-Mazaya') <!-- Mengisi bagian @yield('title') di parent -->
     <section class="max-w-4xl mx-auto p-8 shadow-lg rounded-lg mt-10 ">
         <h1 class="text-2xl font-bold text-center mb-2">Pendaftaran Santri Baru</h1>
         <p class="text-center text-gray-600 mb-6">Isikan data dengan benar untuk proses pendaftaran.</p>
