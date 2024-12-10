@@ -2,7 +2,6 @@
 
     @section('title', 'Home | Ponpes-Al-Mazaya') <!-- Mengisi bagian @yield('title') di parent -->
 
-
     <section class="hero-section bg-green-800 text-white">
         <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
             <div class="lg:col-span-12">
@@ -22,21 +21,21 @@
                     <!-- Navigation -->
                     <button @click="currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides - 1"
                         class="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800 text-white px-4 py-2 rounded-full shadow-md">
-                        Prev
-                    </button>
-                    <button @click="currentIndex = (currentIndex < slides - 1) ? currentIndex + 1 : 0"
-                        class="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800 text-white px-4 py-2 rounded-full shadow-md">
-                        Next
-                    </button>
+                        <
+                            </button>
+                            <button @click="currentIndex = (currentIndex < slides - 1) ? currentIndex + 1 : 0"
+                                class="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800 text-white px-4 py-2 rounded-full shadow-md">
+                                >
+                            </button>
 
-                    <!-- Indicators -->
-                    <div class="flex justify-center space-x-2 mt-4">
-                        <template x-for="(slide, index) in slides" :key="index">
-                            <div @click="currentIndex = index"
-                                :class="{ 'bg-blue-500': currentIndex === index, 'bg-gray-300': currentIndex !== index }"
-                                class="w-3 h-3 rounded-full cursor-pointer"></div>
-                        </template>
-                    </div>
+                            <!-- Indicators -->
+                            <div class="flex justify-center space-x-2 mt-4 mb-4">
+                                <template x-for="(slide, index) in slides" :key="index">
+                                    <div @click="currentIndex = index"
+                                        :class="{ 'bg-green-800': currentIndex === index, 'bg-gray-300': currentIndex !== index }"
+                                        class="w-3 h-3 rounded-full cursor-pointer"></div>
+                                </template>
+                            </div>
                 </div>
             </div>
         </div>

@@ -101,7 +101,7 @@
                     <div class="w-64 h-1 bg-black mb-6"></div>
                 </div>
                 <p class="text-lg mb-8">
-                    Alhamdulillah, segala puji dan syukur kita panjatkan kehadirat Allah Subhanahu Wa Ta’ala yang telah melimpahkan nikmat-Nya kepada kita semua, mulai dari nikmat iman, nikmat islam, nikmat sehat dan kesempatan untuk berkarya serta berdakwah di bidang pendidikan sebagai bagian penting dari upaya mewujudkan generasi muslim yang beriman dan bertaqwa.
+                    Alhamdulillah, segala puji dan syukur kita panjatkan kehadirat Allah Subhanahu Wa Ta'ala yang telah melimpahkan nikmat-Nya kepada kita semua, mulai dari nikmat iman, nikmat islam, nikmat sehat dan kesempatan untuk berkarya serta berdakwah di bidang pendidikan sebagai bagian penting dari upaya mewujudkan generasi muslim yang beriman dan bertaqwa.
                 </p>
             </div>
         </div>
