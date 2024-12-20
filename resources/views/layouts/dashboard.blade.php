@@ -9,18 +9,17 @@
     <!-- Title -->
     <title>{{ config('app.name', 'Ponpes-Al-Mazaya') }}</title>
 
-    <!-- soft-ui-dashboard -->
-    <link rel="stylesheet" href="soft-ui-dashboard-tailwind.css" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-
-
-
     <!-- Alpine.js -->
     <script src="//unpkg.com/alpinejs" defer></script>
+
+     <!-- Flowbite -->
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+    <link rel="shortcut icon" href="{{ asset('images/logo-only.ico') }}" type="image/x-icon" />
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');

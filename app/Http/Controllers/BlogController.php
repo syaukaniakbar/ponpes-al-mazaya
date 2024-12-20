@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 
-
-
 class BlogController extends Controller
 {
     /**
@@ -18,7 +16,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::with('user')->get();
+        $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(10);
         return view('pages.admin.blog.admin-blog', compact('blogs'));
     }
 
@@ -48,6 +46,7 @@ class BlogController extends Controller
             $imagePath = $request->file('image')->store('blog_images', 'public');
         }
 
+
         $data = Blog::create([
             'user_id' => Auth::id(),
             'title' => $request->title,
@@ -56,6 +55,7 @@ class BlogController extends Controller
             'category' => $request->category,
             'image_url' => $imagePath,
         ]);
+
         return redirect()->route('blog.create')->with('success', 'Blog Created Successfully');
     }
 
@@ -75,7 +75,6 @@ class BlogController extends Controller
             'created_at' => $blog->created_at->format('d/m/Y'),
         ]);
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -126,7 +125,21 @@ class BlogController extends Controller
     public function destroy(string $id)
     {
         $blog = Blog::find($id);
+
+        if (!$blog) {
+            return redirect()->route('blog')->with('error', 'Blog not found');
+        }
+
+        // Check and delete the associated image file
+        if ($blog->image_url && Storage::disk('public')->exists($blog->image_url)) {
+            Storage::disk('public')->delete($blog->image_url);
+        }
+
+        $title = $blog->title;
+
+        // Delete the blog from the database
         $blog->delete();
-        return redirect()->route('blog')->with('success', 'Post deleted successfully');
+
+        return redirect()->route('blog')->with('success', 'Berhasil Menghapus ' . $title);
     }
 }

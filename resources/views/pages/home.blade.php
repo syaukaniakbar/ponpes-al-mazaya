@@ -1,46 +1,96 @@
 <x-main-layout>
 
-    @section('title', 'Home | Ponpes-Al-Mazaya') <!-- Mengisi bagian @yield('title') di parent -->
+    @section('title', 'Official Website Ponpes Al-Mazaya | Home') <!-- Mengisi bagian @yield('title') di parent -->
 
-
-    <section class="hero-section bg-green-800 text-white">
-        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-            <div class="lg:col-span-12">
-                <!-- Carousel -->
-                <div class="carousel relative overflow-hidden w-full max-w-lg mx-auto bg-gray-200 rounded-lg shadow-md"
-                    x-data="{ currentIndex: 0, slides: 3 }">
-                    <!-- Slides -->
-                    <div class="flex transition-transform duration-500 h-[300px]" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
-                        <img src="{{ asset('images/highlight.svg') }}"
-                            alt=" Slide 1" class="w-full flex-shrink-0 rounded-lg object-cover">
-                        <img src="{{ asset('images/highlight.svg') }}"
-                            alt=" Slide 2" class="w-full flex-shrink-0 rounded-lg object-cover">
-                        <img src="{{ asset('images/highlight.svg') }}"
-                            alt=" Slide 3" class="w-full flex-shrink-0 rounded-lg object-cover">
+    <section class="hero-section bg-green-800 text-white w-full">
+        <div class="relative w-full h-[700px] overflow-hidden" x-data="{ currentIndex: 0, slides: 3 }">
+            <!-- Slides Container -->
+            <div class="flex transition-transform duration-700 ease-out h-full"
+                 :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
+                 <div class="relative w-full flex-shrink-0 h-full">
+                    <img src="{{ asset('images/header_1.jpg') }}"
+                         alt="Slide 1"
+                         class="w-full object-cover h-full">
+                    <div class="absolute top-0 left-0 w-full h-full flex flex-col items-start justify-center p-7 lg:p-28 bg-black bg-opacity-40 text-white">
+                        <p class="text-lg font-light border rounded-2xl border-white px-4 py-2 mb-4">
+                            Pendaftaran Dibuka
+                        </p>
+                        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">
+                            Selamat Datang di Pondok Pesantren Al Mazaya
+                        </h1>
+                        <p class="mb-6 text-lg font-light">
+                            Membentuk generasi Muslim yang berilmu, berakhlak mulia, dan siap menghadapi tantangan global.
+                        </p>
+                        <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-black bg-white rounded-lg hover:text-white hover:bg-green-600">
+                            Daftar Sekarang
+                        </a>
                     </div>
-
-                    <!-- Navigation -->
-                    <button @click="currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides - 1"
-                        class="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800 text-white px-4 py-2 rounded-full shadow-md">
-                        Prev
-                    </button>
-                    <button @click="currentIndex = (currentIndex < slides - 1) ? currentIndex + 1 : 0"
-                        class="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800 text-white px-4 py-2 rounded-full shadow-md">
-                        Next
-                    </button>
-
-                    <!-- Indicators -->
-                    <div class="flex justify-center space-x-2 mt-4">
-                        <template x-for="(slide, index) in slides" :key="index">
-                            <div @click="currentIndex = index"
-                                :class="{ 'bg-blue-500': currentIndex === index, 'bg-gray-300': currentIndex !== index }"
-                                class="w-3 h-3 rounded-full cursor-pointer"></div>
-                        </template>
+                </div>
+            
+                <!-- Slide 2 -->
+                <div class="relative w-full flex-shrink-0 h-full">
+                    <img src="{{ asset('images/header_2.jpg') }}"
+                         alt="Slide 2"
+                         class="w-full object-cover h-full">
+                    <div class="absolute top-0 left-0 w-full h-full flex flex-col items-start justify-center p-7 lg:p-28 bg-black bg-opacity-40 text-white">
+                        <p class="text-lg font-light border rounded-2xl border-white px-4 py-2 mb-4">
+                            Pendaftaran Dibuka
+                        </p>
+                        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">
+                            Selamat Datang di Pondok Pesantren Al Mazaya
+                        </h1>
+                        <p class="mb-6 text-lg font-light">
+                            Membentuk generasi Muslim yang berilmu, berakhlak mulia, dan siap menghadapi tantangan global.
+                        </p>
+                        <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-black bg-white rounded-lg hover:text-white hover:bg-green-600">
+                            Daftar Sekarang
+                        </a>
+                    </div>
+                </div>
+            
+                <!-- Slide 3 -->
+                <div class="relative w-full flex-shrink-0 h-full">
+                    <img src="{{ asset('images/header_3.jpg') }}"
+                         alt="Slide 3"
+                         class="w-full object-cover h-full">
+                    <div class="absolute top-0 left-0 w-full h-full flex flex-col items-start justify-center p-7 lg:p-28 bg-black bg-opacity-40 text-white">
+                        <p class="text-lg font-light border rounded-2xl border-white px-4 py-2 mb-4">
+                            Pendaftaran Dibuka
+                        </p>
+                        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">
+                            Selamat Datang di Pondok Pesantren Al Mazaya
+                        </h1>
+                        <p class="mb-6 text-lg font-light">
+                            Membentuk generasi Muslim yang berilmu, berakhlak mulia, dan siap menghadapi tantangan global.
+                        </p>
+                        <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-black bg-white rounded-lg hover:text-white hover:bg-green-600">
+                            Daftar Sekarang
+                        </a>
                     </div>
                 </div>
             </div>
+    
+            <!-- Navigation Buttons -->
+            <button @click="currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides - 1"
+                    class="absolute top-1/2 left-4 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full shadow-md">
+                &#8592;
+            </button>
+            <button @click="currentIndex = (currentIndex < slides - 1) ? currentIndex + 1 : 0"
+                    class="absolute top-1/2 right-4 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full shadow-md">
+                &#8594;
+            </button>
+    
+            <!-- Indicators -->
+            <div class="absolute bottom-14 left-1/2 -translate-x-1/2 flex space-x-2">
+                <template x-for="(slide, index) in slides" :key="index">
+                    <div @click="currentIndex = index"
+                         :class="{ 'bg-green-500': currentIndex === index, 'bg-white': currentIndex !== index }"
+                         class="w-4 h-4 rounded-full cursor-pointer transition-all"></div>
+                </template>
+            </div>
         </div>
     </section>
+    
     <section class="highlight bg-white">
         <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-8 lg:grid-cols-12 my-32">
             <!-- Title Headline -->

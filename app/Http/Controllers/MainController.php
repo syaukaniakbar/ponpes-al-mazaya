@@ -24,7 +24,7 @@ class MainController extends Controller
 
     public function blog()
     {
-        $blogs = Blog::with('user')->paginate(5);
+        $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(5);
         return view('pages.blog', compact('blogs'));
     }
 

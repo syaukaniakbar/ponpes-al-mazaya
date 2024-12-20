@@ -1,4 +1,7 @@
 <x-main-layout>
+
+    @section('title', 'Blog | Ponpes-Al-Mazaya')
+
     <!-- Text Header -->
     <header class="w-full container mx-auto">
         <div class="flex flex-col items-center py-12">
@@ -32,70 +35,33 @@
 
     <div class="container mx-auto flex flex-wrap py-6">
         <!-- Posts Section -->
-        <section class="w-full md:w-2/3 flex flex-col items-center px-3">
+        <section class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-3">
             @forelse ($blogs as $blog)
-            <article class="flex flex-col shadow my-4">
-                <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}" class="flex flex-col space-y-4"> <!-- space-y-4 untuk memberi jarak antara gambar dan konten -->
-                    <div class="hover:opacity-75">
-                        <img src="{{ asset('storage/' . $blog->image_url) }}" alt="{{ $blog->title }}" class="w-full h-80 object-cover rounded-t-lg">
+                <article class="flex flex-col shadow-lg rounded-lg overflow-hidden">
+                    <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}" class="hover:opacity-90">
+                        <img src="{{ asset('storage/' . $blog->image_url) }}" alt="{{ $blog->title }}" class="w-full h-48 object-cover">
+                    </a>
+                    <div class="bg-white p-4 flex flex-col justify-between">
+                        <div class="flex justify-between items-center">
+                            <span class="bg-green-500 text-white text-xs font-bold rounded-full px-3 py-1 uppercase">
+                                {{ $blog->category }}
+                            </span>
+                        </div>
+                        <h2 class="text-lg font-bold text-gray-800 hover:text-gray-600 mt-2">
+                            {{ $blog->title }}
+                        </h2>
+                        <p class="text-gray-600 text-sm mt-1">{{ Str::limit($blog->description, 100) }}</p>
+                        <div class="mt-4">
+                            <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}" class="text-blue-600 text-sm font-semibold">
+                                Continue Reading →
+                            </a>
+                        </div>
                     </div>
-                    <div class="bg-white flex flex-col justify-start p-6">
-                        <span class="text-blue-700 text-sm font-bold uppercase pb-4">{{ $blog->category }}</span>
-                        <h2 class="text-3xl font-bold hover:text-gray-700 pb-4">{{ $blog->title }}</h2>
-                        <p class="text-sm pb-3">
-                            By <span class="font-semibold hover:text-gray-800">{{ $blog->user->name }}</span>,
-                            Published on {{ $blog->created_at->format('Y-m-d') }}
-                        </p>
-                        <p class="pb-6">{{ Str::limit($blog->description, 300) }}</p>
-                        <span class="uppercase text-gray-800 hover:text-black">
-                            Continue Reading <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </article>
+                </article>
             @empty
-            <div class="text-center py-6">
-                <p class="text-lg text-gray-500">No blog posts available at the moment.</p>
-                <p class="text-sm text-gray-400">
-                    Please check back later or
-                    <a href="{{ route('blog.create') }}" class="text-blue-600 hover:text-blue-800">create a new blog post</a>.
-                </p>
-            </div>
+                <p class="text-center text-gray-500">No blog posts available.</p>
             @endforelse
-            <!-- Pagination -->
-            <a class="mt-6">
-                {{ $blogs->links('pagination::tailwind') }}
-            </a>
         </section>
-        <!-- Sidebar Section -->
-        <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
-
-            <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-                <p class="text-xl font-semibold pb-5">About Us</p>
-                <p class="pb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mattis est eu odio sagittis tristique. Vestibulum ut finibus leo. In hac habitasse platea dictumst.</p>
-                <a href="#" class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-4">
-                    Get to know us
-                </a>
-            </div>
-
-            <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-                <p class="text-xl font-semibold pb-5">Instagram</p>
-                <div class="grid grid-cols-3 gap-3">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=1">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=2">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=3">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=4">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=5">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=6">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=7">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=8">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=9">
-                </div>
-                <a href="#" class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-6">
-                    <i class="fab fa-instagram mr-2"></i> Follow @dgrzyb
-                </a>
-            </div>
-
-        </aside>
+        
     </div>
 </x-main-layout>

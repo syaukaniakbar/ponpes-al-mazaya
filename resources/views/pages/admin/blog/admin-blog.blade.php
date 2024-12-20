@@ -5,7 +5,26 @@
                 Tambah Blog
             </button>
         </a>
-
+        @if(session('success'))
+            <div x-data="{ show: true }"
+                x-init="setTimeout(() => show = false, 3000)"
+                x-show="show"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 transform scale-90"
+                x-transition:enter-end="opacity-100 transform scale-100"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 transform scale-100"
+                x-transition:leave-end="opacity-0 transform scale-90"
+                class="fixed top-24 right-5 max-w-xs w-full p-4 text-sm text-green-800 bg-green-100 border border-green-300 rounded-md shadow-lg flex items-center space-x-3 z-50"
+                role="alert">
+                <!-- Icon -->
+                <svg class="w-5 h-5 text-green-800" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd" />
+                </svg>
+                <!-- Message -->
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
         <p class=" text-xl p-5 flex items-center">
             Al-Mazaya Blog
         </p>
@@ -13,7 +32,7 @@
             <table class="min-w-full table-auto bg-white">
                 <thead>
                     <tr class="bg-gray-800 text-white">
-                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase">ID</th>
+                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase">No</th>
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase">Image</th>
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase">Title</th>
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase">Description</th>
@@ -22,10 +41,10 @@
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @forelse ($blogs as $blog)
+                <tbody>     
+                    @forelse ($blogs as $key => $blog)
                     <tr class="border-b">
-                        <td class="py-3 px-4">{{ $blog->id }}</td>
+                        <td class="py-3 px-4">{{ $blogs->firstItem() + $key }}</td>
                         <td class="py-3 px-4">
                             <img src="{{ asset('storage/' . $blog->image_url) }}" alt="Blog Image" class="w-16 h-16 object-cover">
                         </td>
@@ -52,9 +71,37 @@
                         <td colspan="7">No records found!</td>
                     </tr>
                     @endforelse
+                      <!-- Pagination -->
                 </tbody>
             </table>
+            <!-- Pagination -->
+            <div class="mt-6 p-10 flex justify-center">
+                <div class="flex items-center space-x-2">
+                    {{ $blogs->links('pagination::tailwind') }}
+                </div>
+            </div>
         </div>
+        @if(session('error'))
+        <div x-data="{ show: true }"
+            x-init="setTimeout(() => show = false, 3000)"
+            x-show="show"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90"
+            class="fixed top-24 right-5 max-w-xs w-full p-4 text-sm text-green-800 bg-green-100 border border-green-300 rounded-md shadow-lg flex items-center space-x-3 z-50"
+            role="alert">
+            <!-- Icon -->
+            <svg class="w-5 h-5 text-green-800" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd" />
+            </svg>
+            <!-- Message -->
+            <span>{{ session('success') }}</span>
+        </div>
+
+        @endif
     </div>
 
     <!-- Modal for Showing Blog Details -->
@@ -89,7 +136,7 @@
                             <img src="${data.image_url}" alt="Blog Image" class="w-64 h-64 object-cover rounded-md border">
                         </div>
                         <p><strong>Category:</strong> ${data.category}</p>
-                        <p><strong>Description:</strong> ${data.description}</p>
+                        <p class="text-justify" ><strong>Description:</strong> ${data.description}</p>
                         <p><strong>Created at:</strong> ${data.created_at}</p>
                     `;
                     document.getElementById('blogDetailModal').classList.remove('hidden');
