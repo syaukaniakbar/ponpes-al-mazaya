@@ -1,8 +1,8 @@
 <!-- isi kodingan section dibawah ini -->
-<x-main-layout>
+<x-main-layout class="overflow-x-hidden">
     <!-- First Section -->
-    <section class="aboutus">
-        <div class="relative isolate overflow-hidden bg-gray-900 py-48 sm:py-52">
+    <section class="aboutus w-full overflow-hidden">
+        <div class="relative isolate overflow-hidden bg-gray-900 py-48 sm:py-52 w-full">
             <img src="{{ asset('images/hero-section-ponpes.png') }}" class="absolute inset-0 -z-10 size-full object-cover object-right md:object-center" alt="Al-Mazaya Logo" />
 
             <!-- Overlay Gelap -->
@@ -24,8 +24,8 @@
     </section>
 
     <!-- Second section -->
-    <section class="sambutan bg-white relative">
-        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-8 lg:grid-cols-12 my-32">
+    <section class="sambutan bg-white relative w-full overflow-hidden">
+        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-8 lg:grid-cols-12 my-32 w-full">
             <!-- img section -->
             <div class="flex flex-col justify-center items-center lg:col-span-5 lg:justify-start px-4 lg:pr-8 lg:pl-0">
                 <img
@@ -65,8 +65,8 @@
     </section>
 
     <!-- Third section -->
-    <section class="sejarah bg-white relative">
-        <div class="bg-green-900 rounded-2xl max-w-screen-xl px-4 py-8 mx-auto my-16 flex flex-col items-center">
+    <section class="sejarah bg-white relative w-full overflow-hidden">
+        <div class="bg-green-900 rounded-2xl mx-4 sm:mx-auto max-w-screen-xl px-4 py-8 my-16">
             <div class="flex flex-col justify-center text-center text-white">
                 <h2 class="text-6xl font-bold mb-2">Sejarah</h2>
                 <p class="text-2xl font-light mb-2">Pondok Pesantren Al-Mazaya</p>
@@ -80,7 +80,7 @@
     </section>
 
     <!-- fourth section -->
-    <section class="data-ponpes bg-white relative">
+    <section class="data-ponpes bg-white relative w-full overflow-hidden">
         <div class="flex flex-col justify-center items-center max-w-screen-xl px-4 py-2 mx-auto text-center mb-10">
             <!-- Card section -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full lg:w-3/4">
@@ -107,8 +107,8 @@
     </section>
 
     <!-- Fifth section -->
-    <section class="visi-misi bg-green-900 py-20">
-        <div class="bg-white rounded-2xl max-w-screen-xl px-8 py-12 mx-auto">
+    <section class="visi-misi bg-green-900 py-20 w-full overflow-hidden">
+        <div class="bg-white rounded-2xl mx-4 sm:mx-auto max-w-screen-xl px-4 sm:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Kolom Visi -->
                 <div class="flex flex-col justify-center text-center text-black">
@@ -132,8 +132,8 @@
     </section>
 
     <!-- Sixth section -->
-    <section class="cerita-alumni bg-white relative">
-        <div class="flex flex-col justify-center items-center max-w-screen-xl px-4 py-8 mx-auto text-center">
+    <section class="cerita-alumni bg-white relative w-full overflow-hidden">
+        <div class="flex flex-col justify-center items-center max-w-screen-xl px-4 py-8 mx-auto text-center w-full">
             <!-- Kolom Teks -->
             <h2 class="text-6xl font-bold mb-2">Cerita Alumni</h2>
             <p class="text-2xl font-light mb-2">Pengalaman beberapa alumni terbaik kami</p>
@@ -209,7 +209,7 @@
     </section>
 
     <!-- Seventh section -->
-    <section class="kerjasama bg-white relative mb-14">
+    <section class="kerjasama bg-white relative mb-14 w-full overflow-hidden">
         <div class="flex flex-col justify-center items-center max-w-screen-xl px-4 py-8 mx-auto text-center">
             <!-- Kolom Teks -->
             <h2 class="text-6xl font-bold mb-4">Kerjasama Lembaga</h2>
@@ -299,8 +299,8 @@
     </section>
 
     <!-- Eighth section -->
-    <section class="alamat bg-white relative">
-        <div class="flex flex-col justify-center items-center max-w-screen-xl px-4 py-8 mx-auto text-center">
+    <section class="alamat bg-white relative w-full overflow-hidden">
+        <div class="flex flex-col justify-center items-center max-w-screen-xl px-4 py-8 mx-auto text-center w-full">
             <!-- Kolom Teks -->
             <h2 class="text-6xl font-bold mb-4">Alamat Kami</h2>
             <div class="w-64 h-0.5 bg-black mx-auto mb-10"></div>
