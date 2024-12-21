@@ -35,7 +35,7 @@ class BlogController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:155',
-            'description' => 'required|string',
+            // 'description' => 'required|string',
             'category' => 'required|in:umum,prestasi,ilmiah',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);

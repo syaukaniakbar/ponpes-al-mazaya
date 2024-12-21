@@ -4,15 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite('resources/css/app.css')
-
+    @vite(['resources/css/app.css','resources/js/app.js'])
     <!-- Title -->
     <title>{{ config('app.name', 'Ponpes-Al-Mazaya') }}</title>
 
     <!-- Alpine.js -->
     <script src="//unpkg.com/alpinejs" defer></script>
 
-     <!-- Flowbite -->
+    <!-- Flowbite -->
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
 
     <!-- Fonts -->
@@ -48,21 +47,21 @@
     </style>
 </head>
 
-<body class="bg-gray-100 font-family-karla flex">
+<body class="flex bg-gray-100 font-family-karla">
     @include('layouts.sidebar')
 
-    <div class="w-full flex flex-col h-screen overflow-y-hidden">
+    <div class="flex flex-col w-full h-screen overflow-y-hidden">
 
         <!-- Desktop Header -->
-        <header class="w-full items-center ">
+        <header class="items-center w-full ">
             @include('layouts.navigation')
         </header>
 
         <!-- Mobile Header & Nav -->
-        <header x-data="{ isOpen: false }" class="w-full bg-sidebar py-5 px-6 sm:hidden">
+        <header x-data="{ isOpen: false }" class="w-full px-6 py-5 bg-sidebar sm:hidden">
             <div class="flex items-center justify-between">
-                <a href="index.html" class="text-black text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
-                <button @click="isOpen = !isOpen" class="text-black text-3xl focus:outline-none">
+                <a href="index.html" class="text-3xl font-semibold text-black uppercase hover:text-gray-300">Admin</a>
+                <button @click="isOpen = !isOpen" class="text-3xl text-black focus:outline-none">
                     <i x-show="!isOpen" class="fas fa-bars"></i>
                     <i x-show="isOpen" class="fas fa-times"></i>
                 </button>
@@ -70,27 +69,27 @@
 
             <!-- Dropdown Nav -->
             <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
-                <a href="index.html" class="flex items-center active-nav-link text-black py-2 pl-4 nav-item">
-                    <i class="fas fa-tachometer-alt mr-3"></i>
+                <a href="index.html" class="flex items-center py-2 pl-4 text-black active-nav-link nav-item">
+                    <i class="mr-3 fas fa-tachometer-alt"></i>
                     Dashboard
                 </a>
-                <a href="blank.html" class="flex items-center text-black opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-sticky-note mr-3"></i>
+                <a href="blank.html" class="flex items-center py-2 pl-4 text-black opacity-75 hover:opacity-100 nav-item">
+                    <i class="mr-3 fas fa-sticky-note"></i>
                     Blank Page
                 </a>
-                <a href="tables.html" class="flex items-center text-black opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-table mr-3"></i>
+                <a href="tables.html" class="flex items-center py-2 pl-4 text-black opacity-75 hover:opacity-100 nav-item">
+                    <i class="mr-3 fas fa-table"></i>
                     Tables
                 </a>
-                <a href="forms.html" class="flex items-center text-black opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                    <i class="fas fa-align-left mr-3"></i>
+                <a href="forms.html" class="flex items-center py-2 pl-4 text-black opacity-75 hover:opacity-100 nav-item">
+                    <i class="mr-3 fas fa-align-left"></i>
                     Forms
                 </a>
             </nav>
         </header>
 
-        <div class="w-full overflow-x-hidden border-t flex flex-col">
-            <main class="w-full flex-grow p-8">
+        <div class="flex flex-col w-full overflow-x-hidden border-t">
+            <main class="flex-grow w-full p-8">
                 {{ $slot }}
             </main>
         </div>

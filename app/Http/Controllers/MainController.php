@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\NavLink;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -43,5 +44,12 @@ class MainController extends Controller
             ->first();
 
         return view('pages.blog-detail', compact('blog', 'previousBlog', 'nextBlog'));
+    }
+
+    public function navShow($slug)
+    {
+        $navLink = NavLink::where('slug', $slug)->firstOrFail();
+
+        return view('pages.nav-links-detail', compact('navLink'));
     }
 }
