@@ -8,7 +8,6 @@
     @vite('resources/css/app.css')
     <!-- Link Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ asset('images/logo-only.ico') }}" type="image/x-icon" />
     <script src="//unpkg.com/alpinejs" defer></script>
     </head>
 

@@ -22,9 +22,9 @@
             <div class="block sm:hidden">
                 <a
                     href="#"
-                    class="md:hidden text-base font-bold uppercase text-center flex justify-center items-center"
+                    class="block md:hidden text-base font-bold uppercase text-center flex justify-center items-center"
                     @click="open = !open">
-                    Topics <i :class="open ? 'fa-chevron-down' : 'fa-chevron-up'" class="fas ml-2"></i>
+                    Topics <i :class="open ? 'fa-chevron-down': 'fa-chevron-up'" class="fas ml-2"></i>
                 </a>
             </div>
             <div :class="open ? 'block': 'hidden'" class="w-full flex-grow sm:flex sm:items-center sm:w-auto">

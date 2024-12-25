@@ -1,6 +1,5 @@
 <x-main-layout>
 
-<<<<<<< HEAD
     @section('title', 'Official Website Ponpes Al-Mazaya | Home') <!-- Mengisi bagian @yield('title') di parent -->
 
     <section class="hero-section bg-green-800 text-white w-full">
@@ -46,27 +45,9 @@
                         <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-black bg-white rounded-lg hover:text-white hover:bg-green-600">
                             Daftar Sekarang
                         </a>
-=======
-    @section('title', 'Home | Ponpes-Al-Mazaya') <!-- Mengisi bagian @yield('title') di parent -->
-    <section class="hero-section bg-green-800 text-white">
-        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-            <div class="lg:col-span-12">
-                <!-- Carousel -->
-                <div class="carousel relative overflow-hidden w-full max-w-lg mx-auto bg-gray-200 rounded-lg shadow-md"
-                    x-data="{ currentIndex: 0, slides: 3 }">
-                    <!-- Slides -->
-                    <div class="flex transition-transform duration-500 h-[300px]" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
-                        <img src="{{ asset('images/highlight.svg') }}"
-                            alt=" Slide 1" class="w-full flex-shrink-0 rounded-lg object-cover">
-                        <img src="{{ asset('images/highlight.svg') }}"
-                            alt=" Slide 2" class="w-full flex-shrink-0 rounded-lg object-cover">
-                        <img src="{{ asset('images/highlight.svg') }}"
-                            alt=" Slide 3" class="w-full flex-shrink-0 rounded-lg object-cover">
->>>>>>> e21b6311aaa1c919f5790764712f55dd0d854218
                     </div>
                 </div>
 
-<<<<<<< HEAD
                 <!-- Slide 3 -->
                 <div class="relative w-full flex-shrink-0 h-full">
                     <img src="{{ asset('images/header_3.jpg') }}"
@@ -86,26 +67,6 @@
                             Daftar Sekarang
                         </a>
                     </div>
-=======
-                    <!-- Navigation -->
-                    <button @click="currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides - 1"
-                        class="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800 text-white px-4 py-2 rounded-full shadow-md">
-                        <
-                            </button>
-                            <button @click="currentIndex = (currentIndex < slides - 1) ? currentIndex + 1 : 0"
-                                class="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800 text-white px-4 py-2 rounded-full shadow-md">
-                                >
-                            </button>
-
-                            <!-- Indicators -->
-                            <div class="flex justify-center space-x-2 mt-4 mb-4">
-                                <template x-for="(slide, index) in slides" :key="index">
-                                    <div @click="currentIndex = index"
-                                        :class="{ 'bg-green-800': currentIndex === index, 'bg-gray-300': currentIndex !== index }"
-                                        class="w-3 h-3 rounded-full cursor-pointer"></div>
-                                </template>
-                            </div>
->>>>>>> e21b6311aaa1c919f5790764712f55dd0d854218
                 </div>
             </div>
 

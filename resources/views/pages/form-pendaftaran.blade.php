@@ -2,11 +2,7 @@
 
     @section('title', 'Pendaftaran | Ponpes-Al-Mazaya') <!-- Mengisi bagian @yield('title') di parent -->
 
-<<<<<<< HEAD
     <section class="max-w-4xl mx-auto p-8 shadow-md rounded-lg my-28 border">
-=======
-    <section class="max-w-4xl mx-auto p-8 shadow-lg rounded-lg mt-10 ">
->>>>>>> e21b6311aaa1c919f5790764712f55dd0d854218
         <h1 class="text-2xl font-bold text-center mb-2">Pendaftaran Santri Baru</h1>
         <p class="text-center text-gray-600 mb-6">Isikan data dengan benar untuk proses pendaftaran.</p>
         <form action="#" method="POST" enctype="multipart/form-data">
