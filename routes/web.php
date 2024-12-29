@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/nav-links/update/{id}', [NavLinkController::class, 'update'])->name('nav-links.update');
     Route::get('/nav-links/detail/{id}', [NavLinkController::class, 'show'])->name('nav-links.detail');
     Route::delete('/nav-links/delete/{id}', [NavLinkController::class, 'destroy'])->name('nav-links.delete');
+ 
 });
 
 require __DIR__ . '/auth.php';

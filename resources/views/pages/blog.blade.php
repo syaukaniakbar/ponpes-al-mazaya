@@ -43,7 +43,7 @@
                     </a>
                     <div class="bg-white p-4 flex flex-col justify-between">
                         <div class="flex justify-between items-center">
-                            <span class="bg-green-500 text-white text-xs font-bold rounded-full px-3 py-1 uppercase">
+                            <span class="bg-green-500 text-white text-xs font-bold rounded px-3 py-1 uppercase">
                                 {{ $blog->category }}
                             </span>
                         </div>
@@ -59,9 +59,10 @@
                     </div>
                 </article>
             @empty
-                <p class="text-center text-gray-500">No blog posts available.</p>
+                <div class="flex items-center justify-center w-full h-96 bg-green-600">
+                    <p class="text-center text-white text-lg">No blog posts available.</p>
+                </div>
             @endforelse
         </section>
-        
     </div>
 </x-main-layout>

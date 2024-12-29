@@ -63,8 +63,8 @@
                     name="content"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     placeholder="Masukkan Nama Link"
-                    value="{{ old('content')}}"
-                    </div>
+                    value="{{ old('content')}}">
+            </div>
 
 
                 {{-- EDITOR --}}
@@ -172,7 +172,7 @@
         @endif
     </div>
 
-
+    {{-- Rich Editor --}}
     <script>
         function app() {
             return {

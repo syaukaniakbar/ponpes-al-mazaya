@@ -53,7 +53,7 @@
                         <p href="#" class="text-sm pb-8">
                             By <a href="#" class="font-semibold hover:text-gray-800">{{ $blog->user->name }}</a>
                         </p>
-                        <p class="pb-3">{{ $blog->description }}</p>
+                        <p class="pb-3">{!! $blog->description !!}</p>
                     </div>
                 </article>
                 <div class="w-full flex pt-6">

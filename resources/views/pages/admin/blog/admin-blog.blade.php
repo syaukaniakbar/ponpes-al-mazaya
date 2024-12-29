@@ -1,4 +1,8 @@
 <x-dashboard-layout>
+
+    @section('title', 'Dashboard Blog | Ponpes Al-Mazaya')
+
+
     <div class="w-full mt-12">
         <a href="{{ route('blog.create') }}">
             <button class="bg-green-600 text-white p-3 rounded">
@@ -45,9 +49,12 @@
                     @forelse ($blogs as $key => $blog)
                     <tr class="border-b">
                         <td class="py-3 px-4">{{ $blogs->firstItem() + $key }}</td>
-                        <td class="py-3 px-4">
-                            <img src="{{ asset('storage/' . $blog->image_url) }}" alt="Blog Image" class="w-16 h-16 object-cover">
-                        </td>
+                        @if ($blog->image_url)
+                            <td class="py-3 px-4">
+                                <img src="{{ asset('storage/' . $blog->image_url) }}" alt="Blog Image" class="w-16 h-16 object-cover">
+                                <p>{{ asset('storage/' . $blog->image_url) }}</p>
+                            </td>
+                        @endif
                         <td class="py-3 px-4">{{ $blog->title }}</td>
                         <td class="py-3 px-4">{{ Str::limit($blog->description, 100) }}</td>
                         <td class="py-3 px-4">{{ ucfirst($blog->category) }}</td>
@@ -67,8 +74,8 @@
                         </td>
                     </tr>
                     @empty
-                    <tr class="text-center py-3">
-                        <td colspan="7">No records found!</td>
+                    <tr>
+                        <td colspan="7" class="text-center items-center py-10">No records found!</td>
                     </tr>
                     @endforelse
                       <!-- Pagination -->

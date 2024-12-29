@@ -33,21 +33,30 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate input fields
         $request->validate([
             'title' => 'required|string|max:155',
-            // 'description' => 'required|string',
+            'description' => 'required|string',
             'category' => 'required|in:umum,prestasi,ilmiah',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        // Initialize image path
         $imagePath = null;
 
+        // Check if an image is uploaded
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('blog_images', 'public');
+            try {
+                // Store image in the 'blog_images' folder
+                $imagePath = $request->file('image')->store('blog_images', 'public');
+            } catch (\Exception $e) {
+                // Handle errors during file upload
+                return back()->with('error', 'There was an issue uploading the image.');
+            }
         }
 
-
-        $data = Blog::create([
+        // Create the new blog post
+        Blog::create([
             'user_id' => Auth::id(),
             'title' => $request->title,
             'slug' => Str::slug($request->title),
@@ -56,8 +65,10 @@ class BlogController extends Controller
             'image_url' => $imagePath,
         ]);
 
+        // Redirect back with success message
         return redirect()->route('blog.create')->with('success', 'Blog Created Successfully');
     }
+
 
     /**
      * Display the specified resource.

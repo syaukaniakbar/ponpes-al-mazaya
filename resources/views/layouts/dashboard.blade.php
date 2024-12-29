@@ -6,13 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @vite(['resources/css/app.css','resources/js/app.js'])
     <!-- Title -->
-    <title>{{ config('app.name', 'Ponpes-Al-Mazaya') }}</title>
+    <title>@yield('title', config('app.name', 'Ponpes-Al-Mazaya'))</title>
 
     <!-- Alpine.js -->
     <script src="//unpkg.com/alpinejs" defer></script>
-
-    <!-- Flowbite -->
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

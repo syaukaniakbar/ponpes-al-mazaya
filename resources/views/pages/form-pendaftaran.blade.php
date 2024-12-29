@@ -7,20 +7,17 @@
         <p class="text-center text-gray-600 mb-6">Isikan data dengan benar untuk proses pendaftaran.</p>
         <form action="#" method="POST" enctype="multipart/form-data">
             @csrf
-        
             <!-- Nomor Induk Siswa Nasional -->
             <div class="mb-4">
                 <label for="nisn" class="block text-sm font-medium text-gray-700 mb-2">Nomor Induk Siswa Nasional (NISN)</label>
                 <input type="text" id="nisn" name="nisn" placeholder="Nomor NISN Siswa" class="w-full p-2 border border-gray-300 rounded-md">
                 <p class="text-sm text-gray-500 mt-1">NISN wajib diisi, untuk bantuan hubungi <a href="#" class="text-blue-500">klik disini</a></p>
             </div>
-        
             <!-- Nama Lengkap -->
             <div class="mb-4">
                 <label for="nama" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap (Sesuai Akta/KTP)</label>
                 <input type="text" id="nama" name="nama" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
-        
             <!-- Alamat -->
             <div class="mb-4">
                 <label for="alamat" class="block text-sm font-medium text-gray-700 mb-2">Alamat Rumah</label>
