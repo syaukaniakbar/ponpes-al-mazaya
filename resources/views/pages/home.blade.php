@@ -98,16 +98,27 @@
                 <h2 class="text-5xl font-bold mb-4">Headline highlighting customer results</h2>
                 <p class="text-lg mb-8">Highlight the Unique Selling Proposition (USP) with a short summary of the main feature and how it benefits customers. The idea here is to keep it short and direct. If the visitor wishes to learn more they will hit the button.</p>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="text-start  p-4  border-l-4 border-green-500">
-                        <p class="font-bold mb-2 text-5xl">527</p>
-                        <p>Jumlah siswa</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Card 1 -->
+                    <div class="relative text-start p-4 bg-gray-100 transform transition duration-300 shadow-lg hover:shadow-xl">
+                        <p class="font-bold mb-2 text-5xl text-green-600 hover:text-green-700 transition duration-300">230</p>
+                        <p class="text-black font-medium">Jumlah Siswa MTs</p>
+                        <div class="absolute inset-0 border-green-500 border-l-4 hover:border-l-0 hover:border-b-4 transition-all duration-300"></div>
                     </div>
-                    <div class="text-start  p-4  border-l-4 border-green-500">
-                        <p class="font-bold mb-2 text-5xl">4236</p>
-                        <p>Jumlah alumni</p>
+                    <!-- Card 2 -->
+                    <div class="relative text-start p-4 bg-gray-100 transform transition duration-300 shadow-lg hover:shadow-xl">
+                        <p class="font-bold mb-2 text-5xl text-green-600 hover:text-green-700 transition duration-300">98</p>
+                        <p class="text-black font-medium">Jumlah Siswa MA</p>
+                        <div class="absolute inset-0 border-green-500 border-l-4 hover:border-l-0 hover:border-b-4 transition-all duration-300"></div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="relative text-start p-4 bg-gray-100 transform transition duration-300 shadow-lg hover:shadow-xl">
+                        <p class="font-bold mb-2 text-5xl text-green-600 hover:text-green-700 transition duration-300">0</p>
+                        <p class="text-black font-medium">Jumlah Santri Pondok</p>
+                        <div class="absolute inset-0 border-green-500 border-l-4 hover:border-l-0 hover:border-b-4 transition-all duration-300"></div>
                     </div>
                 </div>
+
             </div>
 
             <div class="hidden lg:mt-0 lg:col-span-5 lg:flex pl-14">
