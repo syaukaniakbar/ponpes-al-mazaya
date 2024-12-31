@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\NavLinkController;
@@ -26,6 +27,10 @@ Route::prefix('/')->group(function () {
 Route::get('/dashboard', function () {
     return view('pages.admin.admin-dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+// routes/web.php
+
+Route::get('/chart-data-excel', [ChartController::class, 'getStudentDataFromExcel']);
+Route::get('/chart-data-excel2', [ChartController::class, 'getTeacherDataFromExcel']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -56,7 +61,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/nav-links/delete/{id}', [NavLinkController::class, 'destroy'])->name('nav-links.delete');
 
     Route::get('/video-link', [VideoController::class, 'index'])->name('video');
- 
 });
 
 require __DIR__ . '/auth.php';
