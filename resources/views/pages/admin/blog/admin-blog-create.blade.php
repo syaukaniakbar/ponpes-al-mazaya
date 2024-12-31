@@ -45,7 +45,7 @@
         <form action="{{ route('blog.store') }}" method="POST" enctype="multipart/form-data" onsubmit="submitForm()">
             @csrf
             <div class="my-6">
-                <label for="title" class="block mb-2 text-lg font-medium text-gray-800">Title</label>
+                <label for="title" class="block mb-2 text-lg font-medium text-gray-800">Judul</label>
                 <input
                     type="text"
                     id="title"
@@ -117,11 +117,10 @@
                             <button type="button" class="w-10 h-10 border-l border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('formatBlock','P')">
                                 <i class="mdi mdi-format-paragraph"></i>
                             </button>
-                            <button type="button" class="w-10 h-10 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="triggerImageUpload()">
+                            <button type="button" class="w-10 h-10 border-l border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="triggerImageUpload()">
                                 <i class="mdi mdi-image"></i>
                             </button>
-                            <input type="file" id="imageUpload" class="hidden" accept="image/*" @change="insertImageFromFile">
-
+                            <input type="file" id="imageUploader" accept="image/*" class="hidden" @change="handleImageUpload">                                                        
                             <button type="button" class="w-10 h-10 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('formatBlock','H2')">
                                 <i class="mdi mdi-format-header-2"></i>
                             </button>
@@ -153,6 +152,7 @@
                     </div>
                 </div>
             </div>
+            
 
             <label class="block my-5 text-sm font-medium text-gray-900" for="image">Tambahkan Gambar Thumbnail</label>
 
@@ -170,6 +170,8 @@
                     name="image"
                     accept="image/*"
                     @change="handleFilePreview($event)">
+                
+                <p class="bg-red-600 text-center text-white p-4 rounded" >thumbnail menggunakan format ; jpeg,png,jpg | max: 2mb | 16:9 diutamakan</p>
 
                 <!-- Image Preview -->
                 <template x-if="imagePreview">
@@ -178,9 +180,6 @@
                     </div>
                 </template>
             </div>
-
-
-
             <div class="flex justify-start">
                 <button type="button" class="w-full px-4 py-2 mt-4 text-white transition bg-blue-500 rounded-md hover:bg-blue-700" onclick="openModal('modelConfirm')">
                     Simpan
@@ -219,14 +218,12 @@
         @endif
     </div>
 
-
     {{-- Rich Editor --}}
     <script>
         function app() {
             return {
                 wysiwyg: null,
-                init: function(el) {
-                    // Initialize the WYSIWYG editor
+                init: function (el) {
                     this.wysiwyg = el;
                     this.wysiwyg.contentDocument.querySelector('head').innerHTML += `<style>
                         *, ::after, ::before { box-sizing: border-box; }
@@ -237,11 +234,21 @@
                         b, strong { font-weight: bold; }
                         i, em { font-style: italic; }
                         u { text-decoration: underline; }
+                        img { 
+                            max-width: 100%; /* Membatasi lebar maksimum gambar */
+                            height: auto; /* Menjaga rasio aspek gambar */
+                        }
                     </style>`;
-                    // Make the iframe content editable
                     this.wysiwyg.contentDocument.designMode = "on";
+
+                    // Menangani paste event untuk membersihkan konten
+                    this.wysiwyg.contentDocument.addEventListener('paste', (event) => {
+                        event.preventDefault();
+                        const text = (event.clipboardData || window.clipboardData).getData('text');
+                        this.insertHTML(`<p>${text}</p>`);
+                    });
                 },
-                format: function(cmd, param) {
+                format: function (cmd, param) {
                     try {
                         const success = this.wysiwyg.contentDocument.execCommand(cmd, false, param || null);
                         if (!success) {
@@ -251,49 +258,52 @@
                         console.error(`Error executing "${cmd}":`, error);
                     }
                 },
-                triggerImageUpload: function() {
-                    // Trigger the file input click event to open file selection
-                    document.getElementById('imageUpload').click();
-                },
-                insertImageFromFile: function(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            const img = new Image();
-                            img.src = e.target.result;
-
-                            // Apply max-width and max-height to prevent oversized images
-                            img.style.maxWidth = "100%"; // Prevent image from overflowing the editor
-                            img.style.maxHeight = "400px"; // Adjust this value based on your preference
-
-                            // Insert the image at the current selection in the WYSIWYG editor
-                            const iframeDoc = this.wysiwyg.contentDocument;
-                            iframeDoc.body.appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
+                insertHTML: function (html) {
+                    const selection = this.wysiwyg.contentDocument.getSelection();
+                    if (selection.rangeCount > 0) {
+                        const range = selection.getRangeAt(0);
+                        range.deleteContents();
+                        const div = this.wysiwyg.contentDocument.createElement('div');
+                        div.innerHTML = html;
+                        const frag = this.wysiwyg.contentDocument.createDocumentFragment();
+                        let child;
+                        while ((child = div.firstChild)) {
+                            frag.appendChild(child);
+                        }
+                        range.insertNode(frag);
                     }
                 },
-                insertLink: function() {
+                insertLink: function () {
                     const url = prompt("Enter the URL:");
                     if (url) {
                         this.format("createLink", url);
                     }
+                },
+                triggerImageUpload: function () {
+                    document.getElementById('imageUploader').click();
+                },
+                handleImageUpload: function (event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            this.format('insertImage', e.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
                 }
-            }
+            };
         }
-
+    
         function submitForm() {
             // Get the content of the WYSIWYG iframe
             const wysiwygContent = document.querySelector('iframe').contentDocument.body.innerHTML;
-
+    
             // Set the content in the hidden input
             document.getElementById('description').value = wysiwygContent;
         }
     </script>
-
-
-
+    
     {{-- Menghitung jumlah karakter title --}}
     <script>
         // Get the elements
@@ -305,8 +315,6 @@
             jumlahSpan.textContent = titleInput.value.length;
         });
     </script>
-    {{-- Akhir menghitung jumlah karakter title --}}
-
 
     {{-- Modal Button Simpan --}}
     <script type="text/javascript">
@@ -332,8 +340,5 @@
             }
         };
     </script>
-    {{-- Akhir Modal Button Simpan --}}
-
-
 
 </x-dashboard-layout>

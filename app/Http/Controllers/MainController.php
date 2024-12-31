@@ -13,12 +13,12 @@ class MainController extends Controller
         return view('pages.home');
     }
 
-    public function pendaftaran()
+    public function cek_status()
     {
-        return view('pages.form-pendaftaran');
+        return view('pages.cek_status');
     }
 
-    public function aboutUs()
+    public function about_us()
     {
         return view('pages.about-us');
     }

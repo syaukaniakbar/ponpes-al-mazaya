@@ -25,7 +25,7 @@
             class="w-full md:block md:w-auto"
             id="navbar-default"
             x-cloak>
-            <ul class="flex flex-col p-4 mt-4 md:p-0 md:flex-row md:space-x-8 md:mt-0">
+            <ul class="flex flex-col p-4 mt-4 md:p-0 md:flex-row md:space-x-4 md:mt-0">
                 <li>
                     <a href="{{ route('index') }}" class="block py-2 px-3 {{ Request::routeIs('index') ? 'text-green-600 font-semibold' : '' }}" aria-current="{{ Request::routeIs('index') ? 'page' : '' }}">Beranda</a>
                 </li>
@@ -38,11 +38,14 @@
                 </li>
                 @foreach (App\Models\NavLink::where('is_active', true)->get() as $link)
                 <li>
-                    <a href="{{ route('nav.show', ['slug' => $link->slug]) }}" class="block px-3 py-2 {{ Request::routeIs('blog.al-mazaya') ? 'text-green-600 font-semibold' : '' }}" aria-current="{{ Request::routeIs('about-us') ? 'page' : '' }}"">{{ $link->name }}</a>
+                    <a href="{{ route('nav.show', ['slug' => $link->slug]) }}" class="block px-3 py-2 {{ Request::routeIs('blog.al-mazaya') ? 'text-green-600 font-semibold' : '' }}" aria-current="{{ Request::routeIs('about-us') ? 'page' : '' }}">{{ $link->name }}</a>
                 </li>
                 @endforeach
                 <li>
-                    <a href=" {{ route('pendaftaran') }}" class="block px-3 py-2 text-white bg-green-600 rounded">Daftar Sekarang</a>
+                    <a href=" {{ route('pendaftaran') }}" class="block px-4 py-2 text-white bg-green-600 rounded text-center">Daftar Sekarang</a>
+                </li>
+                <li>
+                    <a href=" {{ route('cek-status') }}" class="block px-4 py-2 text-white bg-yellow-400 rounded text-center">Cek Status Pendaftaran</a>
                 </li>
             </ul>
         </div>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->text('description');
+            $table->longText('description');
             $table->enum('category', ['umum', 'prestasi', 'ilmiah']);
             $table->string('image_url')->nullable();
             $table->timestamps();

@@ -61,98 +61,14 @@
         
             <p>Jumlah Karakter <span class="jumlah">0</span></p>
         
-            <!-- Radio Button for Category -->
-            <fieldset class="mb-6">
-                <div class="flex items-center py-4">
-                    <input
-                        id="prestasi"
-                        type="radio"
-                        name="category"
-                        value="prestasi"
-                        class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                        {{ old('category', $blog->category) == 'prestasi' ? 'checked' : '' }}>
-                    <label for="prestasi" class="ms-2 text-sm font-medium text-gray-900">Prestasi</label>
-                </div>
-                <div class="flex items-center mb-4">
-                    <input
-                        id="umum"
-                        type="radio"
-                        name="category"
-                        value="umum"
-                        class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                        {{ old('category', $blog->category) == 'umum' ? 'checked' : '' }}>
-                    <label for="umum" class="ms-2 text-sm font-medium text-gray-900">Umum</label>
-                </div>
-                <div class="flex items-center mb-4">
-                    <input
-                        id="ilmiah"
-                        type="radio"
-                        name="category"
-                        value="ilmiah"
-                        class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                        {{ old('category', $blog->category) == 'ilmiah' ? 'checked' : '' }}>
-                    <label for="ilmiah" class="ms-2 text-sm font-medium text-gray-900">Ilmiah</label>
-                </div>
-            </fieldset>
-        
-            <!-- Input Description -->
-            <div class="mb-4">
-                <label for="description" class="block my-2 text-lg font-medium text-gray-800">Tambahkan Deskripsi</label>
-                <input type="hidden" id="description" name="description" value="{{ old('description', $blog->description) }}">
-            </div>
-        
-            {{-- EDITOR --}}
-            <div class="">
-                <div class="w-full max-w-6xl mx-auto text-black bg-white rounded-xl" x-data="app()" x-init="init($refs.wysiwyg)">
-                    <div class="overflow-hidden border border-gray-200 rounded-md">
-                        <div class="flex w-full text-xl text-gray-600 border-b border-gray-200">
-                            <button type="button" class="w-10 h-10 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('bold')">
-                                <i class="mdi mdi-format-bold"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('italic')">
-                                <i class="mdi mdi-format-italic"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 mr-1 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('underline')">
-                                <i class="mdi mdi-format-underline"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 border-l border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('formatBlock','P')">
-                                <i class="mdi mdi-format-paragraph"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 border-l border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="triggerImageUpload()">
-                                <i class="mdi mdi-image"></i>
-                            </button>
-                            <input type="file" id="imageUploader" accept="image/*" class="hidden" @change="handleImageUpload">                                                        
-                            <button type="button" class="w-10 h-10 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('formatBlock','H2')">
-                                <i class="mdi mdi-format-header-2"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 mr-1 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('formatBlock','H3')">
-                                <i class="mdi mdi-format-header-3"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 border-l border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('insertUnorderedList')">
-                                <i class="mdi mdi-format-list-bulleted"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 mr-1 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('insertOrderedList')">
-                                <i class="mdi mdi-format-list-numbered"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 border-l border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('justifyLeft')">
-                                <i class="mdi mdi-format-align-left"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('justifyCenter')">
-                                <i class="mdi mdi-format-align-center"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('justifyRight')">
-                                <i class="mdi mdi-format-align-right"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 border-l border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="insertLink()">
-                                <i class="mdi mdi-link"></i>
-                            </button>
-                        </div>
-                        <div class="w-full">
-                            <iframe x-ref="wysiwyg" class="w-full overflow-y-auto text-base h-96"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <label for="message" class="block my-4 text-sm font-medium text-gray-900 dark:text-white">Tambahkan Deskripsi</label>
+            <textarea 
+                id="description" 
+                name="description" 
+                rows="4" 
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" 
+                placeholder="Masukkan Deskripsi">{{ old('description') }}
+            </textarea>
         
             <!-- Input Image -->
             <div class="my-7">

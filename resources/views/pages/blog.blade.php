@@ -48,9 +48,12 @@
                             </span>
                         </div>
                         <h2 class="text-lg font-bold text-gray-800 hover:text-gray-600 mt-2">
-                            {{ $blog->title }}
+                            {{ $blog->title }} test
                         </h2>
-                        <p class="text-gray-600 text-sm mt-1">{{ Str::limit($blog->description, 100) }}</p>
+                        <p class="text-gray-600 text-sm mt-1">
+                            {!! Str::limit($blog->description, 100) !!}
+               
+                        </p>                        
                         <div class="mt-4">
                             <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}" class="text-blue-600 text-sm font-semibold">
                                 Continue Reading →

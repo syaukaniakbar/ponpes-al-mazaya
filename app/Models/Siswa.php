@@ -10,26 +10,26 @@ class Siswa extends Model
     protected $table = 'siswa';
 
     protected $fillable = [
-        'name',
-        'status_pendaftaran',
-        'program_pendidikan',
-        'NISN',
-        'NIK',
-        'nomor_kk',
+        'nisn',
+        'nama_lengkap',
+        'nik',
+        'no_kk',
         'tempat_lahir',
         'tanggal_lahir',
         'jenis_kelamin',
+        'alamat_domisili',
+        'provinsi',
+        'kota',
+        'kecamatan',
+        'kelurahan',
         'jumlah_saudara',
         'anak_ke',
-        'sekolah_asal',
-        'ayah_kandung',
-        'nik_wali'
+        'asal_sekolah',
+        'nama_ayah',
+        'nik_ayah',
+        'pendidikan_ayah',
     ];
 
-    public function wali()
-    {
-        return $this->belongsTo(Wali::class, 'wali_id');
-    }
 
     use HasFactory;
 }

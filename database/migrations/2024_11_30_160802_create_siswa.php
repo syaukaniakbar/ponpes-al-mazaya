@@ -13,20 +13,35 @@ return new class extends Migration
     {
         Schema::create('siswa', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_lengkap');
-            $table->string('status_pendaftaran', []);
-            $table->enum('program_pendidikan', ['pondok', 'mts', 'ma']);
-            $table->integer('NISN');
-            $table->integer('NIK');
-            $table->integer('nomor_kk');
+            $table->string('nisn')->unique();
+            $table->string('nama');
+            $table->string('program_pendidikan');
+            $table->string('nik')->unique();
+            $table->string('nomor_kk');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
-            $table->enum('jenis_kelamin', ['laki-laki', 'wanita']);
-            $table->string('jumlah_saudara');
-            $table->string('photo');
+            $table->string('jenis_kelamin');
+            $table->string('alamat_domisili');
+            $table->string('provinsi');
+            $table->string('kota');
+            $table->string('kecamatan');
+            $table->string('kelurahan');
+            $table->integer('jumlah_saudara');
             $table->integer('anak_ke');
-            $table->string('sekolah_asal');
-            $table->string('ayah_kandung');
+            $table->string('asal_sekolah');
+            $table->string('nama_ayah');
+            $table->string('nik_ayah');
+            $table->string('pendidikan_ayah');
+            $table->string('pekerjaan_ayah');
+            $table->string('nama_ibu');
+            $table->string('nik_ibu');
+            $table->string('pendidikan_ibu');
+            $table->string('pekerjaan_ibu');
+            $table->string('penghasilan');
+            $table->string('alamat_kk');
+            $table->string('no_hp_orangtua');
+            $table->integer('kopiah');
+            $table->string('seragam');
             $table->timestamps();
         });
     }

@@ -6,7 +6,7 @@
     <div class="w-full mt-12">
         <a href="{{ route('blog.create') }}">
             <button class="p-3 text-white bg-green-600 rounded">
-                Tambah Blog
+                Tambah Berita
             </button>
         </a>
         @if(session('success'))
@@ -52,11 +52,14 @@
                         @if ($blog->image_url)
                         <td class="px-4 py-3">
                             <img src="{{ asset('storage/' . $blog->image_url) }}" alt="Blog Image" class="object-cover w-16 h-16">
-                            <!-- <p>{{ asset('storage/' . $blog->image_url) }}</p> -->
                         </td>
                         @endif
                         <td class="px-4 py-3">{{ $blog->title }}</td>
-                        <td class="px-4 py-3">{{ Str::limit($blog->description, 100) }}</td>
+                        <td>
+                            <p class= "text-lg mt-1">
+                                {{ Str::limit(str_replace('&nbsp;', ' ', strip_tags($blog->description)), 100) . '!!' }}
+                            </p>    
+                        </td>
                         <td class="px-4 py-3">{{ ucfirst($blog->category) }}</td>
                         <td class="px-4 py-3">{{ $blog->created_at->format('d/m/Y') }}</td>
                         <td class="px-4 py-3">
@@ -138,13 +141,40 @@
                 .then(data => {
                     const modalContent = document.getElementById('blogDetailContent');
                     modalContent.innerHTML = `
-                        <h2 class="text-2xl font-bold">${data.title}</h2>
-                         <div class="flex justify-center p-12">
-                            <img src="${data.image_url}" alt="Blog Image" class="object-cover w-64 h-64 border rounded-md">
+                        <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden my-8">
+                            <!-- Judul -->
+                            <div class="p-6 border-b">
+                                <h2 class="text-3xl font-bold text-gray-800">${data.title}</h2>
+                            </div>
+
+                            <!-- Gambar -->
+                            <div class="flex justify-center">
+                                <div class="w-full h-96 max-w-3xl overflow-hidden">
+                                    <img 
+                                        src="${data.image_url}" 
+                                        alt="Blog Image" 
+                                        class="object-cover w-full h-full border">
+                                </div>
+                            </div>
+
+                            <!-- Informasi Blog -->
+                            <div class="p-6 space-y-4">
+                                <p class="text-sm text-gray-500">
+                                    <strong>Category:</strong> 
+                                    <span class="text-gray-700">${data.category}</span>
+                                </p>
+                                <p class="text-sm text-gray-500">
+                                    <strong>Created at:</strong> 
+                                    <span class="text-gray-700">${data.created_at}</span>
+                                </p>
+
+                                <div class="text-justify text-gray-700 leading-relaxed">
+                                    <strong>Description:</strong>
+                                    <p>${data.description}</p>
+                                </div>
+                            </div>
                         </div>
-                        <p><strong>Category:</strong> ${data.category}</p>
-                        <p class="text-justify" ><strong>Description:</strong> ${data.description}</p>
-                        <p><strong>Created at:</strong> ${data.created_at}</p>
+
                     `;
                     document.getElementById('blogDetailModal').classList.remove('hidden');
                 })

@@ -36,21 +36,24 @@
             </div>
         </nav>
         <div class="container mx-auto flex flex-wrap py-6">
+            
             <!-- Post Section -->
             <section class="w-full md:w-2/3 flex flex-col items-center px-3">
                 <article class="flex flex-col my-4">
                     <!-- Article Image -->
-                    <div class="flex justify-between items-center py-5">
+                    <div class="flex justify-between items-center py-4">
                         <p class="text-gray-600">Published on {{ $blog->created_at->translatedFormat('l, d F Y') }}</p>
                         <a href="#" class="text-blue-700 text-sm font-bold uppercase">ARTIKEL {{ strtoupper($blog->category) }}</a>
                     </div>
-                    
-                    <a href="#" class="hover:opacity-75 h-92">
-                        <img class="rounded-lg" src="{{ asset('storage/' . $blog->image_url) }}">
-                    </a>
+                    <div class="relative h-96 w-full overflow-hidden">
+                        <img 
+                            class="absolute top-0 left-0 w-full h-full object-cover" 
+                            src="{{ asset('storage/' . $blog->image_url) }}" 
+                            alt="Article Image">
+                    </div>
                     <div class="bg-white flex flex-col justify-start py-6">
-                        <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">{{ $blog->title }}</a>
-                        <p href="#" class="text-sm pb-8">
+                        <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-8">{{ $blog->title }}</a>
+                        <p href="#" class="text-sm pb-4">
                             By <a href="#" class="font-semibold hover:text-gray-800">{{ $blog->user->name }}</a>
                         </p>
                         <p class="pb-3">{!! $blog->description !!}</p>

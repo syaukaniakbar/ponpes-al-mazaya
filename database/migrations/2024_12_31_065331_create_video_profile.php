@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wali', function (Blueprint $table) {
+        Schema::create('video_profile', function (Blueprint $table) {
             $table->id();
-            $table->string('nik');
-            $table->string('nama');
             $table->timestamps();
         });
     }
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wali');
+        Schema::dropIfExists('video_profile');
     }
 };
