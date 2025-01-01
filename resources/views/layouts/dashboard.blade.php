@@ -105,11 +105,16 @@
             let chart1;
 
             function fetchAndRenderChart1(year) {
-                fetch(`/chart-data-excel?year=${year}`)
-                    .then(response => response.json())
+                fetch(`/chart-data?year=${year}`) // Match the Laravel route parameter name
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
                     .then(data => {
-                        const labels = data.map(item => item.degree);
-                        const totals = data.map(item => item.total);
+                        const labels = data.map(item => item.tingkatan); // 'tingkatan' from Laravel response
+                        const totals = data.map(item => item.total); // 'total' from Laravel response
 
                         if (chart1) {
                             chart1.destroy(); // Destroy the old chart
@@ -128,12 +133,27 @@
                                 }]
                             },
                             options: {
+                                responsive: true,
+                                maintainAspectRatio: true,
                                 scales: {
                                     y: {
                                         beginAtZero: true,
                                         ticks: {
-                                            stepSize: 20
+                                            stepSize: 10
                                         },
+                                    },
+                                    x: {
+                                        ticks: {
+                                            autoSkip: false,
+                                            maxRotation: 45, // Rotate labels for better visibility
+                                            minRotation: 0
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'top'
                                     }
                                 }
                             }
@@ -149,64 +169,65 @@
                 }
             });
 
-            // Optionally, load the chart with a default year on page load
-            const defaultYear = 2021;
-            yearInput.value = 2021;
+            // Load the chart with a default year on page load
+            const defaultYear = new Date().getFullYear() - 1; // Use the current year as the default
+            yearInput.value = defaultYear;
             fetchAndRenderChart1(defaultYear);
 
+
             // Teacher chart setup
-            const yearInput2 = document.getElementById('yearInput2');
-            const totalTeacher = document.getElementById('totalTeacher');
-            let chart2;
+            // const yearInput2 = document.getElementById('yearInput2');
+            // const totalTeacher = document.getElementById('totalTeacher');
+            // let chart2;
 
-            function fetchAndRenderChart2(year) {
-                fetch(`/chart-data-excel2?year=${year}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const labels = data.map(item => item.degree);
-                        const totals = data.map(item => item.total);
+            // function fetchAndRenderChart2(year) {
+            //     fetch(`/chart-data-excel2?year=${year}`)
+            //         .then(response => response.json())
+            //         .then(data => {
+            //             const labels = data.map(item => item.degree);
+            //             const totals = data.map(item => item.total);
 
-                        if (chart2) {
-                            chart2.destroy(); // Destroy the old chart
-                        }
+            //             if (chart2) {
+            //                 chart2.destroy(); // Destroy the old chart
+            //             }
 
-                        chart2 = new Chart(totalTeacher, {
-                            type: 'bar',
-                            data: {
-                                labels: labels,
-                                datasets: [{
-                                    label: 'Total Teachers',
-                                    data: totals,
-                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                    borderColor: 'rgba(255, 99, 132, 1)',
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        ticks: {
-                                            stepSize: 20
-                                        },
-                                    }
-                                }
-                            }
-                        });
-                    })
-                    .catch(error => console.error('Error fetching data:', error));
-            }
+            //             chart2 = new Chart(totalTeacher, {
+            //                 type: 'bar',
+            //                 data: {
+            //                     labels: labels,
+            //                     datasets: [{
+            //                         label: 'Total Teachers',
+            //                         data: totals,
+            //                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            //                         borderColor: 'rgba(255, 99, 132, 1)',
+            //                         borderWidth: 1
+            //                     }]
+            //                 },
+            //                 options: {
+            //                     scales: {
+            //                         y: {
+            //                             beginAtZero: true,
+            //                             ticks: {
+            //                                 stepSize: 20
+            //                             },
+            //                         }
+            //                     }
+            //                 }
+            //             });
+            //         })
+            //         .catch(error => console.error('Error fetching data:', error));
+            // }
 
-            yearInput2.addEventListener('blur', () => {
-                const year = yearInput2.value.trim();
-                if (year) {
-                    fetchAndRenderChart2(year);
-                }
-            });
+            // yearInput2.addEventListener('blur', () => {
+            //     const year = yearInput2.value.trim();
+            //     if (year) {
+            //         fetchAndRenderChart2(year);
+            //     }
+            // });
 
-            // Optionally, load the chart with a default year on page load
-            yearInput2.value = 2021;
-            fetchAndRenderChart2(2021);
+            // // Optionally, load the chart with a default year on page load
+            // yearInput2.value = 2021;
+            // fetchAndRenderChart2(2021);
         });
 
 

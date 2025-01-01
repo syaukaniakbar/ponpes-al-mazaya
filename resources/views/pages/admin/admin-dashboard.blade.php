@@ -11,7 +11,7 @@
                 <canvas id="totalStudent" width="400" height="200"></canvas>
             </div>
         </div>
-        <div class="w-full pl-0 mt-12 lg:w-1/2 lg:pl-2 lg:mt-0">
+        <!-- <div class="w-full pl-0 mt-12 lg:w-1/2 lg:pl-2 lg:mt-0">
             <p class="flex items-center pb-3 text-xl">
                 <i class="mr-3"></i> Total Guru
             </p>
@@ -20,7 +20,7 @@
                 <input type="text" id="yearInput2" value="2021" placeholder="e.g., 2023" />
                 <canvas id="totalTeacher" width="400" height="200"></canvas>
             </div>
-        </div>
+        </div> -->
     </div>
 
 </x-dashboard-layout>

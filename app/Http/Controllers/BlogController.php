@@ -113,8 +113,8 @@ class BlogController extends Controller
         // Handle image upload if a new one is provided
         if ($request->hasFile('image')) {
             // Delete the old image if it exists
-            if ($blog->image_url && \Storage::disk('public')->exists($blog->image_url)) {
-                \Storage::disk('public')->delete($blog->image_url);
+            if ($blog->image_url && Storage::disk('public')->exists($blog->image_url)) {
+                Storage::disk('public')->delete($blog->image_url);
             }
             $blog->image_url = $request->file('image')->store('blog_images', 'public');
         }
