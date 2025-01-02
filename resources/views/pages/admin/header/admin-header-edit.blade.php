@@ -43,7 +43,7 @@
             </div>
         @endif
 
-        <form action="{{ route('blog.update', $blog->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('header.update', $header->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
         
@@ -56,7 +56,7 @@
                     name="title"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     placeholder="Masukkan Judul"
-                    value="{{ old('title', $blog->title) }}">
+                    value="{{ old('title', $header->title) }}">
             </div>
         
             <p>Jumlah Karakter <span class="jumlah">0</span></p>
@@ -67,9 +67,8 @@
                 name="description" 
                 rows="4" 
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" 
-                placeholder="Masukkan Deskripsi">{{ old('description') }}
+                placeholder="Masukkan Deskripsi">{{ old('description', $header->description ?? '') }}
             </textarea>
-        
             <!-- Input Image -->
             <div class="my-7">
                 <label for="content" class="block my-4 text-lg font-medium text-gray-800">Tambahkan Cover</label>
@@ -80,11 +79,11 @@
                     name="image"
                     accept="image/*">
         
-                @if ($blog->image_url)
+                @if ($header->image_url)
                 <div class="mt-4">
                     <p class="text-sm text-gray-600 mb-2">Gambar Saat Ini:</p>
                     <div class="flex justify-center">
-                        <img src="{{ asset('storage/' . $blog->image_url) }}" alt="Thumbnail" class="w-64 h-64 object-cover rounded-md border">
+                        <img src="{{ asset('storage/' . $header->image_url) }}" alt="Thumbnail" class="w-64 h-64 object-cover rounded-md border">
                     </div>
                 </div>
                 @endif

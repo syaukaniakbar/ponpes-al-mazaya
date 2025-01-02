@@ -222,12 +222,33 @@
     <!-- End section berita al-mazaya -->
 
     <!-- section video tentang al-mazaya -->
-    <section class="video">
-        <div class="flex flex-col justify-center items-center px-0 pt-16 pb-16 mx-auto text-center">
-            <h1 class="text-3xl font-bold mb-6 text-black">Video Tentang Al-Mazaya</h1>
-            <img src="{{ asset('images/placeholder-img.png') }}" alt="ponpes-al-mazaya-highlight" class="max-w-3xl w-full h-auto rounded-lg shadow-md">
+    <!-- section video tentang al-mazaya -->
+    <section class="video bg-gray-100 p-6 md:p-32">
+        <div class="container mx-auto flex flex-col justify-center items-center text-center px-6 md:px-12">
+            <!-- Headline -->
+            <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 leading-tight">
+                Video Tentang Al-Mazaya
+            </h1>
+            <!-- Sub-keterangan -->
+            <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl">
+                Setiap langkah adalah doa, setiap ilmu adalah cahaya. Temukan semangat juang dan nilai kehidupan yang terpancar dari santri Pondok Pesantren Al-Mazaya.
+            </p>
+            <!-- Video -->
+            <div class="w-full max-w-4xl aspect-w-16 aspect-h-9 rounded-lg shadow-lg overflow-hidden">
+                <iframe 
+                    src="https://www.youtube.com/embed/XqeDosXJJ1M" 
+                    title="Video Tentang Al-Mazaya" 
+                    class="w-full h-96"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
         </div>
     </section>
+
+
+    
     <!-- End section video tentang al-mazaya -->
 
 </x-main-layout>

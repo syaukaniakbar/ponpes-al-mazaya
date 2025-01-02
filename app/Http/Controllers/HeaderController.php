@@ -40,7 +40,7 @@ class HeaderController extends Controller
         // Check if an image is uploaded
         if ($request->hasFile('image')) {
             try {
-                // Store image in the 'blog_images' folder
+                // Store image in the 'header_images' folder
                 $imagePath = $request->file('image')->store('header_images', 'public');
             } catch (\Exception $e) {
                 // Handle errors during file upload
@@ -48,7 +48,7 @@ class HeaderController extends Controller
             }
         }
 
-        // Create the new blog post
+        // Create the new header post
         Header::create([
             'image_url' => $imagePath,
             'title' => $request->title,
@@ -87,13 +87,13 @@ class HeaderController extends Controller
             $header->image_url = $request->file('image')->store('header_images', 'public');
         }
 
-        // Update blog data
+        // Update header data
         $header->update([
             'title' => $request->title,
             'description' => $request->description,
         ]);
 
-        return redirect()->route('header.edit', ['id' => $header->id])->with('success', 'Blog updated successfully!');
+        return redirect()->route('header.edit', ['id' => $header->id])->with('success', 'Banner updated successfully!');
     }
 
     /**
@@ -104,7 +104,7 @@ class HeaderController extends Controller
         $header = Header::find($id);
 
         if (!$header) {
-            return redirect()->route('blog')->with('error', 'Blog not found');
+            return redirect()->route('header')->with('error', 'Header not found');
         }
 
         // Check and delete the associated image file
@@ -114,9 +114,9 @@ class HeaderController extends Controller
 
         $title = $header->title;
 
-        // Delete the blog from the database
+        // Delete the header from the database
         $header->delete();
 
-        return redirect()->route('blog')->with('success', 'Berhasil Menghapus ' . $title);
+        return redirect()->route('header')->with('success', 'Berhasil Menghapus ' . $title);
     }
 }

@@ -11,9 +11,10 @@ class Siswa extends Model
 
     protected $fillable = [
         'nisn',
-        'nama_lengkap',
+        'nama',
+        'program_pendidikan',
         'nik',
-        'no_kk',
+        'nomor_kk',
         'tempat_lahir',
         'tanggal_lahir',
         'jenis_kelamin',
@@ -28,6 +29,16 @@ class Siswa extends Model
         'nama_ayah',
         'nik_ayah',
         'pendidikan_ayah',
+        'pekerjaan_ayah',
+        'nama_ibu',
+        'nik_ibu',
+        'pendidikan_ibu',
+        'pekerjaan_ibu',
+        'penghasilan',
+        'alamat_kk',
+        'no_hp_orangtua',
+        'kopiah',
+        'seragam'
     ];
 
 

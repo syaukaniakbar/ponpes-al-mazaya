@@ -81,4 +81,27 @@ class SiswaController extends Controller
         ]);
         return redirect()->route('pendaftaran')->with('success', 'Pendaftaran Berhasil');
     }
+
+    public function search(Request $request)
+    {
+        $nisn = $request->input('nisn');
+        
+        // Misalnya mencari data siswa berdasarkan NISN
+        $siswa = Siswa::where('nisn', $nisn)->first();
+
+        if ($siswa) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $siswa,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Siswa tidak ditemukan',
+            ]);
+        }
+    }
+
+
+    
 }

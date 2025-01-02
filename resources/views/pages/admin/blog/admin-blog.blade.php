@@ -108,9 +108,8 @@
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd" />
             </svg>
             <!-- Message -->
-            <span>{{ session('success') }}</span>
+            <span>{{ session('error') }}</span>
         </div>
-
         @endif
     </div>
 
@@ -135,54 +134,54 @@
 
 
     <script>
-        function openModal(blogId) {
-            fetch(`/blog/detail/${blogId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const modalContent = document.getElementById('blogDetailContent');
-                    modalContent.innerHTML = `
-                        <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden my-8">
-                            <!-- Judul -->
-                            <div class="p-6 border-b">
-                                <h2 class="text-3xl font-bold text-gray-800">${data.title}</h2>
-                            </div>
+        async function openModal(blogId) {
+            try {
+                // Fetch data dari server
+                const response = await fetch(`/blog/detail/${blogId}`);
+                const data = await response.json();
 
-                            <!-- Gambar -->
-                            <div class="flex justify-center">
-                                <div class="w-full h-96 max-w-3xl overflow-hidden">
-                                    <img 
-                                        src="${data.image_url}" 
-                                        alt="Blog Image" 
-                                        class="object-cover w-full h-full border">
-                                </div>
-                            </div>
+                // Menampilkan data di modal
+                const modalContent = document.getElementById('blogDetailContent');
+                modalContent.innerHTML = `
+                    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden my-8">
+                        <!-- Judul -->
+                        <div class="p-6 border-b">
+                            <h2 class="text-3xl font-bold text-gray-800">${data.title}</h2>
+                        </div>
 
-                            <!-- Informasi Blog -->
-                            <div class="p-6 space-y-4">
-                                <p class="text-sm text-gray-500">
-                                    <strong>Category:</strong> 
-                                    <span class="text-gray-700">${data.category}</span>
-                                </p>
-                                <p class="text-sm text-gray-500">
-                                    <strong>Created at:</strong> 
-                                    <span class="text-gray-700">${data.created_at}</span>
-                                </p>
-
-                                <div class="text-justify text-gray-700 leading-relaxed">
-                                    <strong>Description:</strong>
-                                    <p>${data.description}</p>
-                                </div>
+                        <!-- Gambar -->
+                        <div class="flex justify-center">
+                            <div class="w-full h-96 max-w-3xl overflow-hidden">
+                                <img 
+                                    src="${data.image_url}" 
+                                    alt="Blog Image" 
+                                    class="object-cover w-full h-full border">
                             </div>
                         </div>
 
-                    `;
-                    document.getElementById('blogDetailModal').classList.remove('hidden');
-                })
-                .catch(error => {
-                    console.error("Error fetching blog details:", error);
-                });
-        }
+                        <!-- Informasi Blog -->
+                        <div class="p-6 space-y-4">
+                            <p class="text-sm text-gray-500">
+                                <strong>Category:</strong> 
+                                <span class="text-gray-700">${data.category}</span>
+                            </p>
+                            <p class="text-sm text-gray-500">
+                                <strong>Created at:</strong> 
+                                <span class="text-gray-700">${data.created_at}</span>
+                            </p>
 
+                            <div class="text-justify text-gray-700 leading-relaxed">
+                                <strong>Description:</strong>
+                                <p>${data.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('blogDetailModal').classList.remove('hidden');
+            } catch (error) {
+                console.error("Error fetching blog details:", error);
+            }
+        }
         function closeModal() {
             document.getElementById('blogDetailModal').classList.add('hidden');
         }

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/')->group(function () {
     Route::get('/', [MainController::class, 'index'])->name('index');
-
+    Route::post('/siswa/search', [SiswaController::class, 'search'])->name('siswa.search');
     Route::get('/cek-status', [MainController::class, 'cek_status'])->name('cek-status');
     Route::get('/pendaftaran', [SiswaController::class, 'create'])->name('pendaftaran');
     Route::post('/pendaftaran/store', [SiswaController::class, 'store'])->name('pendaftaran.store');

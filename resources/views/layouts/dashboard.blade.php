@@ -20,6 +20,11 @@
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
 
+        p
+        {
+            font-size: 1rem !important;
+        }
+
         .font-family-karla {
             font-family: karla;
         }
