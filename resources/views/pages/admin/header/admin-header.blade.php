@@ -59,10 +59,10 @@
                             </p>    
                         </td>
                         <td class="px-4 py-3">
-                            <a href="{{ route('blog.edit', $header->id) }}" class="block w-full p-2 mb-2 text-center text-white bg-blue-600 rounded">
+                            <a href="{{ route('header.edit', $header->id) }}" class="block w-full p-2 mb-2 text-center text-white bg-blue-600 rounded">
                                 Edit
                             </a>
-                            <form action="{{ route('blog.delete', $header->id) }}" method="post">
+                            <form action="{{ route('header.delete', $header->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="w-full p-2 text-white bg-red-600 rounded">Delete</button>
@@ -101,7 +101,7 @@
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd" />
             </svg>
             <!-- Message -->
-            <span>{{ session('success') }}</span>
+            <span>{{ session('error') }}</span>
         </div>
 
         @endif
