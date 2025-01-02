@@ -102,9 +102,16 @@
         document.addEventListener("DOMContentLoaded", function() {
             const yearInput = document.getElementById('yearInput');
             const totalStudent = document.getElementById('totalStudent');
-            let chart1;
+            const totalStudent2 = document.getElementById('totalStudent2');
+            let chartBar;
+            let chartLine;
 
-            function fetchAndRenderChart1(year) {
+            function calculateMaxValue(data, padding = 80) {
+                const maxTotal = Math.max(...data.map(item => item.total));
+                return maxTotal + padding;
+            }
+
+            function fetchAndRenderChartBar(year) {
                 fetch(`/chart-data?year=${year}`) // Match the Laravel route parameter name
                     .then(response => {
                         if (!response.ok) {
@@ -113,14 +120,17 @@
                         return response.json();
                     })
                     .then(data => {
-                        const labels = data.map(item => item.tingkatan); // 'tingkatan' from Laravel response
-                        const totals = data.map(item => item.total); // 'total' from Laravel response
+                        const labels = data.map(item => item.tingkatan)
+                        const totals = data.map(item => item.total);
+                        const maxY = calculateMaxValue(data);
 
-                        if (chart1) {
-                            chart1.destroy(); // Destroy the old chart
+                        // Destroy previous charts if they exist
+                        if (chartBar) {
+                            chartBar.destroy();
                         }
 
-                        chart1 = new Chart(totalStudent, {
+                        // Render Bar Chart
+                        chartBar = new Chart(totalStudent, {
                             type: 'bar',
                             data: {
                                 labels: labels,
@@ -138,6 +148,7 @@
                                 scales: {
                                     y: {
                                         beginAtZero: true,
+                                        max: maxY,
                                         ticks: {
                                             stepSize: 10
                                         },
@@ -165,147 +176,111 @@
             yearInput.addEventListener('blur', () => {
                 const year = yearInput.value.trim();
                 if (year) {
-                    fetchAndRenderChart1(year);
+                    fetchAndRenderChartBar(year); // Corrected function name
                 }
             });
 
-            // Load the chart with a default year on page load
-            const defaultYear = new Date().getFullYear() - 1; // Use the current year as the default
+            function fetchAndRenderLineChart() {
+                fetch(`/chart-data2`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const years = [...new Set(data.map(item => item.tahun))].sort(); // Get unique years, sorted
+                        const order = ['MTS', 'MA', 'Santri Pondok']; // Custom order for tingkatan
+                        const maxY = calculateMaxValue(data);
+
+                        // Create datasets for each tingkatan
+                        const datasets = order.map(tingkatan => {
+                            const tingkatanData = data.filter(item => item.tingkatan === tingkatan);
+                            const totals = years.map(year => {
+                                const entry = tingkatanData.find(d => d.tahun === year);
+                                return entry ? parseInt(entry.total, 10) : 0; // Default to 0 if no data for that year
+                            });
+
+                            // Line colors for each tingkatan
+                            const colors = {
+                                'MTS': 'rgba(54, 162, 235, 1)',
+                                'MA': 'rgba(75, 192, 192, 1)',
+                                'Santri Pondok': 'rgba(255, 99, 132, 1)'
+                            };
+                            const bgColors = {
+                                'MTS': 'rgba(54, 162, 235, 0.2)',
+                                'MA': 'rgba(75, 192, 192, 0.2)',
+                                'Santri Pondok': 'rgba(255, 99, 132, 0.2)'
+                            };
+
+                            return {
+                                label: tingkatan,
+                                data: totals,
+                                fill: true,
+                                borderColor: colors[tingkatan],
+                                backgroundColor: bgColors[tingkatan],
+                                tension: 0.4
+                            };
+                        });
+
+                        // Destroy the old chart if it exists
+                        if (chartLine) {
+                            chartLine.destroy();
+                        }
+
+                        // Render the line chart
+                        chartLine = new Chart(totalStudent2, {
+                            type: 'line',
+                            data: {
+                                labels: years,
+                                datasets: datasets
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        max: maxY,
+                                        ticks: {
+                                            stepSize: 10 // Adjust as needed
+                                        },
+                                    },
+                                    x: {
+                                        ticks: {
+                                            autoSkip: false,
+                                            maxRotation: 45,
+                                            minRotation: 0
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'top'
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            }
+
+
+            fetchAndRenderLineChart();
+
+            const defaultYear = new Date().getFullYear() - 1;
             yearInput.value = defaultYear;
-            fetchAndRenderChart1(defaultYear);
-
-
-            // Teacher chart setup
-            // const yearInput2 = document.getElementById('yearInput2');
-            // const totalTeacher = document.getElementById('totalTeacher');
-            // let chart2;
-
-            // function fetchAndRenderChart2(year) {
-            //     fetch(`/chart-data-excel2?year=${year}`)
-            //         .then(response => response.json())
-            //         .then(data => {
-            //             const labels = data.map(item => item.degree);
-            //             const totals = data.map(item => item.total);
-
-            //             if (chart2) {
-            //                 chart2.destroy(); // Destroy the old chart
-            //             }
-
-            //             chart2 = new Chart(totalTeacher, {
-            //                 type: 'bar',
-            //                 data: {
-            //                     labels: labels,
-            //                     datasets: [{
-            //                         label: 'Total Teachers',
-            //                         data: totals,
-            //                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            //                         borderColor: 'rgba(255, 99, 132, 1)',
-            //                         borderWidth: 1
-            //                     }]
-            //                 },
-            //                 options: {
-            //                     scales: {
-            //                         y: {
-            //                             beginAtZero: true,
-            //                             ticks: {
-            //                                 stepSize: 20
-            //                             },
-            //                         }
-            //                     }
-            //                 }
-            //             });
-            //         })
-            //         .catch(error => console.error('Error fetching data:', error));
-            // }
-
-            // yearInput2.addEventListener('blur', () => {
-            //     const year = yearInput2.value.trim();
-            //     if (year) {
-            //         fetchAndRenderChart2(year);
-            //     }
-            // });
-
-            // // Optionally, load the chart with a default year on page load
-            // yearInput2.value = 2021;
-            // fetchAndRenderChart2(2021);
+            fetchAndRenderChartBar(defaultYear);
+            submitYearButton.addEventListener('click', () => {
+                const year = yearInput.value.trim();
+                if (year) {
+                    fetchAndRenderChartBar(year);
+                } else {
+                    alert('Please enter a valid year.');
+                }
+            });
         });
-
-
-        // var totalStudent = document.getElementById('totalStudent');
-        // var myChart = new Chart(totalStudent, {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        //         datasets: [{
-        //             label: '# of Votes',
-        //             data: [12, 19, 3, 5, 2, 3],
-        //             backgroundColor: [
-        //                 'rgba(255, 99, 132, 0.2)',
-        //                 'rgba(54, 162, 235, 0.2)',
-        //                 'rgba(255, 206, 86, 0.2)',
-        //                 'rgba(75, 192, 192, 0.2)',
-        //                 'rgba(153, 102, 255, 0.2)',
-        //                 'rgba(255, 159, 64, 0.2)'
-        //             ],
-        //             borderColor: [
-        //                 'rgba(255, 99, 132, 1)',
-        //                 'rgba(54, 162, 235, 1)',
-        //                 'rgba(255, 206, 86, 1)',
-        //                 'rgba(75, 192, 192, 1)',
-        //                 'rgba(153, 102, 255, 1)',
-        //                 'rgba(255, 159, 64, 1)'
-        //             ],
-        //             borderWidth: 1
-        //         }]
-        //     },
-        //     options: {
-        //         scales: {
-        //             yAxes: [{
-        //                 ticks: {
-        //                     beginAtZero: true
-        //                 }
-        //             }]
-        //         }
-        //     }
-        // });
-
-        // var totalTeacher = document.getElementById('totalTeacher');
-        // var myLineChart = new Chart(totalTeacher, {
-        //     type: 'line',
-        //     data: {
-        //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        //         datasets: [{
-        //             label: '# of Votes',
-        //             data: [12, 19, 3, 5, 2, 3],
-        //             backgroundColor: [
-        //                 'rgba(255, 99, 132, 0.2)',
-        //                 'rgba(54, 162, 235, 0.2)',
-        //                 'rgba(255, 206, 86, 0.2)',
-        //                 'rgba(75, 192, 192, 0.2)',
-        //                 'rgba(153, 102, 255, 0.2)',
-        //                 'rgba(255, 159, 64, 0.2)'
-        //             ],
-        //             borderColor: [
-        //                 'rgba(255, 99, 132, 1)',
-        //                 'rgba(54, 162, 235, 1)',
-        //                 'rgba(255, 206, 86, 1)',
-        //                 'rgba(75, 192, 192, 1)',
-        //                 'rgba(153, 102, 255, 1)',
-        //                 'rgba(255, 159, 64, 1)'
-        //             ],
-        //             borderWidth: 1
-        //         }]
-        //     },
-        //     options: {
-        //         scales: {
-        //             yAxes: [{
-        //                 ticks: {
-        //                     beginAtZero: true
-        //                 }
-        //             }]
-        //         }
-        //     }
-        // });
     </script>
 
 </body>

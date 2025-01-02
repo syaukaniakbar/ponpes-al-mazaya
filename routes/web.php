@@ -30,7 +30,7 @@ Route::get('/dashboard', function () {
 // routes/web.php
 
 Route::get('/chart-data', [ChartController::class, 'getStudentData']);
-Route::get('/chart-data-excel2', [ChartController::class, 'getTeacherDataFromExcel']);
+Route::get('/chart-data2', [ChartController::class, 'getStudentData2']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
