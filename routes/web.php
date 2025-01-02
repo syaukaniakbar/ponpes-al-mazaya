@@ -8,6 +8,7 @@ use App\Http\Controllers\NavLinkController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\TotalSiswaController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/')->group(function () {
@@ -59,6 +60,14 @@ Route::middleware('auth')->group(function () {
     Route::put('/nav-links/update/{id}', [NavLinkController::class, 'update'])->name('nav-links.update');
     Route::get('/nav-links/detail/{id}', [NavLinkController::class, 'show'])->name('nav-links.detail');
     Route::delete('/nav-links/delete/{id}', [NavLinkController::class, 'destroy'])->name('nav-links.delete');
+
+    Route::get('/total-siswa', [TotalSiswaController::class, 'index'])->name('total-siswa');
+    Route::get('/total-siswa/create', [TotalSiswaController::class, 'create'])->name('total-siswa.create');
+    Route::post('/total-siswa/store', [TotalSiswaController::class, 'store'])->name('total-siswa.store');
+    Route::get('/total-siswa/edit/{id}', [TotalSiswaController::class, 'edit'])->name('total-siswa.edit');
+    Route::put('/total-siswa/update/{id}', [TotalSiswaController::class, 'update'])->name('total-siswa.update');
+    Route::get('/total-siswa/detail/{id}', [TotalSiswaController::class, 'show'])->name('total-siswa.detail');
+    Route::delete('/total-siswa/delete/{id}', [TotalSiswaController::class, 'destroy'])->name('total-siswa.delete');
 
     Route::get('/video-link', [VideoController::class, 'index'])->name('video');
 });

@@ -200,10 +200,10 @@
                             </div>
                             <div class="p-6 pt-0 text-center">
                                 <h3 class="mt-5 mb-6 text-xl font-normal text-gray-500">Lanjutkan Membuat Link?</h3>
-                                <!-- Tombol submit -->
-                                <button type="submit" class="text-white bg-green-600 hover:bg-green-800 rounded-lg px-3 py-2.5">Ya, Lanjutkan</button>
                                 <!-- Tombol batal -->
                                 <button type="button" onclick="closeModal('modelConfirm')" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 rounded-lg px-3 py-2.5">Tidak, Kembali</button>
+                                <!-- Tombol submit -->
+                                <button type="submit" class="text-white bg-green-600 hover:bg-green-800 rounded-lg px-3 py-2.5">Ya, Lanjutkan</button>
                             </div>
                         </div>
                     </div>
