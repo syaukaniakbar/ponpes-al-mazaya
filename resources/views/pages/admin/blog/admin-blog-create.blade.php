@@ -54,7 +54,6 @@
                     placeholder="Masukkan Judul"
                     value="{{ old('title')}}"
                     maxlength="100">
-
             </div>
             <p>Jumlah Karakter <span class="jumlah">0</span></p>
             <fieldset>
@@ -120,7 +119,7 @@
                             <button type="button" class="w-10 h-10 border-l border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="triggerImageUpload()">
                                 <i class="mdi mdi-image"></i>
                             </button>
-                            <input type="file" id="imageUploader" accept="image/*" class="hidden" @change="handleImageUpload">                                                        
+                            <input type="file" id="imageUploader" accept="image/*" class="hidden" @change="handleImageUpload">
                             <button type="button" class="w-10 h-10 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('formatBlock','H2')">
                                 <i class="mdi mdi-format-header-2"></i>
                             </button>
@@ -152,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
             <label class="block my-5 text-sm font-medium text-gray-900" for="image">Tambahkan Gambar Thumbnail</label>
 
@@ -170,8 +169,8 @@
                     name="image"
                     accept="image/*"
                     @change="handleFilePreview($event)">
-                
-                <p class="bg-red-600 text-center text-white p-4 rounded" >thumbnail menggunakan format ; jpeg,png,jpg | max: 2mb | 16:9 diutamakan</p>
+
+                <p class="p-4 text-center text-white bg-red-600 rounded">thumbnail menggunakan format ; jpeg,png,jpg | max: 2mb | 16:9 diutamakan</p>
 
                 <!-- Image Preview -->
                 <template x-if="imagePreview">
@@ -223,7 +222,7 @@
         function app() {
             return {
                 wysiwyg: null,
-                init: function (el) {
+                init: function(el) {
                     this.wysiwyg = el;
                     this.wysiwyg.contentDocument.querySelector('head').innerHTML += `<style>
                         *, ::after, ::before { box-sizing: border-box; }
@@ -248,7 +247,7 @@
                         this.insertHTML(`<p>${text}</p>`);
                     });
                 },
-                format: function (cmd, param) {
+                format: function(cmd, param) {
                     try {
                         const success = this.wysiwyg.contentDocument.execCommand(cmd, false, param || null);
                         if (!success) {
@@ -258,7 +257,7 @@
                         console.error(`Error executing "${cmd}":`, error);
                     }
                 },
-                insertHTML: function (html) {
+                insertHTML: function(html) {
                     const selection = this.wysiwyg.contentDocument.getSelection();
                     if (selection.rangeCount > 0) {
                         const range = selection.getRangeAt(0);
@@ -273,16 +272,16 @@
                         range.insertNode(frag);
                     }
                 },
-                insertLink: function () {
+                insertLink: function() {
                     const url = prompt("Enter the URL:");
                     if (url) {
                         this.format("createLink", url);
                     }
                 },
-                triggerImageUpload: function () {
+                triggerImageUpload: function() {
                     document.getElementById('imageUploader').click();
                 },
-                handleImageUpload: function (event) {
+                handleImageUpload: function(event) {
                     const file = event.target.files[0];
                     if (file) {
                         const reader = new FileReader();
@@ -294,16 +293,16 @@
                 }
             };
         }
-    
+
         function submitForm() {
             // Get the content of the WYSIWYG iframe
             const wysiwygContent = document.querySelector('iframe').contentDocument.body.innerHTML;
-    
+
             // Set the content in the hidden input
             document.getElementById('description').value = wysiwygContent;
         }
     </script>
-    
+
     {{-- Menghitung jumlah karakter title --}}
     <script>
         // Get the elements

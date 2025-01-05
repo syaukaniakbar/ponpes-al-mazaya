@@ -20,8 +20,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
 
-        p
-        {
+        p {
             font-size: 1rem !important;
         }
 
@@ -155,7 +154,7 @@
                                         beginAtZero: true,
                                         max: maxY,
                                         ticks: {
-                                            stepSize: 10
+                                            stepSize: 50
                                         },
                                     },
                                     x: {
@@ -248,7 +247,7 @@
                                         beginAtZero: true,
                                         max: maxY,
                                         ticks: {
-                                            stepSize: 10 // Adjust as needed
+                                            stepSize: 100
                                         },
                                     },
                                     x: {

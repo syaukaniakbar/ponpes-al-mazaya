@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\TeacherStaffController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\MainController;
@@ -52,6 +53,14 @@ Route::middleware('auth')->group(function () {
     Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
     Route::get('/blog/detail/{id}', [BlogController::class, 'show'])->name('blog.detail');
     Route::delete('/blog/delete/{id}', [BlogController::class, 'destroy'])->name('blog.delete');
+
+    Route::get('/teacher-staff', [TeacherStaffController::class, 'index'])->name('teacher-staff');
+    Route::get('/teacher-staff/create', [TeacherStaffController::class, 'create'])->name('teacher-staff.create');
+    Route::post('/teacher-staff/store', [TeacherStaffController::class, 'store'])->name('teacher-staff.store');
+    Route::get('/teacher-staff/edit/{id}', [TeacherStaffController::class, 'edit'])->name('teacher-staff.edit');
+    Route::put('/teacher-staff/update/{id}', [TeacherStaffController::class, 'update'])->name('teacher-staff.update');
+    Route::get('/teacher-staff/detail/{id}', [TeacherStaffController::class, 'show'])->name('teacher-staff.detail');
+    Route::delete('/teacher-staff/delete/{id}', [TeacherStaffController::class, 'destroy'])->name('teacher-staff.delete');
 
     Route::get('/nav-links', [NavLinkController::class, 'index'])->name('nav-links');
     Route::get('/nav-links/create', [NavLinkController::class, 'create'])->name('nav-links.create');
