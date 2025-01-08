@@ -27,7 +27,6 @@
                 </button>
             </form>                  
         </div>
-
         <!-- Modal for Showing Cek NISN -->
         <div id="cekModal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-900 bg-opacity-60">
             <div class="relative max-w-4xl mx-auto bg-white rounded-lg shadow-xl top-20">

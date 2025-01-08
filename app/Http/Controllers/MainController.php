@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Header;
 use App\Models\NavLink;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,9 @@ class MainController extends Controller
 {
     public function index()
     {
-        return view('pages.home');
+
+        $headers = Header::all();
+        return view('pages.home', compact('headers'));
     }
 
     public function cek_status()

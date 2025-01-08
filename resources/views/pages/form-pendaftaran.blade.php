@@ -7,7 +7,7 @@
         <p class="text-center text-gray-600 mb-6">Isikan data dengan benar untuk proses pendaftaran.</p>
         @if(session('success'))
         <div x-data="{ show: true }"
-            x-init="setTimeout(() => show = false, 3000)"
+            x-init="setTimeout(() => show = false, 10000)"
             x-show="show"
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 transform scale-90"
@@ -36,24 +36,25 @@
                     <input 
                         type="text" 
                         id="nisn" 
-                        name="nisn" 
+                        name="nisn"
+                        value="{{ old('nisn') }}"  
                         placeholder="Masukkan Nomor NISN Siswa" 
                         class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         aria-label="Masukkan nomor NISN siswa"
                         maxlength="10"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
                     >
-
                     <button 
-                        type="submit" 
+                        type="button" 
                         class="w-full sm:w-auto min-w-[80px] px-4 py-2 text-xs font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex justify-center items-center"
                         aria-label="Cek nomor NISN"
+                        onclick="searchSiswa()"
                     >
                         CEK NISN
                     </button>
 
                 </div>
-                <p class="p-2 text-xs text-left text-white bg-yellow-400 mt-2 rounded-md w-full sm:w-72">
+                <p id="status-message"  class="p-2 text-xs text-left text-white bg-yellow-400 mt-2 rounded-md w-full sm:w-72">
                     NISN wajib diisi. Untuk bantuan, hubungi 
                     <a href="#" class="underline text-blue-900 hover:text-blue-600">klik disini</a>
                 </p>
@@ -62,17 +63,17 @@
             <!-- Nama Lengkap -->
             <div class="mb-4">
                 <label for="nama" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap (Sesuai Akta/KTP)</label>
-                <input type="text" id="nama" name="nama" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
 
             <!-- Program Pendidikan -->
             <div class="mb-4">
                 <label for="program_pendidikan" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Program Pendidikan</label>
-                <select id="program_pendidikan" name="program_pendidikan" class="w-full p-2 border border-gray-300 rounded-md" onchange="toggleKopiahDropdown()">
+                <select id="program_pendidikan" name="program_pendidikan" class="w-full p-2 border border-gray-300 rounded-md">
                     <option value="">Pilih Program Pendidikan</option>
-                    <option value="pondok">Pondok</option>
-                    <option value="mts">Madrasah Tsanawiyah (MTS)</option>
-                    <option value="ma">Madrasah Aliyah (MA)</option>
+                    <option value="pondok" {{ old('program_pendidikan') == 'pondok' ? 'selected' : '' }}>Pondok</option>
+                    <option value="mts" {{ old('program_pendidikan') == 'mts' ? 'selected' : '' }}>Madrasah Tsanawiyah (MTS)</option>
+                    <option value="ma" {{ old('program_pendidikan') == 'ma' ? 'selected' : '' }}>Madrasah Aliyah (MA)</option>
                 </select>
             </div>
 
@@ -82,7 +83,8 @@
                 <input 
                     type="text" 
                     id="nik" 
-                    name="nik" 
+                    name="nik"
+                    value="{{ old('nik') }}"   
                     placeholder="Masukkan Nomor Induk Kependudukan" 
                     class="w-full p-2 border border-gray-300 rounded-md"
                     maxlength="16"
@@ -97,6 +99,7 @@
                     type="text" 
                     id="nomor_kk" 
                     name="nomor_kk" 
+                    value="{{ old('nomor_kk') }}"  
                     placeholder="Masukkan Nomor Kartu Keluarga" 
                     class="w-full p-2 border border-gray-300 rounded-md"
                     maxlength="16"
@@ -104,16 +107,15 @@
                 >
             </div>
 
-
             <!-- Tempat & Tanggal Lahir -->
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="tempat_lahir" class="block text-sm font-medium text-gray-700 mb-2">Tempat Lahir</label>
-                    <input type="text" id="tempat_lahir" name="tempat_lahir" placeholder="Tempat Lahir" class="w-full p-2 border border-gray-300 rounded-md">
+                    <input type="text" id="tempat_lahir" name="tempat_lahir" value="{{ old('tempat_lahir') }}"  placeholder="Tempat Lahir" class="w-full p-2 border border-gray-300 rounded-md">
                 </div>
                 <div>
                     <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Lahir</label>
-                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="w-full p-2 border border-gray-300 rounded-md">
+                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" class="w-full p-2 border border-gray-300 rounded-md">
                 </div>
             </div>
 
@@ -122,168 +124,124 @@
                 <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700 mb-2">Pilih Jenis Kelamin</label>
                 <select id="jenis_kelamin" name="jenis_kelamin" class="w-full p-2 border border-gray-300 rounded-md" onchange="toggleKopiahDropdown()">
                     <option value="">Jenis Kelamin</option>
-                    <option value="laki-laki">Laki-laki</option>
-                    <option value="perempuan">Perempuan</option>
+                    <option value="laki-laki" {{ old('jenis_kelamin') == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                    <option value="perempuan" {{ old('jenis_kelamin') == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
                 </select>
             </div>
 
             <!-- Alamat -->
             <div class="mb-4">
                 <label for="alamat_domisili" class="block text-sm font-medium text-gray-700 mb-2">Alamat Domisili</label>
-                <input type="text" id="alamat_domisili" name="alamat_domisili" placeholder="Contoh: Jalan Mawar No. 12, Kelurahan Suka Maju, Kecamatan Sejahtera, Kota Samarinda, Kalimantan Timur" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="alamat_domisili" name="alamat_domisili"  value="{{ old('alamat_domisili') }}"  placeholder="Contoh: Jalan Mawar No. 12, Kelurahan Suka Maju, Kecamatan Sejahtera, Kota Samarinda, Kalimantan Timur" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
         
             <!-- Provinsi -->
-            <div x-data="{ isCustomProvince: false, selectedProvince: '', provinces: [] }" class="mb-4">
+            <div class="mb-4" >
                 <label for="provinceDropdown" class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
+                <!-- Dropdown -->
                 <select 
-                    id="provinceDropdown" 
+                    id="provinceDropdown"
                     name="provinsi" 
-                    @change="
-                        isCustomProvince = ($event.target.value === 'other'); 
-                        selectedProvince = $event.target.options[$event.target.selectedIndex]?.text || ''; 
-                        $dispatch('province-changed', $event.target.value);
-                    "
                     class="w-full p-2 border border-gray-300 rounded-md"
-                    :required="!isCustomProvince"
-                    x-init="
-                        fetch('https://syaukaniakbar.github.io/api-wilayah-indonesia/api/provinces.json')
-                            .then(response => response.json())
-                            .then(data => { provinces = data; })
-                            .catch(error => console.error('Error fetching provinces:', error));
-                    "
+                    onchange="handleProvinceChange(event)"
                 >
                     <option value="">Pilih Provinsi</option>
-                    <option class="bg-yellow-400 text-white" value="other">PILIH LAINNYA</option>
-                    <template x-for="province in provinces" :key="province.id">
-                        <option :value="province.id" x-text="province.name"></option>
-                    </template>
+                    <option value="other" class="bg-yellow-400 text-white">PILIH LAINNYA</option>
+                    <!-- Options akan diisi oleh JavaScript -->
                 </select>
-
+                
+                <!-- Input teks jika "Pilih Lainnya" dipilih -->
                 <input 
-                    x-show="isCustomProvince" 
-                    x-transition 
+                    id="customProvinceInput"
                     type="text" 
-                    name="custom_provinsi"
+                    name="custom_provinsi" 
                     placeholder="Masukkan Provinsi..." 
                     class="w-full p-2 border border-gray-300 rounded-md mt-2" 
-                    :required="isCustomProvince" 
-                    @input="selectedProvince = $event.target.value"
+                    style="display: none;" 
                 />
-                <!-- Hidden input to hold the final value -->
-                <input type="hidden" name="provinsi" :value="selectedProvince">
+                
+                <!-- Hidden input untuk mengirimkan nilai provinsi -->
+                <input type="hidden" id="selectedProvince" name="selected_provinsi">
             </div>
 
             <!-- Kota -->
-            <div x-data="{ isCustomCity: false, selectedCity: '', cities: [] }" class="mb-4">
-                <label for="cityDropdown" class="block text-sm font-medium text-gray-700 mb-2">Kabupaten/Kota</label>
+            <div class="mb-4" >
+                <label for="cityDropdown" class="block text-sm font-medium text-gray-700 mb-2">Kota</label>
+                <!-- Dropdown -->
                 <select 
-                    id="cityDropdown" 
+                    id="cityDropdown"
                     name="kota" 
-                    @change="
-                        isCustomCity = ($event.target.value === 'other'); 
-                        selectedCity = $event.target.options[$event.target.selectedIndex]?.text || '';
-                    "
                     class="w-full p-2 border border-gray-300 rounded-md"
-                    :required="!isCustomCity"
-                    x-init="
-                        $watch('selectedProvince', (provinceId) => {
-                            if (provinceId && provinceId !== 'other') {
-                                fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/regencies/${provinceId}.json`)
-                                    .then(response => response.json())
-                                    .then(data => { cities = data; })
-                                    .catch(error => console.error('Error fetching cities:', error));
-                            } else {
-                                cities = [];
-                            }
-                        });
-                    "
+                    onchange="handleCityChange(event)"
                 >
-                    <option value="">Pilih Kota/Kabupaten</option>
-                    <option class="bg-yellow-400 text-white" value="other">PILIH LAINNYA</option>
-                    <template x-for="city in cities" :key="city.id">
-                        <option :value="city.id" x-text="city.name"></option>
-                    </template>
+                    <option value="">Pilih Kota</option>
+                    <option value="other" class="bg-yellow-400 text-white">PILIH LAINNYA</option>
+                    <!-- Options akan diisi oleh JavaScript -->
                 </select>
-
+                
+                <!-- Input teks jika "Pilih Lainnya" dipilih -->
                 <input 
-                    x-show="isCustomCity" 
-                    x-transition 
+                    id="customCityInput"
                     type="text" 
-                    name="custom_kota"
-                    placeholder="Masukkan Kota/Kabupaten..." 
+                    name="custom_city" 
+                    placeholder="Masukkan Kota ..." 
                     class="w-full p-2 border border-gray-300 rounded-md mt-2" 
-                    :required="isCustomCity" 
-                    @input="selectedCity = $event.target.value"
+                    style="display: none;" 
                 />
-                <!-- Hidden input to hold the final value -->
-                <input type="hidden" name="kota" :value="selectedCity">
+                
+                <!-- Hidden input untuk mengirimkan nilai kota -->
+                <input type="hidden" id="selectedCity" name="selected_kota">
             </div>
-
-
+            
             <!-- Kecamatan -->
-            <div x-data="{ isCustomDistrict: false, selectedDistrict: '', districts: [] }" class="mb-4">
+            <div class="mb-4" >
                 <label for="districtDropdown" class="block text-sm font-medium text-gray-700 mb-2">Kecamatan</label>
+                <!-- Kecamatan -->
                 <select 
                     id="districtDropdown" 
                     name="kecamatan" 
-                    @change="isCustomDistrict = ($event.target.value === 'other'); selectedDistrict = $event.target.options[$event.target.selectedIndex]?.text || '';"
-                    class="w-full p-2 border border-gray-300 rounded-md"
-                    :required="!isCustomDistrict"
+                    class="w-full p-2 border border-gray-300 rounded-md" 
+                    onchange="handleDistrictChange(event)"
                 >
                     <option value="">Pilih Kecamatan</option>
-                    <option class="bg-yellow-400 text-white" value="other">PILIH LAINNYA</option>
-                    <template x-for="district in districts" :key="district.id">
-                        <option :value="district.id" x-text="district.name"></option>
-                    </template>
+                    <option value="other" class="bg-yellow-400 text-white">PILIH LAINNYA</option>
+                    <!-- Options akan diisi oleh JavaScript -->
                 </select>
-                
                 <input 
-                    x-show="isCustomDistrict" 
-                    x-transition 
+                    id="customDistrictInput" 
                     type="text" 
-                    name="custom_kecamatan"
-                    placeholder="Masukkan Kecamatan..." 
+                    name="custom_district" 
+                    placeholder="Masukkan Kecamatan ..." 
                     class="w-full p-2 border border-gray-300 rounded-md mt-2" 
-                    :required="isCustomDistrict" 
-                    @input="selectedDistrict = $event.target.value"
+                    style="display: none;"
                 />
-                <!-- Hidden input to hold the final value -->
-                <input type="hidden" name="kecamatan" :value="selectedDistrict">
+                <input type="hidden" id="selectedDistrict" name="selected_kecamatan">
             </div>
 
             <!-- Kelurahan -->
-            <div x-data="{ isCustomVillage: false, selectedVillage: '', villages: [] }" class="mb-4">
+            <div class="mb-4" >
                 <label for="villageDropdown" class="block text-sm font-medium text-gray-700 mb-2">Kelurahan</label>
                 <select 
                     id="villageDropdown" 
                     name="kelurahan" 
-                    @change="isCustomVillage = ($event.target.value === 'other'); selectedVillage = $event.target.options[$event.target.selectedIndex]?.text || '';" 
                     class="w-full p-2 border border-gray-300 rounded-md"
-                    :required="!isCustomVillage"
+                    onchange="handleVillageChange(event)"
                 >
                     <option value="">Pilih Kelurahan</option>
-                    <option class="bg-yellow-400 text-white" value="other">PILIH LAINNYA</option>
-                    <template x-for="village in villages" :key="village.id">
-                        <option :value="village.id" x-text="village.name"></option>
-                    </template>
+                    <option value="other" class="bg-yellow-400 text-white">PILIH LAINNYA</option>
+                    <!-- Options akan diisi oleh JavaScript -->
                 </select>
-                
                 <input 
-                    x-show="isCustomVillage" 
-                    x-transition 
+                    id="customVillageInput" 
                     type="text" 
-                    name="custom_kelurahan"
-                    placeholder="Masukkan Kelurahan..." 
+                    name="custom_village" 
+                    placeholder="Masukkan Kelurahan ..." 
                     class="w-full p-2 border border-gray-300 rounded-md mt-2" 
-                    :required="isCustomVillage" 
-                    @input="selectedVillage = $event.target.value"
+                    style="display: none;"
                 />
-                <!-- Hidden input to hold the final value -->
-                <input type="hidden" name="kelurahan" :value="selectedVillage">
+                <input type="hidden" id="selectedVillage" name="selected_kelurahan">
             </div>
-            
-            
+
             <!-- Jumlah Saudara -->
             <div x-data="{ isCustomSiblings: false, selectedSiblings: '' }" class="mb-4">
                 <label for="jumlah_saudara" class="block text-sm font-medium text-gray-700 mb-2">Pilih Jumlah Saudara</label>
@@ -362,13 +320,13 @@
             <!-- Asal Sekolah -->
             <div class="mb-4">
                 <label for="asal_sekolah" class="block text-sm font-medium text-gray-700 mb-2">Asal Sekolah Sebelumnya</label>
-                <input type="text" id="asal_sekolah" name="asal_sekolah" placeholder="MI / MTS?" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="asal_sekolah" name="asal_sekolah" value="{{ old('asal_sekolah') }}" placeholder="MI / MTS?" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
         
             <!-- Nama Ayah -->
             <div class="mb-4">
                 <label for="nama_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Nama Ayah Kandung</label>
-                <input type="text" id="nama_ayah" name="nama_ayah" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="nama_ayah" name="nama_ayah" value="{{ old('nama_ayah') }}" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
 
             <!-- NIK Ayah -->
@@ -378,6 +336,7 @@
                     type="text" 
                     id="nik_ayah" 
                     name="nik_ayah" 
+                    value="{{ old('nik_ayah') }}"
                     placeholder="Nomor Induk Kependudukan Ayah" 
                     class="w-full p-2 border border-gray-300 rounded-md"
                     maxlength="16"
@@ -388,37 +347,37 @@
             <!-- Pendidikan Ayah -->
             <div class="mb-4">
                 <label for="pendidikan_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pendidikan Terakhir Ayah</label>
-                <input type="text" id="pendidikan_ayah" name="pendidikan_ayah" placeholder="Pendidikan Terakhir Ayah" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="pendidikan_ayah" name="pendidikan_ayah" value="{{ old('pendidikan_ayah') }}" placeholder="Pendidikan Terakhir Ayah" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
 
             <!-- Pekerjaan Ayah -->
             <div class="mb-4">
                 <label for="pekerjaan_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pekerjaan Ayah</label>
-                <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah" placeholder="Pekerjaan Ayah" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah" value="{{ old('pekerjaan_ayah') }}" placeholder="Pekerjaan Ayah" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
 
             <!-- Nama Ibu -->
             <div class="mb-4">
                 <label for="nama_ibu" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Nama Ibu Kandung</label>
-                <input type="text" id="nama_ibu" name="nama_ibu" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="nama_ibu" name="nama_ibu" value="{{ old('nama_ibu') }}" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
 
              <!-- NIK Ibu -->
              <div class="mb-4">
                 <label for="nik_ibu" class="block text-sm font-medium text-gray-700 mb-2">Nomor Induk Kependudukan (NIK)</label>
-                <input type="text" id="nik_ibu" name="nik_ibu" placeholder="Nomor Induk Kependudukan Ibu" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="nik_ibu" name="nik_ibu" value="{{ old('nik_ibu') }}" placeholder="Nomor Induk Kependudukan Ibu" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
 
             <!-- Pendidikan Ibu -->
             <div class="mb-4">
                 <label for="pendidikan_ibu" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pendidikan Terakhir Ibu</label>
-                <input type="text" id="pendidikan_ibu" name="pendidikan_ibu" placeholder="Pendidikan Terakhir Ibu" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="pendidikan_ibu" name="pendidikan_ibu" value="{{ old('pendidikan_ibu') }}" placeholder="Pendidikan Terakhir Ibu" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
 
             <!-- Pekerjaan Ibu -->
             <div class="mb-4">
                 <label for="pekerjaan_ibu" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pekerjaan Ibu</label>
-                <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu" placeholder="Pekerjaan Ibu" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu" value="{{ old('pekerjaan_ibu') }}" placeholder="Pekerjaan Ibu" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
 
             <!-- Penghasilan-->
@@ -438,13 +397,13 @@
             <!-- Alamat -->
             <div class="mb-4">
                 <label for="alamat_kk" class="block text-sm font-medium text-gray-700 mb-2">Alamat Sesuai Kartu Keluarga (KK)</label>
-                <input type="text" id="alamat_kk" name="alamat_kk" placeholder="Contoh: Jalan Mawar No. 12, Kelurahan Suka Maju, Kecamatan Sejahtera, Kota Samarinda, Kalimantan Timur" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="alamat_kk" name="alamat_kk" value="{{ old('alamat_kk') }}" placeholder="Contoh: Jalan Mawar No. 12, Kelurahan Suka Maju, Kecamatan Sejahtera, Kota Samarinda, Kalimantan Timur" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
 
             <!-- Nomor Hp Orang tua WhatsApp -->
                <div class="mb-4">
                 <label for="no_hp_orangtua" class="block text-sm font-medium text-gray-700 mb-2">Nomor Hp Orang tua (WhatsApp)</label>
-                <input type="text" id="no_hp_orangtua" name="no_hp_orangtua" placeholder="Masukkan Nomor Handphone" class="w-full p-2 border border-gray-300 rounded-md">
+                <input type="text" id="no_hp_orangtua" name="no_hp_orangtua" value="{{ old('no_hp_orangtua') }}" placeholder="Masukkan Nomor Handphone" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
            
             <!-- Ukuran Kopiah -->
@@ -479,7 +438,174 @@
         
             <!-- Submit Button -->
             <div class="text-center">
-                <button type="submit" class="w-full px-6 py-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-500">Submit</button>
+                <button 
+                    type="button" 
+                    id="submit" 
+                    class="w-full px-6 py-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-500" 
+                    onclick="openModal('modelConfirm')"
+                >
+                    Submit
+                </button>
+                 <!-- Modal Confirmation -->
+                 <div id="modelConfirm" class="fixed inset-0 z-50 hidden w-full h-full px-4 overflow-y-auto bg-gray-900 bg-opacity-60">
+                    <div class="relative max-w-md mx-auto bg-white rounded-md shadow-xl top-40">
+                        <div class="flex justify-end p-2">
+                            <button                        
+                                type="button" 
+                                class="text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                onclick="closeModal('modelConfirm')"
+                            >
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="p-6 pt-0 text-center">
+                            <h3 class="mt-5 mb-6 text-xl font-semibold text-gray-700">Lanjutkan Pendaftaran?</h3>
+                            <table class="w-full text-left table-auto">
+                                <tbody class="space-y-2">
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">NISN</td>
+                                        <td id="nisnDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Nama</td>
+                                        <td id="namaDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Program Pendidikan</td>
+                                        <td id="programPendidikanDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">NIK</td>
+                                        <td id="nikDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Nomor KK</td>
+                                        <td id="nomorKkDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Tempat Lahir</td>
+                                        <td id="tempatLahirDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Tanggal Lahir</td>
+                                        <td id="tanggalLahirDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Jenis Kelamin</td>
+                                        <td id="jenisKelaminDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Alamat Domisili</td>
+                                        <td id="alamatDomisiliDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Provinsi</td>
+                                        <td id="provinceDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Kota</td>
+                                        <td id="cityDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Kecamatan</td>
+                                        <td id="districtDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Desa</td>
+                                        <td id="villageDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Jumlah Saudara</td>
+                                        <td id="jumlahSaudaraDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Anak Ke</td>
+                                        <td id="anakKeDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Asal Sekolah</td>
+                                        <td id="asalSekolahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Nama Ayah</td>
+                                        <td id="namaAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">NIK Ayah</td>
+                                        <td id="nikAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Pendidikan Ayah</td>
+                                        <td id="pendidikanAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Pekerjaan Ayah</td>
+                                        <td id="pekerjaanAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Nama Ibu</td>
+                                        <td id="namaIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">NIK Ibu</td>
+                                        <td id="nikIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Pendidikan Ibu</td>
+                                        <td id="pendidikanIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Pekerjaan Ibu</td>
+                                        <td id="pekerjaanIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Penghasilan</td>
+                                        <td id="penghasilanDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Alamat KK</td>
+                                        <td id="alamatKkDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">No HP Orangtua</td>
+                                        <td id="noHpOrangtuaDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Kopiah</td>
+                                        <td id="kopiahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-gray-700">Seragam</td>
+                                        <td id="seragamDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        
+                            <!-- Buttons Section -->
+                            <div class="mt-6 flex justify-between space-x-4">
+                                <!-- Tombol batal -->
+                                <button 
+                                    type="button" 
+                                    onclick="closeModal('modelConfirm')" 
+                                    class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 rounded-lg px-4 py-2.5 w-full sm:w-auto"
+                                >
+                                    Kembali
+                                </button>
+                                
+                                <!-- Tombol submit -->
+                                <button 
+                                    type="submit" 
+                                    class="text-white bg-green-600 hover:bg-green-800 rounded-lg px-4 py-2.5 w-full sm:w-auto"
+                                >
+                                    Lanjutkan
+                                </button>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+                
             </div>
         </form>
         @if ($errors->any())
@@ -496,72 +622,284 @@
         @endif
     </section>
 
-    <script>
-        document.getElementById('form_siswa').addEventListener('submit', (event) => {
-            // Ambil data dari Alpine.js untuk provinsi dan kota
-            const provinceDropdown = document.getElementById('provinceDropdown');
-            const customProvinceInput = document.querySelector('input[name="custom_provinsi"]');
-            const selectedProvince = provinceDropdown.value;
+    {{-- Modal Button Simpan --}}
+     <script type="text/javascript">
+        window.openModal = function(modalId) {
+        
+            const nisnValue = document.getElementById('nisn').value;
+            const namaValue = document.getElementById('nama').value;
+            const programPendidikanValue = document.getElementById('program_pendidikan').value;
+            const nikValue = document.getElementById('nik').value;
+            const nomorKkValue = document.getElementById('nomor_kk').value;
+            const tempatLahirValue = document.getElementById('tempat_lahir').value;
+            const tanggalLahirValue = document.getElementById('tanggal_lahir').value;
+            const jenisKelaminValue = document.getElementById('jenis_kelamin').value;
+            const alamatDomisiliValue = document.getElementById('alamat_domisili').value;
+            const provinceValue = document.getElementById('provinceDropdown').value;
+            const cityValue = document.getElementById('cityDropdown').value;
+            const districtValue = document.getElementById('districtDropdown').value;
+            const villageValue = document.getElementById('villageDropdown').value;
+            const jumlahSaudaraValue = document.getElementById('jumlah_saudara').value;
+            const anakKeValue = document.getElementById('anak_ke').value;
+            const asalSekolahValue = document.getElementById('asal_sekolah').value;
+            const namaAyahValue = document.getElementById('nama_ayah').value;
+            const nikAyahValue = document.getElementById('nik_ayah').value;
+            const pendidikanAyahValue = document.getElementById('pendidikan_ayah').value;
+            const pekerjaanAyahValue = document.getElementById('pekerjaan_ayah').value;
+            const namaIbuValue = document.getElementById('nama_ibu').value;
+            const nikIbuValue = document.getElementById('nik_ibu').value;
+            const pendidikanIbuValue = document.getElementById('pendidikan_ibu').value;
+            const pekerjaanIbuValue = document.getElementById('pekerjaan_ibu').value;
+            const penghasilanValue = document.getElementById('penghasilan').value;
+            const alamatKkValue = document.getElementById('alamat_kk').value;
+            const noHpOrangtuaValue = document.getElementById('no_hp_orangtua').value;
+            const kopiahValue = document.getElementById('kopiah').value;
+            const seragamValue = document.getElementById('seragam').value;
 
-            // Jika "PILIH LAINNYA" dipilih, set nilai dropdown ke input custom
-            if (selectedProvince === 'other') {
-                provinceDropdown.value = customProvinceInput.value; // Set nilai dropdown ke input custom
+            nisnDisplay.textContent = `${nisnValue}`;
+            namaDisplay.textContent = `${namaValue}`;
+            programPendidikanDisplay.textContent = `${programPendidikanValue}`;
+            nikDisplay.textContent = `${nikValue}`;
+            nomorKkDisplay.textContent = `${nomorKkValue}`;
+            tempatLahirDisplay.textContent = `${tempatLahirValue}`;
+            tanggalLahirDisplay.textContent = `${tanggalLahirValue}`;
+            jenisKelaminDisplay.textContent = `${jenisKelaminValue}`;
+            alamatDomisiliDisplay.textContent = `${alamatDomisiliValue}`;
+            provinceDisplay.textContent = `${provinceValue}`;
+            cityDisplay.textContent = `${cityValue}`;
+            districtDisplay.textContent = `${districtValue}`;
+            villageDisplay.textContent = `${villageValue}`;
+            jumlahSaudaraDisplay.textContent = `${jumlahSaudaraValue}`;
+            anakKeDisplay.textContent = `${anakKeValue}`;
+            asalSekolahDisplay.textContent = `${asalSekolahValue}`;
+            namaAyahDisplay.textContent = `${namaAyahValue}`;
+            nikAyahDisplay.textContent = `${nikAyahValue}`;
+            pendidikanAyahDisplay.textContent = `${pendidikanAyahValue}`;
+            pekerjaanAyahDisplay.textContent = `${pekerjaanAyahValue}`;
+            namaIbuDisplay.textContent = `${namaIbuValue}`;
+            nikIbuDisplay.textContent = `${nikIbuValue}`;
+            pendidikanIbuDisplay.textContent = `${pendidikanIbuValue}`;
+            pekerjaanIbuDisplay.textContent = `${pekerjaanIbuValue}`;
+            penghasilanDisplay.textContent = `${penghasilanValue}`;
+            alamatKkDisplay.textContent = `${alamatKkValue}`;
+            noHpOrangtuaDisplay.textContent = `${noHpOrangtuaValue}`;
+            kopiahDisplay.textContent = `${kopiahValue}`;
+            seragamDisplay.textContent = `${seragamValue}`;
+
+            document.getElementById(modalId).style.display = 'block'
+            document.getElementsByTagName('body')[0].classList.add('overflow-y-hidden')
+        }
+
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).style.display = 'none'
+            document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
+        }
+
+        // Close all modals when press ESC
+        document.onkeydown = function(event) {
+            event = event || window.event;
+            if (event.keyCode === 27) {
+                document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
+                let modals = document.getElementsByClassName('modal');
+                Array.prototype.slice.call(modals).forEach(i => {
+                    i.style.display = 'none'
+                })
             }
-
-            // Validasi jika tidak ada provinsi yang dipilih
-            if (!provinceDropdown.value) {
-                alert('Provinsi harus dipilih atau masukkan provinsi lainnya!');
-                event.preventDefault(); // Mencegah form dari pengiriman
-            }
-
-            const cityDropdown = document.getElementById('cityDropdown');
-            const customCityInput = document.querySelector('input[name="custom_kota"]');
-            const selectedCity = cityDropdown.value;
-
-            // Jika "PILIH LAINNYA" dipilih, set nilai dropdown ke input custom
-            if (selectedCity === 'other') {
-                cityDropdown.value = customCityInput.value; // Set nilai dropdown ke input custom
-            }
-
-            // Validasi jika tidak ada kota yang dipilih
-            if (!cityDropdown.value) {
-                alert('Kota/Kabupaten harus dipilih atau masukkan kota/kabupaten lainnya!');
-                event.preventDefault(); // Mencegah form dari pengiriman
-            }
-
-            const districtDropdown = document.getElementById('districtDropdown');
-            const customDistrictInput = document.querySelector('input[name="custom_kecamatan"]');
-            const selectedDistrict = districtDropdown.value;
-
-            // Jika "PILIH LAINNYA" dipilih, set nilai dropdown ke input custom
-            if (selectedDistrict === 'other') {
-                districtDropdown.value = customDistrictInput.value;
-            }
-
-            // Validasi jika tidak ada kecamatan yang dipilih
-            if (!districtDropdown.value) {
-                alert('Kecamatan harus dipilih atau masukkan kecamatan lainnya!');
-                event.preventDefault();
-            }
-
-            const villageDropdown = document.getElementById('villageDropdown');
-            const customVillageInput = document.querySelector('input[name="custom_kelurahan"]');
-            const selectedVillage = villageDropdown.value;
-
-            // Jika "PILIH LAINNYA" dipilih, set nilai dropdown ke input custom
-            if (selectedVillage === 'other') {
-                villageDropdown.value = customVillageInput.value;
-            }
-
-            // Validasi jika tidak ada kelurahan yang dipilih
-            if (!villageDropdown.value) {
-                alert('Kelurahan harus dipilih atau masukkan kelurahan lainnya!');
-                event.preventDefault();
-            }
-        });
+        };
     </script>
 
+    {{-- CEK NISN --}}
     <script>
+        async function searchSiswa() {
+            const nisn = document.getElementById('nisn').value.trim(); 
+            const statusMessage = document.getElementById('status-message');
+    
+            try {
+                // Reset status pesan
+                statusMessage.textContent = '';
+                statusMessage.className = '';
+    
+                // Validasi panjang NISN
+                if (nisn.length < 10) {
+                    alert('Masukkan 10 Digit NISN!');
+                    return;
+                }
+    
+                // Tampilkan indikator proses
+                statusMessage.textContent = 'Memproses...';
+                statusMessage.classList.add('bg-blue-400', 'text-center', 'flex', 'items-center', 'justify-center', 'h-8');
+    
+                // Kirim request ke backend
+                const response = await fetch(`/siswa/search`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: JSON.stringify({ nisn: nisn }),
+                });
+    
+                // Tangani error HTTP
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+    
+                const result = await response.json();
+
+                // Jika siswa ditemukan
+                if (result.status === 'success') {
+                    alert('Siswa telah terdaftar, silahkan cek melalui status pendaftaran');
+    
+                    fieldsToDisable.forEach(fieldId => {
+                        const field = document.getElementById(fieldId);
+                        if (field) {
+                            disableField(field);
+                        }
+                    });
+    
+                    // Kosongkan pesan status
+                    statusMessage.textContent = '';
+                    statusMessage.className = '';
+    
+                } else { // Jika siswa tidak ditemukan
+                    fieldsToEnable.forEach(fieldId => {
+                        const field = document.getElementById(fieldId);
+                        if (field) {
+                            enableField(field);
+                            field.classList.add('enabled-field');
+                        }
+                    });
+    
+                    // Perbarui status pesan
+                    statusMessage.textContent = 'Silahkan Lanjutkan Pendaftaran.';
+                    statusMessage.classList.remove('bg-yellow-400');
+                    statusMessage.classList.add('bg-green-500', 'text-center', 'text-white','flex', 'items-center', 'justify-center', 'h-8');
+                }
+    
+            } catch (error) {
+                console.error('Terjadi kesalahan:', error);
+                alert('Gagal melakukan pencarian. Silakan coba lagi.');
+    
+                // Hapus pesan loading jika ada kesalahan
+                statusMessage.textContent = 'Gagal memproses pencarian.';
+                statusMessage.classList.remove('bg-blue-400');
+                statusMessage.classList.add('bg-red-500', 'text-center', 'flex', 'items-center', 'justify-center', 'h-8');
+            }
+        }
+    
+    // Daftar semua elemen yang ingin diaktifkan
+    const fieldsToEnable = [
+        'nama',
+        'program_pendidikan',
+        'nik',
+        'nomor_kk',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'alamat_domisili',
+        'provinceDropdown',
+        'cityDropdown',
+        'districtDropdown',
+        'villageDropdown',
+        'jumlah_saudara',
+        'anak_ke',
+        'asal_sekolah',
+        'nama_ayah',
+        'nik_ayah',
+        'pendidikan_ayah',
+        'pekerjaan_ayah',
+        'nama_ibu',
+        'nik_ibu',
+        'pendidikan_ibu',
+        'pekerjaan_ibu',
+        'penghasilan',
+        'alamat_kk',
+        'no_hp_orangtua',
+        'kopiah',
+        'seragam',
+        'submit'
+    ];
+
+    // Fungsi untuk mengaktifkan elemen
+    function enableField(field) {
+        field.disabled = false; // Aktifkan elemen
+            if (field.id !== 'submit') {
+                field.style.backgroundColor = '#ffffff'; // Reset warna latar belakang
+                field.style.color = '#000000'; // Reset warna teks
+                field.style.cursor = 'pointer'; // Ubah kursor menjadi pointer
+
+                // Tambahkan efek highlight sementara
+                field.style.boxShadow = '0 0 5px rgba(0, 255, 0, 0.5)'; // Highlight hijau
+                setTimeout(() => {
+                    field.style.boxShadow = 'none'; // Hapus efek highlight setelah animasi
+                }, 300); // Durasi sama dengan `transition` di CSS
+            } else {
+                field.style.cursor = 'pointer'; // Pastikan tombol submit punya kursor yang sesuai
+            }
+        }
+
+    // Daftar semua elemen yang ingin dinonaktifkan
+    const fieldsToDisable = [
+        'nama',
+        'program_pendidikan',
+        'nik',
+        'nomor_kk',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'alamat_domisili',
+        'provinceDropdown',
+        'cityDropdown',
+        'districtDropdown',
+        'villageDropdown',
+        'jumlah_saudara',
+        'anak_ke',
+        'asal_sekolah',
+        'nama_ayah',
+        'nik_ayah',
+        'pendidikan_ayah',
+        'pekerjaan_ayah',
+        'nama_ibu',
+        'nik_ibu',
+        'pendidikan_ibu',
+        'pekerjaan_ibu',
+        'penghasilan',
+        'alamat_kk',
+        'no_hp_orangtua',
+        'kopiah',
+        'seragam',
+        'submit'
+    ];
+
+    // Fungsi untuk mengatur styling elemen yang dinonaktifkan
+    function disableField(field) {
+        field.disabled = true; // Nonaktifkan elemen
+        field.style.cursor = 'not-allowed'; // Terapkan kursor "tidak diizinkan"
+
+        // Terapkan gaya tambahan jika elemen bukan tombol submit
+        if (field.id !== 'submit') {
+            field.style.backgroundColor = '#ccc'; // Set warna latar belakang
+            field.style.color = '#666'; // Set warna teks
+
+            // Tambahkan efek shadow sementara saat perubahan status
+            field.style.boxShadow = '0 0 5px rgba(255, 0, 0, 0.5)'; // Highlight merah redup
+            setTimeout(() => {
+                field.style.boxShadow = 'none'; // Hapus efek shadow setelah animasi selesai
+            }, 300); // Durasi sama dengan `transition` di CSS
+        }
+    }
+
+
+    // Loop untuk menerapkan disableField ke setiap elemen
+    fieldsToDisable.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            disableField(field);
+        }
+    });
+</script>
+
+<script>
         function toggleKopiahDropdown() {
             const jenisKelamin = document.getElementById('jenisKelamin').value;
             const kopiahContainer = document.getElementById('kopiahContainer');
@@ -573,65 +911,233 @@
                 kopiahContainer.style.display = 'block'; // Tampilkan dropdown kopiah
             }
         }
-    </script>
+</script>
 
 {{-- Fetch API Wilayah --}}
 <script>
-    // Watch for province change and update cities accordingly
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('locationSelection', () => ({
-            provinces: [],
-            cities: [],
-            districts: [],
-            villages: [],
-            selectedProvince: '',
-            selectedCity: '',
-            selectedDistrict: '',
-            init() {
-                // Fetch provinces
-                fetch('https://syaukaniakbar.github.io/api-wilayah-indonesia/api/provinces.json')
-                    .then(response => response.json())
-                    .then(data => { this.provinces = data; })
-                    .catch(error => console.error('Error fetching provinces:', error));
+    const provinceNameToIdMap = {};
+    const cityNameToIdMap = {};
+    const districtNameToIdMap = {};
 
-                // Watch for province changes
-                this.$watch('selectedProvince', (provinceId) => {
-                    if (provinceId && provinceId !== 'other') {
-                        fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/regencies/${provinceId}.json`)
-                            .then(response => response.json())
-                            .then(data => { this.cities = data; })
-                            .catch(error => console.error('Error fetching cities:', error));
-                    } else {
-                        this.cities = [];
-                    }
-                });
+    // Fungsi untuk mengambil data provinsi dari API
+    async function loadProvinces() {
+        try {
+            const response = await fetch('https://syaukaniakbar.github.io/api-wilayah-indonesia/api/provinces.json');
+            const provinces = await response.json();
 
-                // Watch for city changes
-                this.$watch('selectedCity', (cityId) => {
-                    if (cityId && cityId !== 'other') {
-                        fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/districts/${cityId}.json`)
-                            .then(response => response.json())
-                            .then(data => { this.districts = data; })
-                            .catch(error => console.error('Error fetching districts:', error));
-                    } else {
-                        this.districts = [];
-                    }
-                });
+            const provinceDropdown = document.getElementById('provinceDropdown');
 
-                // Watch for district changes
-                this.$watch('selectedDistrict', (districtId) => {
-                    if (districtId && districtId !== 'other') {
-                        fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/villages/${districtId}.json`)
-                            .then(response => response.json())
-                            .then(data => { this.villages = data; })
-                            .catch(error => console.error('Error fetching villages:', error));
-                    } else {
-                        this.villages = [];
-                    }
-                });
+            // Populate the province dropdown
+            provinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province.name; // Use province ID as the value
+                option.textContent = province.name; // Display province name
+                provinceDropdown.appendChild(option);
+
+                // Save the mapping
+                provinceNameToIdMap[province.name] = province.id;
+            });
+        } catch (error) {
+            console.error('Error fetching provinces:', error);
+        }
+    }
+
+    // Function to load cities based on selected province
+    async function loadCities(provinceName) {
+        try {
+
+            // Get the provinceId from the name
+            const provinceId = provinceNameToIdMap[provinceName];
+
+            if (!provinceId) {
+                console.error('Province ID not found for:', provinceName);
+                return;
             }
-        }));
-    });
+
+            const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/regencies/${provinceId}.json`);
+            const cities = await response.json();
+
+            const cityDropdown = document.getElementById('cityDropdown');
+            cityDropdown.innerHTML = '<option value="">Pilih Kota</option>'; // Reset city dropdown
+
+            // Populate the city dropdown with fetched cities
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city.name; // Gunakan nama kota sebagai nilai
+                option.textContent = city.name; // Tampilkan nama kota
+                cityDropdown.appendChild(option);
+
+                // Save the mapping
+                cityNameToIdMap[city.name] = city.id; // Simpan ID kota
+            });
+
+            // Add "Pilih Lainnya" option manually
+            const otherOption = document.createElement('option');
+            otherOption.value = 'other';
+            otherOption.textContent = 'PILIH LAINNYA';
+            otherOption.className = 'bg-yellow-400 text-white';
+            cityDropdown.appendChild(otherOption);
+
+        } catch (error) {
+            console.error('Error fetching cities:', error);
+        }
+    }
+
+    // Function to load districts based on selected city
+    async function loadDistricts(cityName) {
+        try {
+            // Get the cityId from the name
+            const cityId = cityNameToIdMap[cityName];
+
+            if (!cityId) {
+                console.error('City ID not found for:', cityName);
+                return;
+            }
+
+            // Fetch data from the updated endpoint
+            const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/districts/${cityId}.json`);
+            const districts = await response.json();
+
+            const districtDropdown = document.getElementById('districtDropdown');
+            districtDropdown.innerHTML = '<option value="">Pilih Kecamatan</option>'; // Reset district dropdown
+
+            // Populate the district dropdown with fetched districts
+            districts.forEach(district => {
+                const option = document.createElement('option');
+                option.value = district.name; // Use district ID as the value
+                option.textContent = district.name; // Display district name
+                districtDropdown.appendChild(option);
+
+                // Save the mapping
+                districtNameToIdMap[district.name] = district.id;
+            });
+
+            // Add "Pilih Lainnya" option manually
+            const otherOption = document.createElement('option');
+            otherOption.value = 'other';
+            otherOption.textContent = 'PILIH LAINNYA';
+            otherOption.className = 'bg-yellow-400 text-white';
+            districtDropdown.appendChild(otherOption);
+
+        } catch (error) {
+            console.error('Error fetching districts:', error);
+        }
+    }
+
+   async function loadVillages(districtName) {
+    try {
+        // Ambil districtId dari mapping berdasarkan districtName
+        const districtId = districtNameToIdMap[districtName];
+
+        if (!districtId) {
+            console.error('District ID not found for:', districtName);
+            return;
+        }
+
+        // Fetch data dari endpoint dengan districtId yang dinamis
+        const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/villages/${districtId}.json`);
+        const villages = await response.json();
+
+        const villageDropdown = document.getElementById('villageDropdown');
+        villageDropdown.innerHTML = '<option value="">Pilih Kelurahan</option>'; // Reset village dropdown
+
+        // Populate the village dropdown with fetched villages
+        villages.forEach(village => {
+            const option = document.createElement('option');
+            option.value = village.name; // Gunakan nama kelurahan sebagai nilai
+            option.textContent = village.name; // Tampilkan nama kelurahan
+            villageDropdown.appendChild(option);
+        });
+
+         // Add "Pilih Lainnya" option manually
+         const otherOption = document.createElement('option');
+            otherOption.value = 'other';
+            otherOption.textContent = 'PILIH LAINNYA';
+            otherOption.className = 'bg-yellow-400 text-white';
+            villageDropdown.appendChild(otherOption);
+
+    } catch (error) {
+        console.error('Error fetching villages:', error);
+    }
+}
+
+    // Function to handle province dropdown change
+    function handleProvinceChange(event) {
+        const selectedValue = event.target.value;
+        const customProvinceInput = document.getElementById('customProvinceInput');
+        const selectedProvince = document.getElementById('selectedProvince');
+
+        if (selectedValue === 'other') {
+            customProvinceInput.style.display = 'block'; // Show custom input for province
+            selectedProvince.value = ''; // Clear hidden input value
+        } else {
+            customProvinceInput.style.display = 'none'; // Hide custom input
+            selectedProvince.value = selectedValue; // Set hidden input with selected province ID
+
+            // Load cities for the selected province
+            if (selectedValue) {
+                loadCities(selectedValue);
+            }
+        }
+    }
+
+    // Function to handle city dropdown change
+    function handleCityChange(event) {
+        const selectedValue = event.target.value;
+        const customCityInput = document.getElementById('customCityInput');
+        const selectedCity = document.getElementById('selectedCity');
+
+        if (selectedValue === 'other') {
+            customCityInput.style.display = 'block';
+            selectedCity.value = '';
+        } else {
+            customCityInput.style.display = 'none';
+            selectedCity.value = selectedValue;
+            if (selectedValue) {
+                loadDistricts(selectedValue); // Load districts based on selected city
+            }
+        }
+    }
+
+    // Function to handle district dropdown change
+    function handleDistrictChange(event) {
+        const selectedValue = event.target.value;
+        const customDistrictInput = document.getElementById('customDistrictInput');
+        const selectedDistrict = document.getElementById('selectedDistrict');
+
+        if (selectedValue === 'other') {
+            customDistrictInput.style.display = 'block'; // Tampilkan input custom
+            selectedDistrict.value = ''; // Kosongkan hidden input
+        } else {
+            customDistrictInput.style.display = 'none'; // Sembunyikan input custom
+            selectedDistrict.value = selectedValue; // Set hidden input ke nilai yang dipilih
+
+            if (selectedValue) {
+                loadVillages(selectedValue); // Muat kelurahan berdasarkan kecamatan
+            }
+        }
+    }
+
+
+    // Function to handle village dropdown change
+    function handleVillageChange(event) {
+        const selectedValue = event.target.value;
+        const customVillageInput = document.getElementById('customVillageInput');
+        const selectedVillage = document.getElementById('selectedVillage');
+
+        if (selectedValue === 'other') {
+            customVillageInput.style.display = 'block'; // Tampilkan input custom
+            selectedVillage.value = ''; // Kosongkan hidden input
+        } else {
+            customVillageInput.style.display = 'none'; // Sembunyikan input custom
+            selectedVillage.value = selectedValue; // Set hidden input ke nilai yang dipilih
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProvinces);
+    document.addEventListener('DOMContentLoaded', loadCities);
+    document.addEventListener('DOMContentLoaded', loadDistricts);
+    document.addEventListener('DOMContentLoaded', loadVillages);
 </script>
 
     

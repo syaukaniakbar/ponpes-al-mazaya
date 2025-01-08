@@ -10,16 +10,24 @@
 
     <title>@yield('title', 'Ponpes-Al-Mazaya')</title>
 
+    <link rel="icon" href="{{ asset('images/logo-only.ico') }}" type="image/x-icon">
+
     @vite('resources/css/app.css')
     <!-- Link Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
     <script src="//unpkg.com/alpinejs" defer></script>
         <style>
+            p {
+                margin: 0.5em 0; /* Menambahkan jarak vertikal antar paragraf */
+                line-height: 1.6; /* Meningkatkan jarak antar baris untuk keterbacaan yang lebih baik */
+                font-size: 16px; /* Ukuran font yang nyaman dibaca */
+            }
+            
+   
             /* Gaya untuk teks tebal */
             b, strong {
                 font-weight: bold;
-                color: #333; /* Warna teks */
             }
 
             /* Gaya untuk daftar terurut (ol) */
@@ -39,7 +47,6 @@
             h2 {
                 font-size: 1.5rem; /* Ukuran font */
                 font-weight: bold; /* Ketebalan font */
-                margin: 1.5rem 0; /* Margin atas dan bawah */
                 padding-bottom: 0.5rem; /* Padding bawah */
             }
 
@@ -51,7 +58,6 @@
                 padding-bottom: 0.25rem; /* Padding bawah */
             }
         </style>
-        
     </head>
 
     <body class="overflow-x-hidden">
@@ -67,10 +73,4 @@
         <footer>
             @include('layouts.footer') <!-- Komponen reusable -->
         </footer>
-
-
-
-
-
-
 </html>

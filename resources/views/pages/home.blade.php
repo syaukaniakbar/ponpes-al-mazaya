@@ -3,71 +3,40 @@
     @section('title', 'Official Website Ponpes Al-Mazaya | Home') <!-- Mengisi bagian @yield('title') di parent -->
 
     <section class="hero-section bg-green-800 text-white w-full">
-        <div class="relative w-full h-[700px] overflow-hidden" x-data="{ currentIndex: 0, slides: 3 }">
+        <div class="relative w-full h-[700px] overflow-hidden" 
+            x-data="{
+                currentIndex: 0, 
+                slides: {{ count($headers) }},
+                autoSlide() {
+                    setInterval(() => {
+                        this.currentIndex = (this.currentIndex < this.slides - 1) ? this.currentIndex + 1 : 0;
+                    }, 10000); // 10 detik
+                }
+            }" x-init="autoSlide">
+
+
             <!-- Slides Container -->
             <div class="flex transition-transform duration-700 ease-out h-full"
                 :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
-                <div class="relative w-full flex-shrink-0 h-full">
-                    <img src="{{ asset('images/header_1.jpg') }}"
-                        alt="Slide 1"
-                        class="w-full object-cover h-full">
-                    <div class="absolute top-0 left-0 w-full h-full flex flex-col items-start justify-center p-7 lg:p-28 bg-black bg-opacity-40 text-white">
-                        <p class="text-lg font-light border rounded-2xl border-white px-4 py-2 mb-4">
-                            Pendaftaran Dibuka
-                        </p>
-                        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">
-                            Selamat Datang di Pondok Pesantren Al Mazaya
-                        </h1>
-                        <p class="mb-6 text-lg font-light">
-                            Membentuk generasi Muslim yang berilmu, berakhlak mulia, dan siap menghadapi tantangan global.
-                        </p>
-                        <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-black bg-white rounded-lg hover:text-white hover:bg-green-600">
-                            Daftar Sekarang
-                        </a>
+                @foreach ($headers as $header)
+                    <div class="relative w-full flex-shrink-0 h-full">
+                        <img src="{{ asset('storage/' . $header->image_url) }}" alt="Slide" class="w-full object-cover h-full">
+                        <div class="absolute top-0 left-0 w-full h-full flex flex-col items-start justify-center p-7 lg:p-28 bg-black bg-opacity-40 text-white">
+                            <p class="text-lg font-light border rounded-2xl border-white px-4 py-2 mb-4">
+                                Pendaftaran Dibuka
+                            </p>
+                            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">
+                                {{ $header->title }}
+                            </h1>
+                            <p class="mb-6 text-lg font-light">
+                                {{ $header->description }}
+                            </p>
+                            <a href="{{ route('pendaftaran') }}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-black bg-green-600 text-white rounded-lg hover:text-white hover:bg-green-600">
+                                Daftar Sekarang
+                            </a>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Slide 2 -->
-                <div class="relative w-full flex-shrink-0 h-full">
-                    <img src="{{ asset('images/header_2.jpg') }}"
-                        alt="Slide 2"
-                        class="w-full object-cover h-full">
-                    <div class="absolute top-0 left-0 w-full h-full flex flex-col items-start justify-center p-7 lg:p-28 bg-black bg-opacity-40 text-white">
-                        <p class="text-lg font-light border rounded-2xl border-white px-4 py-2 mb-4">
-                            Pendaftaran Dibuka
-                        </p>
-                        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">
-                            Selamat Datang di Pondok Pesantren Al Mazaya
-                        </h1>
-                        <p class="mb-6 text-lg font-light">
-                            Membentuk generasi Muslim yang berilmu, berakhlak mulia, dan siap menghadapi tantangan global.
-                        </p>
-                        <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-black bg-white rounded-lg hover:text-white hover:bg-green-600">
-                            Daftar Sekarang
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Slide 3 -->
-                <div class="relative w-full flex-shrink-0 h-full">
-                    <img src="{{ asset('images/header_3.jpg') }}"
-                        alt="Slide 3"
-                        class="w-full object-cover h-full">
-                    <div class="absolute top-0 left-0 w-full h-full flex flex-col items-start justify-center p-7 lg:p-28 bg-black bg-opacity-40 text-white">
-                        <p class="text-lg font-light border rounded-2xl border-white px-4 py-2 mb-4">
-                            Pendaftaran Dibuka
-                        </p>
-                        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">
-                            Selamat Datang di Pondok Pesantren Al Mazaya
-                        </h1>
-                        <p class="mb-6 text-lg font-light">
-                            Membentuk generasi Muslim yang berilmu, berakhlak mulia, dan siap menghadapi tantangan global.
-                        </p>
-                        <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-black bg-white rounded-lg hover:text-white hover:bg-green-600">
-                            Daftar Sekarang
-                        </a>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <!-- Navigation Buttons -->
