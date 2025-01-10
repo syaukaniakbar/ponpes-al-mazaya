@@ -102,6 +102,15 @@ class SiswaController extends Controller
         }
     }
 
+    public function siswa($program_pendidikan)
+    {
+        $siswas = Siswa::where('program_pendidikan', $program_pendidikan)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+    
+        return view('pages.admin.siswa.admin-siswa', compact('siswas')); // Corrected variable name
+    }
+
 
     
 }

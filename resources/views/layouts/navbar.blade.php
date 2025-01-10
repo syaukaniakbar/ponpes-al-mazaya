@@ -45,7 +45,7 @@
                     <a href=" {{ route('pendaftaran') }}" class="block px-4 py-2 text-white bg-green-600 rounded text-center">Pendaftaran</a>
                 </li>
                 <li>
-                    <a href=" {{ route('cek-status') }}" class="block px-4 py-2 text-black bg-yellow-400 rounded text-center">Cek Status Pendaftaran</a>
+                    <a href=" {{ route('cek-status') }}" class="block px-4 py-2 text-green-700 bg-white rounded text-center border border-green-700">Cek Status Pendaftaran</a>
                 </li>
             </ul>
         </div>

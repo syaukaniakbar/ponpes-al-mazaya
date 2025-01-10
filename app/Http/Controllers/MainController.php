@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Video;
 use App\Models\Header;
 use App\Models\NavLink;
 use Illuminate\Http\Request;
@@ -10,11 +11,37 @@ use Illuminate\Http\Request;
 class MainController extends Controller
 {
     public function index()
-    {
+{   
+    $headers = Header::all();
+    $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3); 
+    
+    // Retrieve all URLs from the 'url' column
+    $urls = Video::pluck('url');
 
-        $headers = Header::all();
-        return view('pages.home', compact('headers'));
+    // Initialize an empty embed URL
+    $embedUrl = '';
+
+    // Check if there is at least one URL in the database
+    if ($urls->isNotEmpty()) {
+        // Get the first URL
+        $videoUrl = $urls[0];
+
+        // Check if the URL is a valid YouTube URL
+        if (strpos($videoUrl, 'youtube.com') !== false || strpos($videoUrl, 'youtu.be') !== false) {
+            // Extract the video ID from the URL
+            preg_match('/(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\s]{11}))/i', $videoUrl, $matches);
+
+            // If a video ID is found, construct the embed URL
+            if (!empty($matches[1])) {
+                $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
+            }
+        }
     }
+
+    // Kirim data ke view
+    return view('pages.home', compact('headers', 'blogs','embedUrl'));
+}
+
 
     public function cek_status()
     {
@@ -28,10 +55,19 @@ class MainController extends Controller
 
     public function blog()
     {
-        $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(5);
+        $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(9);
         return view('pages.blog', compact('blogs'));
     }
 
+    public function category($category)
+    {
+        $blogs = Blog::where('category', $category)
+            ->orderBy('created_at', 'desc')
+            ->paginate(9);
+    
+        return view('pages.blog', compact('blogs')); // Corrected variable name
+    }
+    
     public function show($slug)
     {
         $blog = Blog::where('slug', $slug)->firstOrFail();
@@ -55,4 +91,19 @@ class MainController extends Controller
 
         return view('pages.nav-links-detail', compact('navLink'));
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->get('query');
+
+        // Lakukan pencarian berdasarkan judul atau deskripsi
+        $blogs = Blog::where('title', 'LIKE', "%{$query}%")
+            ->orWhere('description', 'LIKE', "%{$query}%")
+            ->take(10)
+            ->get();
+
+        // Return data sebagai JSON
+        return response()->json($blogs);
+    }
+
 }

@@ -19,43 +19,74 @@
     <script src="//unpkg.com/alpinejs" defer></script>
         <style>
             p {
-                margin: 0.5em 0; /* Menambahkan jarak vertikal antar paragraf */
-                line-height: 1.6; /* Meningkatkan jarak antar baris untuk keterbacaan yang lebih baik */
-                font-size: 16px; /* Ukuran font yang nyaman dibaca */
+                margin: 1rem 0; /* Jarak antar paragraf */
+                line-height: 1.8; /* Keterbacaan optimal */
+                font-size: 1rem; /* Ukuran font standar */
             }
-            
-   
+
+            /* Gaya untuk heading utama */
+            h1 {
+                font-size: 2rem; /* Heading utama besar */
+                font-weight: bold; /* Ketebalan font */
+                margin-bottom: 1rem;
+                line-height: 1.3;
+            }
+
+            /* Gaya untuk heading kedua */
+            h2 {
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin: 1.5rem 0 1rem;
+                padding-bottom: 0.5rem;
+            }
+
+            /* Gaya untuk heading ketiga */
+            h3 {
+                font-size: 1.25rem;
+                font-weight: bold;
+                margin: 1.25rem 0 0.75rem;
+            }
+
             /* Gaya untuk teks tebal */
             b, strong {
                 font-weight: bold;
             }
 
-            /* Gaya untuk daftar terurut (ol) */
-            ol {
-                margin: 1rem 0; /* Margin atas dan bawah */
-                padding-left: 1.5rem; /* Padding kiri untuk indentasi */
-                list-style-type: decimal; /* Tipe daftar */
+            /* Gaya untuk link */
+            a {
+                text-decoration: none; /* Hapus garis bawah default */
+                font-weight: 500;
+            }
+         
+            /* Gaya untuk tabel */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 1.5rem 0;
+                font-size: 0.9rem;
+            }
+            table th,
+            table td {
+                padding: 0.75rem;
+                text-align: left;
+                border: 1px solid #e5e5e5; /* Garis pemisah */
+            }
+            table th {
+                background: #f0f0f0; /* Warna latar untuk heading */
+                font-weight: bold;
             }
 
-            /* Gaya untuk item daftar (li) */
-            li {
-                margin-bottom: 0.5rem; /* Jarak antar item */
-                line-height: 1.5; /* Tinggi baris */
-            }
-
-            /* Gaya untuk h2 */
-            h2 {
-                font-size: 1.5rem; /* Ukuran font */
-                font-weight: bold; /* Ketebalan font */
-                padding-bottom: 0.5rem; /* Padding bawah */
-            }
-
-            /* Gaya untuk h3 */
-            h3 {
-                font-size: 1.25rem; /* Ukuran font */
-                font-weight: bold; /* Ketebalan font */
-                margin: 1.25rem 0; /* Margin atas dan bawah */
-                padding-bottom: 0.25rem; /* Padding bawah */
+            /* Responsif */
+            @media (max-width: 768px) {
+                .article-container {
+                    padding: 1rem; /* Kurangi padding di layar kecil */
+                }
+                h1 {
+                    font-size: 1.75rem;
+                }
+                h2 {
+                    font-size: 1.25rem;
+                }
             }
         </style>
     </head>

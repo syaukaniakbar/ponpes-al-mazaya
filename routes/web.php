@@ -10,6 +10,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TotalSiswaController;
+use App\Models\Siswa;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/')->group(function () {
@@ -18,8 +19,8 @@ Route::prefix('/')->group(function () {
     Route::get('/cek-status', [MainController::class, 'cek_status'])->name('cek-status');
     Route::get('/pendaftaran', [SiswaController::class, 'create'])->name('pendaftaran');
     Route::post('/pendaftaran/store', [SiswaController::class, 'store'])->name('pendaftaran.store');
-
-
+    Route::get('/category/{category}', [MainController::class, 'category'])->name('category');
+    Route::get('/search', [MainController::class, 'search'])->name('blog.search');
     Route::get('/al-mazaya-blog', [MainController::class, 'blog'])->name('blog.al-mazaya');
     Route::get('/al-mazaya-blog/{slug}', [MainController::class, 'show'])->name('blog.show');
     Route::get('/al-mazaya-nav-link/{slug}', [MainController::class, 'navShow'])->name('nav.show');
@@ -38,6 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+    Route::get('/siswa/{program_pendidikan}', [SiswaController::class, 'siswa'])->name('siswa');
+    Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('siswa.edit');
+    Route::put('/siswa/update/{id}', [SiswaController::class, 'update'])->name('siswa.update');
+    Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('siswa.delete');
 
     Route::get('/header', [HeaderController::class, 'index'])->name('header');
     Route::get('/header/create', [HeaderController::class, 'create'])->name('header.create');
@@ -78,7 +85,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/total-siswa/detail/{id}', [TotalSiswaController::class, 'show'])->name('total-siswa.detail');
     Route::delete('/total-siswa/delete/{id}', [TotalSiswaController::class, 'destroy'])->name('total-siswa.delete');
 
-    Route::get('/video-link', [VideoController::class, 'index'])->name('video');
+    Route::get('/video-profile', [VideoController::class, 'index'])->name('video');
+    Route::get('/video-profile/edit/{id}', [VideoController::class, 'edit'])->name('video.edit');
+    Route::put('/video-profile/update/{id}', [VideoController::class, 'update'])->name('video.update');
 });
 
 require __DIR__ . '/auth.php';

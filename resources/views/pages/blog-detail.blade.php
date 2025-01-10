@@ -16,7 +16,7 @@
                 </p>
             </div>
         </header>
-
+    
         <!-- Topic Nav -->
         <nav class="w-full py-4 border-t border-b bg-gray-100" x-data="{ open: false }">
             <div class="block sm:hidden">
@@ -35,126 +35,208 @@
                 </div>
             </div>
         </nav>
-        <div class="container mx-auto flex flex-wrap py-6">
+    
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <!-- Article Section -->
+            <main class="lg:col-span-8">
+                <article class="bg-white shadow-md rounded-lg overflow-hidden">
+                    <!-- Article Header -->
+                    <header class="p-6">
+                        <div class="flex justify-between items-center text-sm text-gray-600">
+                            <span>Published on {{ $blog->created_at->translatedFormat('l, d F Y') }}</span>
+                            <span class="bg-blue-500 text-white px-3 py-1 rounded uppercase font-bold text-xs">
+                                {{ strtoupper($blog->category) }}
+                            </span>
+                        </div>
+                        <h1 class="text-2xl font-bold mt-4 text-gray-800 leading-tight">
+                            {{ $blog->title }}
+                        </h1>
+                        <p class="text-sm mt-2 text-gray-500">
+                            By <span class="font-semibold hover:text-gray-800">{{ $blog->user->name }}</span>
+                        </p>
+                    </header>
             
-            <!-- Post Section -->
-            <section class="w-full md:w-2/3 flex flex-col items-center px-3">
-                <article class="flex flex-col my-4">
                     <!-- Article Image -->
-                    <div class="flex justify-between items-center py-4">
-                        <p class="text-gray-600">Published on {{ $blog->created_at->translatedFormat('l, d F Y') }}</p>
-                        <a href="#" class="text-blue-700 text-sm font-bold uppercase">ARTIKEL {{ strtoupper($blog->category) }}</a>
-                    </div>
-                    <div class="relative h-96 w-full overflow-hidden">
+                    <div class="relative">
                         <img 
-                            class="absolute top-0 left-0 w-full h-full object-cover" 
+                            class="w-full h-64 lg:h-96 object-cover" 
                             src="{{ asset('storage/' . $blog->image_url) }}" 
                             alt="Article Image">
                     </div>
-                    <div class="bg-white flex flex-col justify-start py-6">
-                        <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-8">{{ $blog->title }}</a>
-                        <p href="#" class="text-sm pb-4">
-                            By <a href="#" class="font-semibold hover:text-gray-800">{{ $blog->user->name }}</a>
-                        </p>
-                        <p class="pb-3">{!! $blog->description !!}</p>
-                    </div>
-                </article>
-                <div class="w-full flex pt-6">
-                    @if ($previousBlog)
-                    <a href="{{ route('blog.show', $previousBlog->slug) }}" class="w-1/2 bg-white shadow hover:shadow-md text-left p-6">
-                        <p class="text-lg text-blue-800 font-bold flex items-center">
-                            <i class="fas fa-arrow-left pr-1"></i> Previous
-                        </p>
-                        <p class="pt-2">{{ $previousBlog->title }}</p>
-                    </a>
-                    @else
-                    <div class="w-1/2"></div>
-                    @endif
-                    @if ($nextBlog)
-                    <a href="{{ route('blog.show', $nextBlog->slug) }}" class="w-1/2 bg-white shadow hover:shadow-md text-right p-6">
-                        <p class="text-lg text-blue-800 font-bold flex items-center justify-end">
-                            Next <i class="fas fa-arrow-right pl-1"></i>
-                        </p>
-                        <p class="pt-2">{{ $nextBlog->title }}</p>
-                    </a>
-                    @else
-                    <div class="w-1/2"></div>
-                    @endif
-                </div>
-            </section>
-
-            <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
-                <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-                    <p class="text-xl font-semibold pb-5">Berita Lainnya</p>
             
-                    <div class="flex flex-col space-y-6">
-                        <!-- Berita 1 -->
-                        <div class="relative">
+                    <!-- Article Body -->
+                    <div class="p-6 leading-relaxed text-gray-700">
+                        {!! $blog->description !!}
+                    </div>
+            
+                    <!-- Navigation Links -->
+                    <div class="flex flex-col md:flex-row justify-between items-center border-t border-gray-200 p-6 bg-gray-50 rounded-lg shadow-sm space-y-4 md:space-y-0">
+                        @if ($previousBlog)
+                        <!-- Previous Blog -->
+                        <a href="{{ route('blog.show', $previousBlog->slug) }}" 
+                           class="flex items-center space-x-3 md:space-x-4 group w-full md:w-auto">
+                            <!-- Icon -->
+                            <div class="bg-blue-100 p-2 rounded-full group-hover:bg-green-600 transition">
+                                <i class="fas fa-arrow-left text-green-600 group-hover:text-white"></i>
+                            </div>
+                            <!-- Text -->
+                            <div class="text-left">
+                                <p class="text-sm text-gray-500">Previous</p>
+                                <p class="text-base font-semibold text-green-600 group-hover:text-green-800 transition">
+                                    {{ $previousBlog->title }}
+                                </p>
+                            </div>
+                        </a>
+                        @else
+                        <div class="w-full md:w-auto"></div>
+                        @endif
+                    
+                        @if ($nextBlog)
+                        <!-- Next Blog -->
+                        <a href="{{ route('blog.show', $nextBlog->slug) }}" 
+                           class="flex items-center justify-end space-x-3 md:space-x-4 group w-full md:w-auto">
+                            <!-- Text -->
+                            <div class="text-right">
+                                <p class="text-sm text-gray-500">Next</p>
+                                <p class="text-base font-semibold text-green-600 group-hover:text-green-800 transition">
+                                    {{ $nextBlog->title }}
+                                </p>
+                            </div>
+                            <!-- Icon -->
+                            <div class="bg-green-100 p-2 rounded-full group-hover:bg-green-600 transition">
+                                <i class="fas fa-arrow-right text-green-600 group-hover:text-white"></i>
+                            </div>
+                        </a>
+                        @else
+                        <div class="w-full md:w-auto"></div>
+                        @endif
+                    </div>
+                    
+            
+                </article>
+            </main>
+            
+            <!-- Sidebar -->
+            <aside class="w-full lg:col-span-4 flex flex-col items-center px-3">
+                <div class="w-full bg-white shadow-lg flex flex-col my-4 p-6 rounded-lg">
+                    <p class="text-xl font-semibold pb-5 border-b border-gray-300">Berita Lainnya</p>
+            
+                    <div class="flex flex-col space-y-6 mt-6">
+                        <!-- Berita 1 (Highlight) -->
+                        <div class="relative group border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300">
                             <!-- Gambar -->
-                            <img src="{{ asset('images/ponpes-headline.png') }}" alt="Berita 1" class="rounded-lg w-full object-cover">
-                            <!-- Kategori -->
-                            <div class="absolute top-2 right-2 bg-green-500 text-white text-sm font-bold px-3 py-1 rounded  uppercase">
+                            <div class="overflow-hidden">
+                                <img src="{{ asset('images/ponpes-headline.png') }}" alt="Berita Utama" 
+                                     class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105">
+                            </div>
+                        
+                            <!-- Label Kategori -->
+                            <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded shadow-md uppercase">
                                 ILMIAH
                             </div>
+                        
                             <!-- Konten -->
-                            <div class="mt-4">
-                                <a href="#" class="text-lg font-semibold hover:underline block">
-                                    Al Mazaya mengadakan kurban di lingkungan pondok
+                            <div class="p-5 space-y-3">
+                                <!-- Judul -->
+                                <a href="#" 
+                                   class="block text-lg font-bold text-gray-800 hover:text-blue-600 leading-snug transition-colors duration-300">
+                                    Al Mazaya Mengadakan Kurban di Lingkungan Pondok
                                 </a>
+                        
+                                <!-- Deskripsi -->
                                 <p class="text-sm text-gray-600">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.
                                 </p>
+                        
+                                <!-- Tanggal atau Metadata -->
+                                <div class="flex items-center text-xs text-gray-400 space-x-2">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>10 Januari 2025</span>
+                                </div>
                             </div>
                         </div>
                         
+            
                         <!-- Berita 2 -->
-                        <div class="relative">
+                        <div class="relative group border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300">
                             <!-- Gambar -->
-                            <img src="{{ asset('images/ponpes-headline.png') }}" alt="Berita 1" class="rounded-lg w-full object-cover">
-                            <!-- Kategori -->
-                            <div class="absolute top-2 right-2 bg-green-500 text-white text-sm font-bold px-3 py-1 rounded  uppercase">
+                            <div class="overflow-hidden">
+                                <img src="{{ asset('images/ponpes-headline.png') }}" alt="Berita Utama" 
+                                     class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105">
+                            </div>
+                        
+                            <!-- Label Kategori -->
+                            <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded shadow-md uppercase">
                                 ILMIAH
                             </div>
+                        
                             <!-- Konten -->
-                            <div class="mt-4">
-                                <a href="#" class="text-lg font-semibold hover:underline block">
-                                    Al Mazaya mengadakan kurban di lingkungan pondok
+                            <div class="p-5 space-y-3">
+                                <!-- Judul -->
+                                <a href="#" 
+                                   class="block text-lg font-bold text-gray-800 hover:text-blue-600 leading-snug transition-colors duration-300">
+                                    Al Mazaya Mengadakan Kurban di Lingkungan Pondok
                                 </a>
+                        
+                                <!-- Deskripsi -->
                                 <p class="text-sm text-gray-600">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.
                                 </p>
+                        
+                                <!-- Tanggal atau Metadata -->
+                                <div class="flex items-center text-xs text-gray-400 space-x-2">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>10 Januari 2025</span>
+                                </div>
                             </div>
                         </div>
             
                         <!-- Berita 3 -->
-                        <div class="relative">
+                        <div class="relative group border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300">
                             <!-- Gambar -->
-                            <img src="{{ asset('images/ponpes-headline.png') }}" alt="Berita 1" class="rounded-lg w-full object-cover">
-                            <!-- Kategori -->
-                            <div class="absolute top-2 right-2 bg-green-500 text-white text-sm font-bold px-3 py-1 rounded  uppercase">
+                            <div class="overflow-hidden">
+                                <img src="{{ asset('images/ponpes-headline.png') }}" alt="Berita Utama" 
+                                     class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105">
+                            </div>
+                        
+                            <!-- Label Kategori -->
+                            <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded shadow-md uppercase">
                                 ILMIAH
                             </div>
+                        
                             <!-- Konten -->
-                            <div class="mt-4">
-                                <a href="#" class="text-lg font-semibold hover:underline block">
-                                    Al Mazaya mengadakan kurban di lingkungan pondok
+                            <div class="p-5 space-y-3">
+                                <!-- Judul -->
+                                <a href="#" 
+                                   class="block text-lg font-bold text-gray-800 hover:text-blue-600 leading-snug transition-colors duration-300">
+                                    Al Mazaya Mengadakan Kurban di Lingkungan Pondok
                                 </a>
+                        
+                                <!-- Deskripsi -->
                                 <p class="text-sm text-gray-600">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.
                                 </p>
+                        
+                                <!-- Tanggal atau Metadata -->
+                                <div class="flex items-center text-xs text-gray-400 space-x-2">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>10 Januari 2025</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+            
+                    <!-- Tombol Lihat Selengkapnya -->
+                    <a href="#" class="mt-6 bg-blue-600 text-white text-center py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-300 font-semibold">
+                        Lihat Semua Berita
+                    </a>
                 </div>
             </aside>
-            
-            
-            
-
+                     
         </div>
-
-
     </body>
+    
 
 
 </x-main-layout>

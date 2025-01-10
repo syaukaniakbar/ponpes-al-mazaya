@@ -21,7 +21,7 @@
                 @foreach ($headers as $header)
                     <div class="relative w-full flex-shrink-0 h-full">
                         <img src="{{ asset('storage/' . $header->image_url) }}" alt="Slide" class="w-full object-cover h-full">
-                        <div class="absolute top-0 left-0 w-full h-full flex flex-col items-start justify-center p-7 lg:p-28 bg-black bg-opacity-40 text-white">
+                        <div class="absolute top-0 left-0 w-full h-full flex flex-col items-start justify-center p-7 lg:p-28 bg-black bg-opacity-70 text-white">
                             <p class="text-lg font-light border rounded-2xl border-white px-4 py-2 mb-4">
                                 Pendaftaran Dibuka
                             </p>
@@ -98,7 +98,7 @@
 
     <!-- Guru dan staff -->
     <section class="staff bg-green-800">
-        <div class="grid max-w-screen-xl px-4 py-16 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 my-32">
+        <div class="grid max-w-screen-xl px-4 py-16 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
             <!-- Title Guru dan staff -->
             <div class="mr-auto place-self-center lg:col-span-12 text-center">
                 <h2 class="text-3xl font-bold mb-4 text-white">Guru dan Staff Al Mazaya</h2>
@@ -148,49 +148,66 @@
     </section>
 
     <!-- Berita al-mazaya -->
-    <section class="news">
-        <div class="flex flex-col justify-center items-center max-w-screen-xl px-4 py-8 mx-auto text-center">
-            <!-- Kolom Teks -->
-            <div class="lg:w-3/4">
-                <h2 class="text-3xl font-bold mb-4 text-black">Berita Al Mazaya</h2>
-                <p class="text-lg mb-8 text-black">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio corporis, molestiae in aperiam debitis dignissimos excepturi ipsam fuga pariatur sint eum recusandae nesciunt, sequi iure perspiciatis placeat, voluptatem cupiditate.
-                </p>
-            </div>
-
-            <!-- Card section -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full lg:w-3/4">
-                <!-- Card 1 -->
-                <div class="text-start p-4 rounded-lg">
-                    <img src="{{ asset('images/asset-berita.png') }}" alt="ponpes-al-mazaya-highlight" class="w-full max-w-md rounded-md">
-                    <h3 class="text-xl font-bold mt-4 mb-2">Al Mazaya mengadakan kurban di lingkungan pondok</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et saepe doloribus veniam.</p>
-                </div>
-                <!-- Card 2 -->
-                <div class="text-start p-4 rounded-lg">
-                    <img src="{{ asset('images/asset-berita.png') }}" alt="ponpes-al-mazaya-highlight" class="w-full max-w-md rounded-md">
-                    <h3 class="text-xl font-bold mt-4 mb-2">Al Mazaya mengadakan kurban di lingkungan pondok</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et saepe doloribus veniam.</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="text-start p-4 rounded-lg">
-                    <img src="{{ asset('images/asset-berita.png') }}" alt="ponpes-al-mazaya-highlight" class="w-full max-w-md rounded-md">
-                    <h3 class="text-xl font-bold mt-4 mb-2">Al Mazaya mengadakan kurban di lingkungan pondok</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et saepe doloribus veniam.</p>
-                </div>
-            </div>
+    <section class="news p-6 md:p-12 lg:p-24">
+        <!-- Kolom Teks -->
+        <div class="max-w-3xl mx-auto mb-12 text-center">
+            <h2 class="text-3xl md:text-4xl font-semibold mb-6 text-gray-800">Berita Al Mazaya</h2>
+            <p class="text-base md:text-lg text-gray-600 leading-relaxed">
+                Temukan berita terbaru dan informasi menarik seputar Al Mazaya. Dari kegiatan keagamaan hingga kegiatan sosial, kami selalu berusaha memberikan informasi yang bermanfaat untuk Anda.
+            </p>
         </div>
+    
+        <!-- Blog Cards Section -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-screen-xl mx-auto px-4">
+            @forelse ($blogs as $blog)
+                <article class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 relative">
+                    <!-- Image -->
+                    <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}" class="block relative group">
+                        <img src="{{ asset('storage/' . $blog->image_url) }}" alt="{{ $blog->title }}" class="w-full h-48 sm:h-56 object-cover group-hover:opacity-90 transition">
+                        <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition"></div>
+                    </a>
+    
+                    <!-- Category -->
+                    <span class="bg-green-600 text-white absolute text-xs font-semibold uppercase px-3 py-1 rounded right-2 top-2">
+                        {{ $blog->category }}
+                    </span>
+    
+                    <!-- Content -->
+                    <div class="p-5 flex flex-col flex-grow">
+                        <!-- Title -->
+                        <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}" class="text-lg font-bold text-gray-800 hover:text-green-600 transition mb-2">
+                            {{ $blog->title }}
+                        </a>
+    
+                        <!-- Description -->
+                        <p class="text-gray-600 text-sm mt-2 mb-4">
+                            {!! Str::limit($blog->description, 100) !!}
+                        </p>
+    
+                        <!-- Continue Reading -->
+                        <div class="mt-auto">
+                            <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}" class="text-green-600 font-medium hover:underline">
+                                Continue Reading &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            @empty
+                <div class="flex items-center justify-center col-span-full w-full h-72 bg-green-100 border border-green-200 rounded-lg">
+                    <p class="text-center text-gray-600 text-lg">No blog posts available.</p>
+                </div>
+            @endforelse
+        </div>
+    
         <!-- Tombol Berita Lainnya -->
-        <div class="flex justify-center mt-2 mb-10">
-            <a href="#" class="inline-block px-6 py-3 text-black font-medium border border-black rounded-lg hover:bg-black hover:text-white transition">
+        <div class="flex justify-center mt-12">
+            <a href="{{ route('blog.al-mazaya') }}" class="inline-block px-8 py-3 text-lg bg-green-600 text-white font-semibold rounded shadow-md hover:bg-green-700 transition-colors duration-300">
                 Berita Lainnya
             </a>
-        </div>
         </div>
     </section>
     <!-- End section berita al-mazaya -->
 
-    <!-- section video tentang al-mazaya -->
     <!-- section video tentang al-mazaya -->
     <section class="video bg-gray-100 p-6 md:p-32">
         <div class="container mx-auto flex flex-col justify-center items-center text-center px-6 md:px-12">
@@ -202,17 +219,26 @@
             <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl">
                 Setiap langkah adalah doa, setiap ilmu adalah cahaya. Temukan semangat juang dan nilai kehidupan yang terpancar dari santri Pondok Pesantren Al-Mazaya.
             </p>
-            <!-- Video -->
-            <div class="w-full max-w-4xl aspect-w-16 aspect-h-9 rounded-lg shadow-lg overflow-hidden">
-                <iframe 
-                    src="https://www.youtube.com/embed/XqeDosXJJ1M" 
-                    title="Video Tentang Al-Mazaya" 
-                    class="w-full h-96"
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-            </div>
+           
+                <!-- Video -->
+                
+                <div class="w-full max-w-4xl aspect-w-16 aspect-h-9 rounded-lg shadow-lg overflow-hidden">
+                @if($embedUrl)
+                    <iframe 
+                        src="{{ $embedUrl }}" 
+                        title="Video Tentang Al-Mazaya" 
+                        class="w-full h-96"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                @else
+                </div>
+                <tr>
+                    <td colspan="3" class="py-10 text-center">No records found!</td>
+                </tr>
+                @endif
+         
         </div>
     </section>
 

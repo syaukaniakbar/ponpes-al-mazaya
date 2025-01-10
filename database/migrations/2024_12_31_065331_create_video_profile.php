@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('video_profile', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
+            $table->string('url')->default('https://example.com');
             $table->timestamps();
         });
     }

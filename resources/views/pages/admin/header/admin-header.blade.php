@@ -1,6 +1,6 @@
 <x-dashboard-layout>
 
-    @section('title', 'Dashboard Blog | Ponpes Al-Mazaya')
+    @section('title', 'Banner | Ponpes Al-Mazaya')
 
 
     <div class="w-full mt-12">

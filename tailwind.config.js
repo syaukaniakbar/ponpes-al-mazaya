@@ -28,12 +28,7 @@ export default {
             },
         },
     },
-    plugins: [
-        require("flowbite-typography"),
-        require("flowbite/plugin")({
-            wysiwyg: true,
-        }),
-    ],
+    plugins: [require("flowbite-typography")],
     variants: {
         extend: {
             overflow: ["responsive"],
