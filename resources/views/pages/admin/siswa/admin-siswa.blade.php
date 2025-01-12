@@ -103,9 +103,6 @@
                             <td class="px-4 py-3">{{ $siswa->kopiah }}</td>
                             <td class="px-4 py-3">{{ $siswa->seragam }}</td>
                         <td class="px-4 py-3">
-                            <button onclick="openModal({{ $siswa->id }})" class="block w-full p-2 mb-2 text-center text-white bg-blue-600 rounded">
-                                Detail
-                            </button>
                             <a href="{{ route('siswa.edit', $siswa->id) }}" class="block w-full p-2 mb-2 text-center text-white bg-blue-600 rounded">
                                 Edit
                             </a>
@@ -153,77 +150,5 @@
         @endif
     </div>
 
-    <!-- Modal for Showing Blog Details -->
-    <div id="blogDetailModal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-900 bg-opacity-60">
-        <div class="relative max-w-4xl mx-auto bg-white rounded-lg shadow-xl top-20">
-            <!-- Close Button -->
-            <div class="flex justify-end p-4">
-                <button onclick="closeModal()" class="inline-flex items-center p-2 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>
-                </button>
-            </div>
 
-            <!-- Blog Detail Content -->
-            <div id="blogDetailContent" class="p-8 mb-12 text-center">
-                <!-- Blog Details will be inserted here dynamically -->
-            </div>
-        </div>
-    </div>
-
-
-    <script>
-        async function openModal(blogId) {
-            try {
-                // Fetch data dari server
-                const response = await fetch(`/blog/detail/${blogId}`);
-                const data = await response.json();
-
-                // Menampilkan data di modal
-                const modalContent = document.getElementById('blogDetailContent');
-                modalContent.innerHTML = `
-                    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden my-8">
-                        <!-- Judul -->
-                        <div class="p-6 border-b">
-                            <h2 class="text-3xl font-bold text-gray-800">${data.title}</h2>
-                        </div>
-
-                        <!-- Gambar -->
-                        <div class="flex justify-center">
-                            <div class="w-full h-96 max-w-3xl overflow-hidden">
-                                <img 
-                                    src="${data.image_url}" 
-                                    alt="Blog Image" 
-                                    class="object-cover w-full h-full border">
-                            </div>
-                        </div>
-
-                        <!-- Informasi Blog -->
-                        <div class="p-6 space-y-4">
-                            <p class="text-sm text-gray-500">
-                                <strong>Category:</strong> 
-                                <span class="text-gray-700">${data.category}</span>
-                            </p>
-                            <p class="text-sm text-gray-500">
-                                <strong>Created at:</strong> 
-                                <span class="text-gray-700">${data.created_at}</span>
-                            </p>
-
-                            <div class="text-justify text-gray-700 leading-relaxed">
-                                <strong>Description:</strong>
-                                <p>${data.description}</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('blogDetailModal').classList.remove('hidden');
-            } catch (error) {
-                console.error("Error fetching blog details:", error);
-            }
-        }
-        function closeModal() {
-            document.getElementById('blogDetailModal').classList.add('hidden');
-        }
-    </script>
 </x-dashboard-layout>
