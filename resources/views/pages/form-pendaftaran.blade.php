@@ -936,6 +936,7 @@
         }
     }
 
+
     async function loadDistricts(cityName) {
         const districtDropdown = document.getElementById('districtDropdown');
         const customDistrictInput = document.getElementById('customDistrictInput');
@@ -1006,10 +1007,9 @@
 
     async function loadVillages(districtName) {
         try {
+            
             // Ambil districtId dari mapping berdasarkan districtName
-            const districtId = districtNameToIdMap[districtName];
-
-            if (!districtId) {
+            if (!districtNameToIdMap[districtName];) {
                 console.error('District ID not found for:', districtName);
                 return;
             }
@@ -1052,8 +1052,6 @@
             // Tampilkan input custom provinsi
             customProvinceInput.style.display = 'block';
             customProvinceInput.value = '';
-            
-            // Reset nilai hidden input provinsi saat pertama kali memilih "lainnya"
             selectedProvince.value = '';
             
             // Hapus event listener lama jika ada
@@ -1061,18 +1059,26 @@
             
             // Tambahkan event listener baru untuk input custom
             customProvinceInput.oninput = function() {
-            selectedProvince.value = this.value;
-            
-            // Kosongkan city dropdown jika provinsi custom dipilih
-            cityDropdown.innerHTML = '<option value="">Pilih Kota</option>';
+                selectedProvince.value = this.value;
+                
+                // Kosongkan city dropdown jika provinsi custom dipilih
+                cityDropdown.innerHTML = '<option value="">Pilih Kota</option>';
+                
+                // Tambahkan "PILIH LAINNYA" di dropdown kota
+                const otherOption = document.createElement('option');
+                otherOption.value = 'other';
+                otherOption.textContent = 'PILIH LAINNYA';
+                otherOption.className = 'bg-yellow-400 text-white';
+                cityDropdown.appendChild(otherOption);
             };
         } else {
             customProvinceInput.style.display = 'none';
             selectedProvince.value = selectedValue;
             customProvinceInput.value = '';
-            loadCities(selectedValue); 
+            loadCities(selectedValue);
         }
     }
+
 
     // Function to handle city change
     function handleCityChange(event) {       
@@ -1147,10 +1153,13 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', loadProvinces);
-    document.addEventListener('DOMContentLoaded', loadCities);
-    document.addEventListener('DOMContentLoaded', loadDistricts);
-    document.addEventListener('DOMContentLoaded', loadVillages);
+    document.addEventListener('DOMContentLoaded', () => {
+        loadProvinces();
+        loadCities();
+        loadDistricts();
+        loadVillages();
+    });
+
 </script>
 
     

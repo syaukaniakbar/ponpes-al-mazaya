@@ -267,94 +267,17 @@
                 <input type="hidden" id="selectedVillage" name="selected_kelurahan">
             </div>
 
-            <!-- Jumlah Saudara -->
-            <div x-data="{ 
-                isCustomSiblings: {{ !in_array(old('jumlah_saudara', $siswa->jumlah_saudara ?? ''), ['1', '2', '3', '4', '5', '6', '7']) ? 'true' : 'false' }}, 
-                selectedSiblings: '{{ old('jumlah_saudara', $siswa->jumlah_saudara ?? '') }}' 
-            }" 
-            class="mb-4"
-            >
-                <label for="jumlah_saudara" class="block text-sm font-medium text-gray-700 mb-2">Pilih Jumlah Saudara</label>
-                <select 
-                    id="jumlah_saudara" 
-                    name="jumlah_saudara" 
-                    @change="isCustomSiblings = ($event.target.value === 'other'); selectedSiblings = $event.target.value" 
-                    class="w-full p-2 border border-gray-300 rounded-md"
-                    :required="!isCustomSiblings"
-                >
-                    <option value="">Jumlah Saudara</option>
-                    <option class="bg-yellow-400 text-white" value="other" 
-                        :selected="!['1', '2', '3', '4', '5', '6', '7'].includes(selectedSiblings)">PILIH LAINNYA</option>
-                    <option value="1" {{ old('jumlah_saudara', $siswa->jumlah_saudara ?? '') == '1' ? 'selected' : '' }}>1 Orang</option>
-                    <option value="2" {{ old('jumlah_saudara', $siswa->jumlah_saudara ?? '') == '2' ? 'selected' : '' }}>2 Orang</option>
-                    <option value="3" {{ old('jumlah_saudara', $siswa->jumlah_saudara ?? '') == '3' ? 'selected' : '' }}>3 Orang</option>
-                    <option value="4" {{ old('jumlah_saudara', $siswa->jumlah_saudara ?? '') == '4' ? 'selected' : '' }}>4 Orang</option>
-                    <option value="5" {{ old('jumlah_saudara', $siswa->jumlah_saudara ?? '') == '5' ? 'selected' : '' }}>5 Orang</option>
-                    <option value="6" {{ old('jumlah_saudara', $siswa->jumlah_saudara ?? '') == '6' ? 'selected' : '' }}>6 Orang</option>
-                    <option value="7" {{ old('jumlah_saudara', $siswa->jumlah_saudara ?? '') == '7' ? 'selected' : '' }}>7 Orang</option>
-                </select>
-
-                <!-- Custom input for 'other' -->
-                <input 
-                    x-show="isCustomSiblings" 
-                    x-transition 
-                    type="number" 
-                    name="custom_jumlah_saudara" 
-                    placeholder="Masukkan Jumlah Saudara..." 
-                    class="w-full p-2 border border-gray-300 rounded-md mt-2" 
-                    :required="isCustomSiblings" 
-                    @input="selectedSiblings = $event.target.value"
-                    :value="!['1', '2', '3', '4', '5', '6', '7'].includes(selectedSiblings) ? selectedSiblings : ''"
-                />
-
-                <!-- Hidden input to hold the final value -->
-                <input type="hidden" name="jumlah_saudara" :value="selectedSiblings">
+             <!-- Jumlah Saudara -->
+             <div class="mb-4">
+                <label for="jumlah_saudara" class="block text-sm font-medium text-gray-700 mb-2">Jumlah Saudara</label>
+                <input type="number" id="jumlah_saudara" name="jumlah_saudara" value="{{ old('jumlah_saudara') }}" placeholder="Anak Ke*" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
-
             
             <!-- Anak Ke -->
-            <div x-data="{ isCustom: false, selectedChild: '' }" class="mb-4">
-                <label for="anak_ke" class="block text-sm font-medium text-gray-700 mb-2">Anak Ke-*</label>
-                <select 
-                    id="anak_ke" 
-                    name="anak_ke" 
-                    @change="isCustom = ($event.target.value === 'other'); selectedChild = $event.target.value" 
-                    class="w-full p-2 border border-gray-300 rounded-md"
-                    :required="!isCustom"
-                >
-                    <option value="">Pilih Anak Ke -</option>
-                    <?php if (!empty($siswa->anak_ke)): ?>
-                        <option value="<?= htmlspecialchars($siswa->anak_ke) ?>" selected>
-                            <?= htmlspecialchars($siswa->anak_ke) ?>
-                        </option>
-                    <?php endif; ?>
-                    <option class="bg-yellow-400 text-white" value="other">PILIH LAINNYA</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                </select>
-
-                <!-- Input Angka -->
-                <input 
-                    x-show="isCustom" 
-                    x-transition 
-                    type="number" 
-                    id="custom_anak_ke" 
-                    name="custom_anak_ke" 
-                    placeholder="Masukkan angka..." 
-                    class="w-full p-2 border border-gray-300 rounded-md mt-2" 
-                    :required="isCustom" 
-                    @input="selectedChild = $event.target.value"
-                />
-
-                <!-- Hidden input to hold the final value -->
-                <input type="hidden" name="anak_ke" :value="selectedChild">
+            <div class="mb-4">
+                <label for="anak_ke" class="block text-sm font-medium text-gray-700 mb-2">Anak Ke*</label>
+                <input type="number" id="anak_ke" name="anak_ke" value="{{ old('anak_ke') }}" placeholder="Anak Ke*" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
-
           
             <!-- Asal Sekolah -->
             <div class="mb-4">
