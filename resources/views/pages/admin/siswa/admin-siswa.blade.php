@@ -4,11 +4,18 @@
 
 
     <div class="w-full mt-12">
-        <a href="{{ route('pendaftaran') }}">
-            <button class="p-3 text-white bg-green-600 rounded">
-                Daftar Siswa
-            </button>
-        </a>
+        <div class="flex justify-between">
+            <a href="{{ route('pendaftaran') }}">
+                <button class="p-3 text-white bg-green-600 rounded">
+                    Daftar Siswa
+                </button>
+            </a>
+            <a href="{{ route('export.siswa') }}">
+                <button class="p-3 text-green-600 border border-green-600 rounded">
+                    Export Excel
+                </button>
+            </a>
+        </div>
         @if(session('success'))
         <div x-data="{ show: true }"
             x-init="setTimeout(() => show = false, 3000)"
@@ -29,7 +36,7 @@
             <span>{{ session('success') }}</span>
         </div>
         @endif
-        <p class="flex items-center p-5 text-xl ">
+        <p class="flex items-center py-5 text-xl ">
             Al-Mazaya Blog
         </p>
         <div class="overflow-auto bg-white">
@@ -73,35 +80,35 @@
                     @forelse ($siswas as $key => $siswa)
                     <tr class="border-b">
                         <td class="px-4 py-3">{{ $siswas->firstItem() + $key }}</td>
-                            <td class="px-4 py-3">{{ $siswa->nisn }}</td>
-                            <td class="px-4 py-3">{{ $siswa->nama }}</td>
-                            <td class="px-4 py-3">{{ $siswa->program_pendidikan}}</td>
-                            <td class="px-4 py-3">{{ $siswa->nik }}</td>
-                            <td class="px-4 py-3">{{ $siswa->nomor_kk}}</td>
-                            <td class="px-4 py-3">{{ $siswa->tempat_lahir }}</td>
-                            <td class="px-4 py-3">{{ $siswa->tanggal_lahir }}</td>
-                            <td class="px-4 py-3">{{ $siswa->jenis_kelamin }}</td>
-                            <td class="px-4 py-3">{{ $siswa->alamat_domisili }}</td>
-                            <td class="px-4 py-3">{{ $siswa->provinsi }}</td>
-                            <td class="px-4 py-3">{{ $siswa->kota }}</td>
-                            <td class="px-4 py-3">{{ $siswa->kecamatan }}</td>
-                            <td class="px-4 py-3">{{ $siswa->kelurahan }}</td>
-                            <td class="px-4 py-3">{{ $siswa->jumlah_saudara }}</td>
-                            <td class="px-4 py-3">{{ $siswa->anak_ke }}</td>
-                            <td class="px-4 py-3">{{ $siswa->asal_sekolah }}</td>
-                            <td class="px-4 py-3">{{ $siswa->nama_ayah }}</td>
-                            <td class="px-4 py-3">{{ $siswa->nik_ayah }}</td>
-                            <td class="px-4 py-3">{{ $siswa->pendidikan_ayah }}</td>
-                            <td class="px-4 py-3">{{ $siswa->pekerjaan_ayah }}</td>
-                            <td class="px-4 py-3">{{ $siswa->nama_ibu }}</td>
-                            <td class="px-4 py-3">{{ $siswa->nik_ibu }}</td>
-                            <td class="px-4 py-3">{{ $siswa->pendidikan_ibu }}</td>
-                            <td class="px-4 py-3">{{ $siswa->pekerjaan_ibu }}</td>
-                            <td class="px-4 py-3">{{ $siswa->penghasilan }}</td>
-                            <td class="px-4 py-3">{{ $siswa->alamat_kk }}</td>
-                            <td class="px-4 py-3">{{ $siswa->no_hp_orangtua }}</td>
-                            <td class="px-4 py-3">{{ $siswa->kopiah }}</td>
-                            <td class="px-4 py-3">{{ $siswa->seragam }}</td>
+                        <td class="px-4 py-3">{{ $siswa->nisn }}</td>
+                        <td class="px-4 py-3">{{ $siswa->nama }}</td>
+                        <td class="px-4 py-3">{{ $siswa->program_pendidikan}}</td>
+                        <td class="px-4 py-3">{{ $siswa->nik }}</td>
+                        <td class="px-4 py-3">{{ $siswa->nomor_kk}}</td>
+                        <td class="px-4 py-3">{{ $siswa->tempat_lahir }}</td>
+                        <td class="px-4 py-3">{{ $siswa->tanggal_lahir }}</td>
+                        <td class="px-4 py-3">{{ $siswa->jenis_kelamin }}</td>
+                        <td class="px-4 py-3">{{ $siswa->alamat_domisili }}</td>
+                        <td class="px-4 py-3">{{ $siswa->provinsi }}</td>
+                        <td class="px-4 py-3">{{ $siswa->kota }}</td>
+                        <td class="px-4 py-3">{{ $siswa->kecamatan }}</td>
+                        <td class="px-4 py-3">{{ $siswa->kelurahan }}</td>
+                        <td class="px-4 py-3">{{ $siswa->jumlah_saudara }}</td>
+                        <td class="px-4 py-3">{{ $siswa->anak_ke }}</td>
+                        <td class="px-4 py-3">{{ $siswa->asal_sekolah }}</td>
+                        <td class="px-4 py-3">{{ $siswa->nama_ayah }}</td>
+                        <td class="px-4 py-3">{{ $siswa->nik_ayah }}</td>
+                        <td class="px-4 py-3">{{ $siswa->pendidikan_ayah }}</td>
+                        <td class="px-4 py-3">{{ $siswa->pekerjaan_ayah }}</td>
+                        <td class="px-4 py-3">{{ $siswa->nama_ibu }}</td>
+                        <td class="px-4 py-3">{{ $siswa->nik_ibu }}</td>
+                        <td class="px-4 py-3">{{ $siswa->pendidikan_ibu }}</td>
+                        <td class="px-4 py-3">{{ $siswa->pekerjaan_ibu }}</td>
+                        <td class="px-4 py-3">{{ $siswa->penghasilan }}</td>
+                        <td class="px-4 py-3">{{ $siswa->alamat_kk }}</td>
+                        <td class="px-4 py-3">{{ $siswa->no_hp_orangtua }}</td>
+                        <td class="px-4 py-3">{{ $siswa->kopiah }}</td>
+                        <td class="px-4 py-3">{{ $siswa->seragam }}</td>
                         <td class="px-4 py-3">
                             <a href="{{ route('siswa.edit', $siswa->id) }}" class="block w-full p-2 mb-2 text-center text-white bg-blue-600 rounded">
                                 Edit
