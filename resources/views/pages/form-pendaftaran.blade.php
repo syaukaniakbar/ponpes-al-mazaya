@@ -25,7 +25,7 @@
             <span>{{ session('success') }}</span>
         </div>
         @endif
-        <form action="{{ route('pendaftaran.store') }}" method="POST" id="form_siswa">
+        <form action="{{ route('pendaftaran.store') }}" method="POST" id="form_siswa" enctype="multipart/form-data">
             @csrf
             <!-- Nomor Induk Siswa Nasional -->
             <div class="mb-4">
@@ -71,7 +71,8 @@
                 <label for="program_pendidikan" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Program Pendidikan</label>
                 <select id="program_pendidikan" name="program_pendidikan" class="w-full p-2 border border-gray-300 rounded-md">
                     <option value="">Pilih Program Pendidikan</option>
-                    <option value="pondok" {{ old('program_pendidikan') == 'pondok' ? 'selected' : '' }}>Pondok</option>
+                    <option value="wustha" {{ old('program_pendidikan') == 'wustha' ? 'selected' : '' }}>Wustha (Pondok Setara MTs dan SMP)</option>
+                    <option value="ulya" {{ old('program_pendidikan') == 'ulya' ? 'selected' : '' }}>Ulya (Pondok Setara MA dan SMA)</option>
                     <option value="mts" {{ old('program_pendidikan') == 'mts' ? 'selected' : '' }}>Madrasah Tsanawiyah (MTS)</option>
                     <option value="ma" {{ old('program_pendidikan') == 'ma' ? 'selected' : '' }}>Madrasah Aliyah (MA)</option>
                 </select>
@@ -181,7 +182,6 @@
                 />
                 <input type="hidden" id="selectedCity" name="selected_kota">
             </div>
-            
             
             <!-- Kecamatan -->
             <div class="mb-4" >
@@ -325,13 +325,13 @@
             </div>
 
             <!-- Nomor Hp Orang tua WhatsApp -->
-               <div class="mb-4">
+            <div class="mb-4">
                 <label for="no_hp_orangtua" class="block text-sm font-medium text-gray-700 mb-2">Nomor Hp Orang tua (WhatsApp)</label>
                 <input type="text" id="no_hp_orangtua" name="no_hp_orangtua" value="{{ old('no_hp_orangtua') }}" placeholder="Masukkan Nomor Handphone" class="w-full p-2 border border-gray-300 rounded-md">
             </div>
            
             <!-- Ukuran Kopiah -->
-            <div class="mb-4" id="kopiahContainer">
+            <div class="mb-4" id="kopiah_container">
                 <label for="kopiah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Ukuran Kopiah</label>
                 <select id="kopiah" name="kopiah" class="w-full p-2 border border-gray-300 rounded-md">
                     <option value="">Pilih Ukuran Kopiah</option>
@@ -359,7 +359,51 @@
                     <option value="xxxl">Ukuran Seragam "XXXL"</option>
                 </select>
             </div>
-        
+            <div class="mb-6 p-4 bg-white border border-gray-200 rounded-lg shadow-md space-y-4">
+                <!-- Header Informasi -->
+                <div class="text-center">
+                    <h1 class="text-xl font-bold text-gray-800">YPI AZ ZAINI AL AZHARI PASER</h1>
+                    <p class="text-sm text-gray-600"><span class="bg-green-700 text-white p-1 me-2 rounded">BSI</span> 2220120239</p>
+                </div>
+            
+                <!-- Form Input -->
+                <div>
+                    <label for="nama_pengirim" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Masukkan Nama Pengirim <span class="italic text-gray-500">(Sesuai Rekening)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="nama_pengirim" 
+                        name="nama_pengirim" 
+                        value="{{ old('nama_pengirim') }}" 
+                        placeholder="Contoh: Muhammad Yusuf" 
+                        class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400"
+                    >
+                </div>
+                <div class="mb-4" x-data="{ imagePreview: null, handleFilePreview(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.imagePreview = URL.createObjectURL(file); // Membuat URL sementara untuk file yang diupload
+                    }
+                    } }" class="space-y-4">
+                    <!-- File Input -->
+                    <input
+                        class="block w-full text-2xl text-gray-900 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer focus:outline-none "
+                        id="image"
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        @change="handleFilePreview($event)">
+
+                    <p class="p-1 mt-2 text-center text-white bg-yellow-500 rounded">gambar menggunakan format ; jpeg,png,jpg | max: 2mb </p>
+                    <!-- Image Preview -->
+                    <template x-if="imagePreview">
+                        <div class="w-full max-w-sm mx-auto">
+                            <img :src="imagePreview" alt="Selected Image" class="object-cover w-full h-64 border-4 border-gray-200 rounded-lg shadow-lg">
+                        </div>
+                    </template>
+                </div>
+            </div>   
             <!-- Submit Button -->
             <div class="text-center">
                 <button 
@@ -506,7 +550,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        
                             <!-- Buttons Section -->
                             <div class="mt-6 flex justify-between space-x-4">
                                 <!-- Tombol batal -->
@@ -533,306 +576,309 @@
             </div>
         </form>
         @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li
-                    class="p-4 mt-4 mb-4 text-sm text-center text-white bg-red-600 border border-green-300 rounded-md">
-                    {{ $error }}
-                </li>
-                @endforeach
-            </ul>
-        </div>
+            <div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li
+                        class="p-4 mt-4 mb-4 text-sm text-center text-white bg-red-600 border border-green-300 rounded-md">
+                        {{ $error }}
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
     </section>
 
-    {{-- Modal Button Simpan --}}
-     <script type="text/javascript">
-        window.openModal = function(modalId) {
-        
-            const nisnValue = document.getElementById('nisn').value;
-            const namaValue = document.getElementById('nama').value;
-            const programPendidikanValue = document.getElementById('program_pendidikan').value;
-            const nikValue = document.getElementById('nik').value;
-            const nomorKkValue = document.getElementById('nomor_kk').value;
-            const tempatLahirValue = document.getElementById('tempat_lahir').value;
-            const tanggalLahirValue = document.getElementById('tanggal_lahir').value;
-            const jenisKelaminValue = document.getElementById('jenis_kelamin').value;
-            const alamatDomisiliValue = document.getElementById('alamat_domisili').value;
-            const provinceValue = document.getElementById('selectedProvince').value;
-            const cityValue = document.getElementById('selectedCity').value;
-            const districtValue = document.getElementById('selectedDistrict').value;
-            const villageValue = document.getElementById('selectedVillage').value;
-            const jumlahSaudaraValue = document.getElementById('jumlah_saudara').value;
-            const anakKeValue = document.getElementById('anak_ke').value;
-            const asalSekolahValue = document.getElementById('asal_sekolah').value;
-            const namaAyahValue = document.getElementById('nama_ayah').value;
-            const nikAyahValue = document.getElementById('nik_ayah').value;
-            const pendidikanAyahValue = document.getElementById('pendidikan_ayah').value;
-            const pekerjaanAyahValue = document.getElementById('pekerjaan_ayah').value;
-            const namaIbuValue = document.getElementById('nama_ibu').value;
-            const nikIbuValue = document.getElementById('nik_ibu').value;
-            const pendidikanIbuValue = document.getElementById('pendidikan_ibu').value;
-            const pekerjaanIbuValue = document.getElementById('pekerjaan_ibu').value;
-            const penghasilanValue = document.getElementById('penghasilan').value;
-            const alamatKkValue = document.getElementById('alamat_kk').value;
-            const noHpOrangtuaValue = document.getElementById('no_hp_orangtua').value;
-            const kopiahValue = document.getElementById('kopiah').value;
-            const seragamValue = document.getElementById('seragam').value;
+{{-- Modal Button Simpan --}}
+<script type="text/javascript">
+    window.openModal = function(modalId) {
 
-            nisnDisplay.textContent = `${nisnValue}`;
-            namaDisplay.textContent = `${namaValue}`;
-            programPendidikanDisplay.textContent = `${programPendidikanValue}`;
-            nikDisplay.textContent = `${nikValue}`;
-            nomorKkDisplay.textContent = `${nomorKkValue}`;
-            tempatLahirDisplay.textContent = `${tempatLahirValue}`;
-            tanggalLahirDisplay.textContent = `${tanggalLahirValue}`;
-            jenisKelaminDisplay.textContent = `${jenisKelaminValue}`;
-            alamatDomisiliDisplay.textContent = `${alamatDomisiliValue}`;
-            provinceDisplay.textContent = `${provinceValue}`;
-            cityDisplay.textContent = `${cityValue}`;
-            districtDisplay.textContent = `${districtValue}`;
-            villageDisplay.textContent = `${villageValue}`;
-            jumlahSaudaraDisplay.textContent = `${jumlahSaudaraValue}`;
-            anakKeDisplay.textContent = `${anakKeValue}`;
-            asalSekolahDisplay.textContent = `${asalSekolahValue}`;
-            namaAyahDisplay.textContent = `${namaAyahValue}`;
-            nikAyahDisplay.textContent = `${nikAyahValue}`;
-            pendidikanAyahDisplay.textContent = `${pendidikanAyahValue}`;
-            pekerjaanAyahDisplay.textContent = `${pekerjaanAyahValue}`;
-            namaIbuDisplay.textContent = `${namaIbuValue}`;
-            nikIbuDisplay.textContent = `${nikIbuValue}`;
-            pendidikanIbuDisplay.textContent = `${pendidikanIbuValue}`;
-            pekerjaanIbuDisplay.textContent = `${pekerjaanIbuValue}`;
-            penghasilanDisplay.textContent = `${penghasilanValue}`;
-            alamatKkDisplay.textContent = `${alamatKkValue}`;
-            noHpOrangtuaDisplay.textContent = `${noHpOrangtuaValue}`;
-            kopiahDisplay.textContent = `${kopiahValue}`;
-            seragamDisplay.textContent = `${seragamValue}`;
+    const nisnValue = document.getElementById('nisn').value;
+    const namaValue = document.getElementById('nama').value;
+    const programPendidikanValue = document.getElementById('program_pendidikan').value;
+    const nikValue = document.getElementById('nik').value;
+    const nomorKkValue = document.getElementById('nomor_kk').value;
+    const tempatLahirValue = document.getElementById('tempat_lahir').value;
+    const tanggalLahirValue = document.getElementById('tanggal_lahir').value;
+    const jenisKelaminValue = document.getElementById('jenis_kelamin').value;
+    const alamatDomisiliValue = document.getElementById('alamat_domisili').value;
+    const provinceValue = document.getElementById('selectedProvince').value;
+    const cityValue = document.getElementById('selectedCity').value;
+    const districtValue = document.getElementById('selectedDistrict').value;
+    const villageValue = document.getElementById('selectedVillage').value;
+    const jumlahSaudaraValue = document.getElementById('jumlah_saudara').value;
+    const anakKeValue = document.getElementById('anak_ke').value;
+    const asalSekolahValue = document.getElementById('asal_sekolah').value;
+    const namaAyahValue = document.getElementById('nama_ayah').value;
+    const nikAyahValue = document.getElementById('nik_ayah').value;
+    const pendidikanAyahValue = document.getElementById('pendidikan_ayah').value;
+    const pekerjaanAyahValue = document.getElementById('pekerjaan_ayah').value;
+    const namaIbuValue = document.getElementById('nama_ibu').value;
+    const nikIbuValue = document.getElementById('nik_ibu').value;
+    const pendidikanIbuValue = document.getElementById('pendidikan_ibu').value;
+    const pekerjaanIbuValue = document.getElementById('pekerjaan_ibu').value;
+    const penghasilanValue = document.getElementById('penghasilan').value;
+    const alamatKkValue = document.getElementById('alamat_kk').value;
+    const noHpOrangtuaValue = document.getElementById('no_hp_orangtua').value;
+    const kopiahValue = document.getElementById('kopiah').value;
+    const seragamValue = document.getElementById('seragam').value;
 
-            document.getElementById(modalId).style.display = 'block'
-            document.getElementsByTagName('body')[0].classList.add('overflow-y-hidden')
-        }
+    nisnDisplay.textContent = `${nisnValue}`;
+    namaDisplay.textContent = `${namaValue}`;
+    programPendidikanDisplay.textContent = `${programPendidikanValue}`;
+    nikDisplay.textContent = `${nikValue}`;
+    nomorKkDisplay.textContent = `${nomorKkValue}`;
+    tempatLahirDisplay.textContent = `${tempatLahirValue}`;
+    tanggalLahirDisplay.textContent = `${tanggalLahirValue}`;
+    jenisKelaminDisplay.textContent = `${jenisKelaminValue}`;
+    alamatDomisiliDisplay.textContent = `${alamatDomisiliValue}`;
+    provinceDisplay.textContent = `${provinceValue}`;
+    cityDisplay.textContent = `${cityValue}`;
+    districtDisplay.textContent = `${districtValue}`;
+    villageDisplay.textContent = `${villageValue}`;
+    jumlahSaudaraDisplay.textContent = `${jumlahSaudaraValue}`;
+    anakKeDisplay.textContent = `${anakKeValue}`;
+    asalSekolahDisplay.textContent = `${asalSekolahValue}`;
+    namaAyahDisplay.textContent = `${namaAyahValue}`;
+    nikAyahDisplay.textContent = `${nikAyahValue}`;
+    pendidikanAyahDisplay.textContent = `${pendidikanAyahValue}`;
+    pekerjaanAyahDisplay.textContent = `${pekerjaanAyahValue}`;
+    namaIbuDisplay.textContent = `${namaIbuValue}`;
+    nikIbuDisplay.textContent = `${nikIbuValue}`;
+    pendidikanIbuDisplay.textContent = `${pendidikanIbuValue}`;
+    pekerjaanIbuDisplay.textContent = `${pekerjaanIbuValue}`;
+    penghasilanDisplay.textContent = `${penghasilanValue}`;
+    alamatKkDisplay.textContent = `${alamatKkValue}`;
+    noHpOrangtuaDisplay.textContent = `${noHpOrangtuaValue}`;
+    kopiahDisplay.textContent = `${kopiahValue}`;
+    seragamDisplay.textContent = `${seragamValue}`;
 
-        window.closeModal = function(modalId) {
-            document.getElementById(modalId).style.display = 'none'
-            document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
-        }
+    document.getElementById(modalId).style.display = 'block'
+    document.getElementsByTagName('body')[0].classList.add('overflow-y-hidden')
+}
 
-        // Close all modals when press ESC
-        document.onkeydown = function(event) {
-            event = event || window.event;
-            if (event.keyCode === 27) {
-                document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
-                let modals = document.getElementsByClassName('modal');
-                Array.prototype.slice.call(modals).forEach(i => {
-                    i.style.display = 'none'
-                })
+window.closeModal = function(modalId) {
+    document.getElementById(modalId).style.display = 'none'
+    document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
+}
+
+// Close all modals when press ESC
+document.onkeydown = function(event) {
+    event = event || window.event;
+    if (event.keyCode === 27) {
+        document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
+        let modals = document.getElementsByClassName('modal');
+        Array.prototype.slice.call(modals).forEach(i => {
+            i.style.display = 'none'
+        })
+    }
+};
+</script>
+
+{{-- CEK NISN --}}
+<script>
+    async function searchSiswa() {
+        const nisn = document.getElementById('nisn').value.trim(); 
+        const statusMessage = document.getElementById('status-message');
+
+        try {
+            // Reset status pesan
+            statusMessage.textContent = '';
+            statusMessage.className = '';
+
+            // Validasi panjang NISN
+            if (nisn.length < 10) {
+                alert('Masukkan 10 Digit NISN!');
+                return;
             }
-        };
-    </script>
 
-    {{-- CEK NISN --}}
-    <script>
-        async function searchSiswa() {
-            const nisn = document.getElementById('nisn').value.trim(); 
-            const statusMessage = document.getElementById('status-message');
-    
-            try {
-                // Reset status pesan
+            // Tampilkan indikator proses
+            statusMessage.textContent = 'Memproses...';
+            statusMessage.classList.add('bg-blue-400', 'text-center', 'flex', 'items-center', 'justify-center', 'h-8');
+
+            // Kirim request ke backend
+            const response = await fetch(`/siswa/search`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({ nisn: nisn }),
+            });
+
+            // Tangani error HTTP
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            // Jika siswa ditemukan
+            if (result.status === 'success') {
+                alert('Siswa telah terdaftar, silahkan cek melalui status pendaftaran');
+
+                fieldsToDisable.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (field) {
+                        disableField(field);
+                    }
+                });
+
+                // Kosongkan pesan status
                 statusMessage.textContent = '';
                 statusMessage.className = '';
-    
-                // Validasi panjang NISN
-                if (nisn.length < 10) {
-                    alert('Masukkan 10 Digit NISN!');
-                    return;
-                }
-    
-                // Tampilkan indikator proses
-                statusMessage.textContent = 'Memproses...';
-                statusMessage.classList.add('bg-blue-400', 'text-center', 'flex', 'items-center', 'justify-center', 'h-8');
-    
-                // Kirim request ke backend
-                const response = await fetch(`/siswa/search`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    },
-                    body: JSON.stringify({ nisn: nisn }),
-                });
-    
-                // Tangani error HTTP
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-    
-                const result = await response.json();
 
-                // Jika siswa ditemukan
-                if (result.status === 'success') {
-                    alert('Siswa telah terdaftar, silahkan cek melalui status pendaftaran');
-    
-                    fieldsToDisable.forEach(fieldId => {
-                        const field = document.getElementById(fieldId);
-                        if (field) {
-                            disableField(field);
-                        }
-                    });
-    
-                    // Kosongkan pesan status
-                    statusMessage.textContent = '';
-                    statusMessage.className = '';
-    
-                } else { // Jika siswa tidak ditemukan
-                    fieldsToEnable.forEach(fieldId => {
-                        const field = document.getElementById(fieldId);
-                        if (field) {
-                            enableField(field);
-                            field.classList.add('enabled-field');
-                        }
-                    });
-    
-                    // Perbarui status pesan
-                    statusMessage.textContent = 'Silahkan Lanjutkan Pendaftaran.';
-                    statusMessage.classList.remove('bg-yellow-400');
-                    statusMessage.classList.add('bg-green-500', 'text-center', 'text-white','flex', 'items-center', 'justify-center', 'h-8');
-                }
-    
-            } catch (error) {
-                console.error('Terjadi kesalahan:', error);
-                alert('Gagal melakukan pencarian. Silakan coba lagi.');
-    
-                // Hapus pesan loading jika ada kesalahan
-                statusMessage.textContent = 'Gagal memproses pencarian.';
-                statusMessage.classList.remove('bg-blue-400');
-                statusMessage.classList.add('bg-red-500', 'text-center', 'flex', 'items-center', 'justify-center', 'h-8');
+            } else { // Jika siswa tidak ditemukan
+                fieldsToEnable.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (field) {
+                        enableField(field);
+                        field.classList.add('enabled-field');
+                    }
+                });
+
+                // Perbarui status pesan
+                statusMessage.textContent = 'Silahkan Lanjutkan Pendaftaran.';
+                statusMessage.classList.remove('bg-yellow-400');
+                statusMessage.classList.add('bg-green-500', 'text-center', 'text-white','flex', 'items-center', 'justify-center', 'h-8');
             }
+
+        } catch (error) {
+            console.error('Terjadi kesalahan:', error);
+            alert('Gagal melakukan pencarian. Silakan coba lagi.');
+
+            // Hapus pesan loading jika ada kesalahan
+            statusMessage.textContent = 'Gagal memproses pencarian.';
+            statusMessage.classList.remove('bg-blue-400');
+            statusMessage.classList.add('bg-red-500', 'text-center', 'flex', 'items-center', 'justify-center', 'h-8');
         }
-    
+    }
+
     // Daftar semua elemen yang ingin diaktifkan
     const fieldsToEnable = [
-        'nama',
-        'program_pendidikan',
-        'nik',
-        'nomor_kk',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'jenis_kelamin',
-        'alamat_domisili',
-        'provinceDropdown',
-        'cityDropdown',
-        'districtDropdown',
-        'villageDropdown',
-        'jumlah_saudara',
-        'anak_ke',
-        'asal_sekolah',
-        'nama_ayah',
-        'nik_ayah',
-        'pendidikan_ayah',
-        'pekerjaan_ayah',
-        'nama_ibu',
-        'nik_ibu',
-        'pendidikan_ibu',
-        'pekerjaan_ibu',
-        'penghasilan',
-        'alamat_kk',
-        'no_hp_orangtua',
-        'kopiah',
-        'seragam',
-        'submit'
+    'nama',
+    'program_pendidikan',
+    'nik',
+    'nomor_kk',
+    'tempat_lahir',
+    'tanggal_lahir',
+    'jenis_kelamin',
+    'alamat_domisili',
+    'provinceDropdown',
+    'cityDropdown',
+    'districtDropdown',
+    'villageDropdown',
+    'jumlah_saudara',
+    'anak_ke',
+    'asal_sekolah',
+    'nama_ayah',
+    'nik_ayah',
+    'pendidikan_ayah',
+    'pekerjaan_ayah',
+    'nama_ibu',
+    'nik_ibu',
+    'pendidikan_ibu',
+    'pekerjaan_ibu',
+    'penghasilan',
+    'alamat_kk',
+    'no_hp_orangtua',
+    'kopiah',
+    'seragam',
+    'nama_pengirim',
+    'image',
+    'submit'
     ];
 
     // Fungsi untuk mengaktifkan elemen
     function enableField(field) {
-        field.disabled = false; // Aktifkan elemen
-            if (field.id !== 'submit') {
-                field.style.backgroundColor = '#ffffff'; // Reset warna latar belakang
-                field.style.color = '#000000'; // Reset warna teks
-                field.style.cursor = 'pointer'; // Ubah kursor menjadi pointer
+    field.disabled = false; // Aktifkan elemen
+        if (field.id !== 'submit') {
+            field.style.backgroundColor = '#ffffff'; // Reset warna latar belakang
+            field.style.color = '#000000'; // Reset warna teks
+            field.style.cursor = 'pointer'; // Ubah kursor menjadi pointer
 
-                // Tambahkan efek highlight sementara
-                field.style.boxShadow = '0 0 5px rgba(0, 255, 0, 0.5)'; // Highlight hijau
-                setTimeout(() => {
-                    field.style.boxShadow = 'none'; // Hapus efek highlight setelah animasi
-                }, 300); // Durasi sama dengan `transition` di CSS
-            } else {
-                field.style.cursor = 'pointer'; // Pastikan tombol submit punya kursor yang sesuai
-            }
+            // Tambahkan efek highlight sementara
+            field.style.boxShadow = '0 0 5px rgba(0, 255, 0, 0.5)'; // Highlight hijau
+            setTimeout(() => {
+                field.style.boxShadow = 'none'; // Hapus efek highlight setelah animasi
+            }, 300); // Durasi sama dengan `transition` di CSS
+        } else {
+            field.style.cursor = 'pointer'; // Pastikan tombol submit punya kursor yang sesuai
         }
+    }
 
     // Daftar semua elemen yang ingin dinonaktifkan
     const fieldsToDisable = [
-        'nama',
-        'program_pendidikan',
-        'nik',
-        'nomor_kk',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'jenis_kelamin',
-        'alamat_domisili',
-        'provinceDropdown',
-        'cityDropdown',
-        'districtDropdown',
-        'villageDropdown',
-        'jumlah_saudara',
-        'anak_ke',
-        'asal_sekolah',
-        'nama_ayah',
-        'nik_ayah',
-        'pendidikan_ayah',
-        'pekerjaan_ayah',
-        'nama_ibu',
-        'nik_ibu',
-        'pendidikan_ibu',
-        'pekerjaan_ibu',
-        'penghasilan',
-        'alamat_kk',
-        'no_hp_orangtua',
-        'kopiah',
-        'seragam',
-        'submit'
+    'nama',
+    'program_pendidikan',
+    'nik',
+    'nomor_kk',
+    'tempat_lahir',
+    'tanggal_lahir',
+    'jenis_kelamin',
+    'alamat_domisili',
+    'provinceDropdown',
+    'cityDropdown',
+    'districtDropdown',
+    'villageDropdown',
+    'jumlah_saudara',
+    'anak_ke',
+    'asal_sekolah',
+    'nama_ayah',
+    'nik_ayah',
+    'pendidikan_ayah',
+    'pekerjaan_ayah',
+    'nama_ibu',
+    'nik_ibu',
+    'pendidikan_ibu',
+    'pekerjaan_ibu',
+    'penghasilan',
+    'alamat_kk',
+    'no_hp_orangtua',
+    'kopiah',
+    'seragam',
+    'nama_pengirim',
+    'image',
+    'submit',
     ];
 
     // Fungsi untuk mengatur styling elemen yang dinonaktifkan
     function disableField(field) {
-        field.disabled = true; // Nonaktifkan elemen
-        field.style.cursor = 'not-allowed'; // Terapkan kursor "tidak diizinkan"
+    field.disabled = true; // Nonaktifkan elemen
+    field.style.cursor = 'not-allowed'; // Terapkan kursor "tidak diizinkan"
 
-        // Terapkan gaya tambahan jika elemen bukan tombol submit
-        if (field.id !== 'submit') {
-            field.style.backgroundColor = '#ccc'; // Set warna latar belakang
-            field.style.color = '#666'; // Set warna teks
+    // Terapkan gaya tambahan jika elemen bukan tombol submit
+    if (field.id !== 'submit') {
+        field.style.backgroundColor = '#ccc'; // Set warna latar belakang
+        field.style.color = '#666'; // Set warna teks
 
-            // Tambahkan efek shadow sementara saat perubahan status
-            field.style.boxShadow = '0 0 5px rgba(255, 0, 0, 0.5)'; // Highlight merah redup
-            setTimeout(() => {
-                field.style.boxShadow = 'none'; // Hapus efek shadow setelah animasi selesai
-            }, 300); // Durasi sama dengan `transition` di CSS
-        }
+        // Tambahkan efek shadow sementara saat perubahan status
+        field.style.boxShadow = '0 0 5px rgba(255, 0, 0, 0.5)'; // Highlight merah redup
+        setTimeout(() => {
+            field.style.boxShadow = 'none'; // Hapus efek shadow setelah animasi selesai
+        }, 300); // Durasi sama dengan `transition` di CSS
+    }
     }
 
     // Loop untuk menerapkan disableField ke setiap elemen
     fieldsToDisable.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            disableField(field);
-        }
+    const field = document.getElementById(fieldId);
+    if (field) {
+        disableField(field);
+    }
     });
-
 </script>
 
 <script>
     function toggleKopiahDropdown() {
-        const jenisKelamin = document.getElementById('jenisKelamin').value;
-        const kopiahContainer = document.getElementById('kopiahContainer');
+        const jenisKelamin = document.getElementById('jenis_kelamin').value;
+        const kopiahContainer = document.getElementById('kopiah_container');
 
         if (jenisKelamin === 'perempuan') {
-            kopiahContainer.style.display = 'none'; // Sembunyikan dropdown kopiah
-            kopiahDropdown.value = null; // Mengatur nilai NULL
+            kopiahContainer.style.display = 'none'; 
+            kopiahDropdown.value = null; 
         } else {
-            kopiahContainer.style.display = 'block'; // Tampilkan dropdown kopiah
+            kopiahContainer.style.display = 'block';   
         }
     }
 </script>
@@ -906,8 +952,6 @@
 
             // Dapatkan provinceId dari provinceName
             const provinceId = provinceNameToIdMap[provinceName];
-            console.log('Province ID:', provinceId);
-
             const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/regencies/${provinceId}.json`);
             const cities = await response.json();
             console.log('Fetched cities:', cities);
@@ -965,7 +1009,6 @@
 
             // Dapatkan cityId dari cityName
             const cityId = cityNameToIdMap[cityName];
-            console.log('City ID:', cityId);
 
             // Fetch data kecamatan dari API
             const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/districts/${cityId}.json`);
@@ -1007,9 +1050,11 @@
 
     async function loadVillages(districtName) {
         try {
-            
+
+            const districtId = districtNameToIdMap[districtName];
+
             // Ambil districtId dari mapping berdasarkan districtName
-            if (!districtNameToIdMap[districtName];) {
+            if (!districtId) {
                 console.error('District ID not found for:', districtName);
                 return;
             }
@@ -1121,7 +1166,7 @@
 
             // Tambahkan event listener untuk custom input kota
             customDistrictInput.oninput = function() {
-            selectedDistrict.value = this.value;
+                selectedDistrict.value = this.value;
             };
         } else {
             customDistrictInput.style.display = 'none'; 
@@ -1142,8 +1187,7 @@
             selectedVillage.value = '';
 
             customVillageInput.oninput = function () {
-                console.log('Custom Village Input:', this.value.trim());
-                selectedVillage.value = this.value.trim();
+                selectedVillage.value = this.value;
             };
 
         } else {
@@ -1161,6 +1205,8 @@
     });
 
 </script>
+
+
 
     
 

@@ -38,7 +38,9 @@ class Siswa extends Model
         'alamat_kk',
         'no_hp_orangtua',
         'kopiah',
-        'seragam'
+        'seragam',
+        'nama_pengirim',
+        'image_bukti_transaksi_url'
     ];
 
 
