@@ -42,6 +42,8 @@ return new class extends Migration
             $table->string('no_hp_orangtua');
             $table->integer('kopiah');
             $table->string('seragam');
+            $table->string('nama_pengirim');
+            $table->string('image_bukti_transaksi_url');
             $table->timestamps();
         });
     }

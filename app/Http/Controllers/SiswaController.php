@@ -17,21 +17,21 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nisn' => 'required|digits:10|unique:siswa', // Pastikan hanya angka, panjang 10
+            'nisn' => 'required|digits:10|unique:siswa',
             'nama' => 'required|string|max:255',
-            'program_pendidikan' => 'required|in:pondok,mts,ma',
-            'nik' => 'required|digits:16|unique:siswa', // Pastikan hanya angka, panjang 16
-            'nomor_kk' => 'required|digits:16', // Hanya angka, panjang 16
+            'program_pendidikan' => 'required|in:wustha,ulya,mts,ma',
+            'nik' => 'required|digits:16|unique:siswa', 
+            'nomor_kk' => 'required|digits:16', 
             'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date|before:today', // Tidak boleh di masa depan
+            'tanggal_lahir' => 'required|date|before:today', 
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'alamat_domisili' => 'required|string|max:255',
             'provinsi' => 'required|string|max:255',
             'kota' => 'required|string|max:255',
             'kecamatan' => 'required|string|max:255',
             'kelurahan' => 'required|string|max:255',
-            'jumlah_saudara' => 'required|integer|min:0', // Saudara tidak boleh negatif
-            'anak_ke' => 'required|integer|min:1', // Anak pertama minimal 1
+            'jumlah_saudara' => 'required|integer|min:0', 
+            'anak_ke' => 'required|integer|min:1', 
             'asal_sekolah' => 'required|string|max:255',
             'nama_ayah' => 'required|string|max:255',
             'nik_ayah' => 'required|digits:16',
@@ -46,7 +46,23 @@ class SiswaController extends Controller
             'no_hp_orangtua' => 'required|string', 
             'kopiah' => 'nullable|string|max:10',
             'seragam' => 'nullable|string|max:10',
+            'nama_pengirim' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+          // Initialize image path
+          $imagePath = null;
+
+          // Check if an image is uploaded
+          if ($request->hasFile('image')) {
+              try {
+                  // Store image in the 'blog_images' folder
+                  $imagePath = $request->file('image')->store('transaction_images', 'public');
+              } catch (\Exception $e) {
+                  // Handle errors during file upload
+                  return back()->with('error', 'There was an issue uploading the image.');
+              }
+          }
 
         $data = Siswa::create([
             'nisn' => $request->nisn,
@@ -78,6 +94,8 @@ class SiswaController extends Controller
             'alamat_kk' => $request->alamat_kk,
             'kopiah' => $request->kopiah,
             'seragam' => $request->seragam,
+            'nama_pengirim' => $request->nama_pengirim,
+            'image_bukti_transaksi_url' => $imagePath,
         ]);
         return redirect()->route('pendaftaran')->with('success', 'Pendaftaran Berhasil');
     }
@@ -150,6 +168,7 @@ class SiswaController extends Controller
             'no_hp_orangtua' => 'required|string', 
             'kopiah' => 'nullable|string|max:10',
             'seragam' => 'nullable|string|max:10',
+        
         ]);
 
         $siswa = Siswa::findOrFail($id);
