@@ -11,7 +11,8 @@ class TeacherStaff extends Model
     protected $fillable = [
         'name',
         'role',
-        'email',
+        'role_detail',
+        'nip',
         'phone',
         'image_path',
         'joined_date',

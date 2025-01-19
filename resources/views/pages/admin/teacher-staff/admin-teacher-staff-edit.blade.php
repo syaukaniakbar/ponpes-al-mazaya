@@ -56,14 +56,24 @@
                     value="{{ old('name', $teacherStaff->name ?? '')}}">
             </div>
             <div class="my-6">
-                <label for="email" class="block mb-2 text-lg font-medium text-gray-800">Email</label>
+                <label for="nip" class="block mb-2 text-lg font-medium text-gray-800">NIP</label>
                 <input
-                    type="email"
-                    id="email"
-                    name="email"
+                    type="text"
+                    id="nip"
+                    name="nip"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="Masukkan Email"
-                    value="{{ old('email', $teacherStaff->email ?? '')}}">
+                    placeholder="Masukkan NIP"
+                    value="{{ old('nip', $teacherStaff->nip ?? '')}}">
+            </div>
+            <div class="my-6">
+                <label for="role_detail" class="block mb-2 text-lg font-medium text-gray-800">Jabatan</label>
+                <input
+                    type="text"
+                    id="role_detail"
+                    name="role_detail"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Masukkan Jabatan (Kepala sekolah, guru fikih, staf TU, dll)"
+                    value="{{ old('role_detail', $teacherStaff->role_detail ?? '')}}">
             </div>
             <div class="my-6">
                 <label for="phone" class="block mb-2 text-lg font-medium text-gray-800">No handphone</label>

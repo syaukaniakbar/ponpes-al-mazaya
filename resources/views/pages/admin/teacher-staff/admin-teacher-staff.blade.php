@@ -39,6 +39,7 @@
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">No</th>
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Image</th>
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Name</th>
+                        <th class="px-4 py-3 text-sm font-semibold text-left uppercase">NIP</th>
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Phone</th>
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Action</th>
                     </tr>
@@ -55,6 +56,7 @@
                             @endif
                         </td>
                         <td class="px-4 py-3">{{ $teacherStaff->name }}</td>
+                        <td class="px-4 py-3">{{ $teacherStaff->nip }}</td>
                         <td class="px-4 py-3">{{ $teacherStaff->phone ?? 'N/A' }}</td>
                         <td class="px-4 py-3">
                             <a href="{{ route('teacher-staff.edit', $teacherStaff->id) }}" class="block w-full p-2 mb-2 text-center text-white bg-blue-600 rounded">
