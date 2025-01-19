@@ -10,11 +10,10 @@
                     Daftar Siswa
                 </button>
             </a>
-            <a href="{{ route('export.siswa') }}">
-                <button class="p-3 text-green-600 border border-green-600 rounded">
-                    Export Excel
-                </button>
-            </a>
+            <a href="{{ route('export.siswa.program_pendidikan', 'mts') }}" class="p-3 text-green-600 border border-green-600 rounded">Export MTS</a>
+            <a href="{{ route('export.siswa.program_pendidikan', 'ma') }}" class="p-3 text-green-600 border border-green-600 rounded">Export MA</a>
+            <a href="{{ route('export.siswa.program_pendidikan', 'ulya') }}" class="p-3 text-green-600 border border-green-600 rounded">Export Ulya</a>
+            <a href="{{ route('export.siswa.program_pendidikan', 'wustha') }}" class="p-3 text-green-600 border border-green-600 rounded">Export Wustha</a>
         </div>
         @if(session('success'))
         <div x-data="{ show: true }"

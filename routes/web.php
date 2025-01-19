@@ -4,6 +4,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\TeacherStaffController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ExcelController;
+use App\Http\Controllers\ExcellController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\NavLinkController;
@@ -47,7 +48,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/siswa/update/{id}', [SiswaController::class, 'update'])->name('siswa.update');
     Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('siswa.delete');
 
-    Route::get('/export-siswa', [ExcelController::class, 'export'])->name('export.siswa');
+    Route::get('/export-siswa/{programPendidikan}', [ExcelController::class, 'exportByProgramPendidikan'])
+        ->whereIn('programPendidikan', ['mts', 'ma', 'ulya', 'wustha'])
+        ->name('export.siswa.program_pendidikan');
 
     Route::get('/header', [HeaderController::class, 'index'])->name('header');
     Route::get('/header/create', [HeaderController::class, 'create'])->name('header.create');
