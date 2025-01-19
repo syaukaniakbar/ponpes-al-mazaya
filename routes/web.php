@@ -6,6 +6,7 @@ use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\ExcellController;
 use App\Http\Controllers\HeaderController;
+use App\Http\Controllers\ImageDownloadController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\NavLinkController;
 use App\Http\Controllers\VideoController;
@@ -48,9 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/siswa/update/{id}', [SiswaController::class, 'update'])->name('siswa.update');
     Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('siswa.delete');
 
-    Route::get('/export-siswa/{programPendidikan}', [ExcelController::class, 'exportByProgramPendidikan'])
-        ->whereIn('programPendidikan', ['mts', 'ma', 'ulya', 'wustha'])
-        ->name('export.siswa.program_pendidikan');
+    Route::get('/download-images', [ImageDownloadController::class, 'downloadImages'])->name('download.images');
 
     Route::get('/header', [HeaderController::class, 'index'])->name('header');
     Route::get('/header/create', [HeaderController::class, 'create'])->name('header.create');
@@ -94,6 +93,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/video-profile', [VideoController::class, 'index'])->name('video');
     Route::get('/video-profile/edit/{id}', [VideoController::class, 'edit'])->name('video.edit');
     Route::put('/video-profile/update/{id}', [VideoController::class, 'update'])->name('video.update');
+
+    Route::get('/export', [ExcelController::class, 'index'])->name('export');
+    Route::get('/export-excel', [ExcelController::class, 'exportExcel'])->name('export.excel');
+
+    Route::get('/export-data-image', [ImageDownloadController::class, 'downloadImages'])->name('export.image');
+    // Route::get('/export-siswa/{programPendidikan}', [ExcelController::class, 'exportByProgramPendidikan'])
+    //     ->whereIn('programPendidikan', ['mts', 'ma', 'ulya', 'wustha'])
+    //     ->name('export.siswa.program_pendidikan');
 });
 
 require __DIR__ . '/auth.php';

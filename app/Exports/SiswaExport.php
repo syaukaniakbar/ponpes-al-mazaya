@@ -3,72 +3,58 @@
 namespace App\Exports;
 
 use App\Models\Siswa;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class SiswaExport extends \PhpOffice\PhpSpreadsheet\Cell\StringValueBinder implements FromQuery, WithMapping, WithHeadings, WithCustomValueBinder
+class SiswaExport extends \PhpOffice\PhpSpreadsheet\Cell\StringValueBinder implements WithCustomValueBinder, FromCollection, WithHeadings
 {
-    protected $programPendidikan;
+    protected $tahun;
+    protected $program;
 
-    public function __construct(string $programPendidikan)
+    public function __construct($tahun, $program)
     {
-        $this->programPendidikan = $programPendidikan;
+        $this->tahun = $tahun;
+        $this->program = $program;
     }
 
-    public function query()
+    public function collection()
     {
-        return Siswa::query()
-            ->where('program_pendidikan', $this->programPendidikan);
-    }
-
-    public function map($siswa): array
-    {
-        return [
-            (string) $siswa->nisn,
-            $siswa->nama,
-            $siswa->program_pendidikan,
-            (string) $siswa->nik,
-            (string) $siswa->nomor_kk,
-            $siswa->tempat_lahir,
-            $siswa->tanggal_lahir,
-            $siswa->jenis_kelamin,
-            $siswa->alamat_domisili,
-            $siswa->provinsi,
-            $siswa->kota,
-            $siswa->kecamatan,
-            $siswa->kelurahan,
-            $siswa->jumlah_saudara,
-            $siswa->anak_ke,
-            $siswa->asal_sekolah,
-            $siswa->nama_ayah,
-            (string) $siswa->nik_ayah,
-            $siswa->pendidikan_ayah,
-            $siswa->pekerjaan_ayah,
-            $siswa->nama_ibu,
-            (string) $siswa->nik_ibu,
-            $siswa->pendidikan_ibu,
-            $siswa->pekerjaan_ibu,
-            $siswa->penghasilan,
-            $siswa->alamat_kk,
-            $siswa->no_hp_orangtua,
-            $siswa->kopiah,
-            $siswa->seragam,
-            $siswa->nama_pengirim,
-        ];
-    }
-
-    public function columnFormats(): array
-    {
-        return [
-            'A' => NumberFormat::FORMAT_TEXT, // NISN
-            'D' => NumberFormat::FORMAT_TEXT, // NIK
-            'E' => NumberFormat::FORMAT_TEXT, // Nomor KK
-            'R' => NumberFormat::FORMAT_TEXT, // NIK Ayah
-            'V' => NumberFormat::FORMAT_TEXT, // NIK Ibu
-        ];
+        return Siswa::where('tahun', $this->tahun)
+            ->where('program_pendidikan', $this->program)
+            ->select([
+                'nisn',
+                'nama',
+                'program_pendidikan',
+                'nik',
+                'nomor_kk',
+                'tempat_lahir',
+                'tanggal_lahir',
+                'jenis_kelamin',
+                'alamat_domisili',
+                'provinsi',
+                'kota',
+                'kecamatan',
+                'kelurahan',
+                'jumlah_saudara',
+                'anak_ke',
+                'asal_sekolah',
+                'nama_ayah',
+                'nik_ayah',
+                'pendidikan_ayah',
+                'pekerjaan_ayah',
+                'nama_ibu',
+                'nik_ibu',
+                'pendidikan_ibu',
+                'pekerjaan_ibu',
+                'penghasilan',
+                'alamat_kk',
+                'no_hp_orangtua',
+                'kopiah',
+                'seragam',
+                'nama_pengirim'
+            ])
+            ->get();
     }
 
     public function headings(): array

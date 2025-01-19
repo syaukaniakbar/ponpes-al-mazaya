@@ -56,8 +56,10 @@ class SiswaController extends Controller
         // Check if an image is uploaded
         if ($request->hasFile('image')) {
             try {
-                // Store image in the 'blog_images' folder
-                $imagePath = $request->file('image')->store('transaction_images', 'public');
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension(); // Get file extension
+                $fileName = "{$request->nisn}_{$request->nama}.$extension"; // Create file name
+                $imagePath = $file->storeAs('transaction_images', $fileName, 'public'); // Store with new name
             } catch (\Exception $e) {
                 // Handle errors during file upload
                 return back()->with('error', 'There was an issue uploading the image.');
