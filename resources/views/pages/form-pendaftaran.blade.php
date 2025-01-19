@@ -5,6 +5,7 @@
     <section class="max-w-4xl mx-auto p-8 shadow-md rounded-lg my-28 border">
         <h1 class="text-2xl font-bold text-center mb-2">Pendaftaran Santri Baru</h1>
         <p class="text-center text-gray-600 mb-6">Isikan data dengan benar untuk proses pendaftaran.</p>
+        
         @if(session('success'))
         <div x-data="{ show: true }"
             x-init="setTimeout(() => show = false, 10000)"
@@ -25,568 +26,683 @@
             <span>{{ session('success') }}</span>
         </div>
         @endif
-        <form action="{{ route('pendaftaran.store') }}" method="POST" id="form_siswa" enctype="multipart/form-data">
-            @csrf
-            <!-- Nomor Induk Siswa Nasional -->
-            <div class="mb-4">
-                <label for="nisn" class="block text-sm font-medium text-gray-700 mb-2">
-                    Nomor Induk Siswa Nasional (NISN)
-                </label>
-                <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-                    <input 
-                        type="text" 
-                        id="nisn" 
-                        name="nisn"
-                        value="{{ old('nisn') }}"  
-                        placeholder="Masukkan Nomor NISN Siswa" 
-                        class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        aria-label="Masukkan nomor NISN siswa"
-                        maxlength="10"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
-                    >
-                    <button 
-                        type="button" 
-                        class="w-full sm:w-auto min-w-[80px] px-4 py-2 text-xs font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex justify-center items-center"
-                        aria-label="Cek nomor NISN"
-                        onclick="searchSiswa()"
-                    >
-                        CEK NISN
-                    </button>
 
-                </div>
-                <p id="status-message"  class="p-2 text-xs text-left text-white bg-yellow-400 mt-2 rounded-md w-full sm:w-72">
-                    NISN wajib diisi. Untuk bantuan, hubungi 
-                    <a href="#" class="underline text-blue-900 hover:text-blue-600">klik disini</a>
-                </p>
-            </div>
-            
-            <!-- Nama Lengkap -->
-            <div class="mb-4">
-                <label for="nama" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap (Sesuai Akta/KTP)</label>
-                <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-
-            <!-- Program Pendidikan -->
-            <div class="mb-4">
-                <label for="program_pendidikan" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Program Pendidikan</label>
-                <select id="program_pendidikan" name="program_pendidikan" class="w-full p-2 border border-gray-300 rounded-md">
-                    <option value="">Pilih Program Pendidikan</option>
-                    <option value="wustha" {{ old('program_pendidikan') == 'wustha' ? 'selected' : '' }}>Wustha (Pondok Setara MTs dan SMP)</option>
-                    <option value="ulya" {{ old('program_pendidikan') == 'ulya' ? 'selected' : '' }}>Ulya (Pondok Setara MA dan SMA)</option>
-                    <option value="mts" {{ old('program_pendidikan') == 'mts' ? 'selected' : '' }}>Madrasah Tsanawiyah (MTS)</option>
-                    <option value="ma" {{ old('program_pendidikan') == 'ma' ? 'selected' : '' }}>Madrasah Aliyah (MA)</option>
-                </select>
-            </div>
-
-            <!-- NIK -->
-            <div class="mb-4">
-                <label for="nik" class="block text-sm font-medium text-gray-700 mb-2">Nomor Induk Kependudukan (NIK)</label>
-                <input 
-                    type="text" 
-                    id="nik" 
-                    name="nik"
-                    value="{{ old('nik') }}"   
-                    placeholder="Masukkan Nomor Induk Kependudukan" 
-                    class="w-full p-2 border border-gray-300 rounded-md"
-                    maxlength="16"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16)"
-                >
-            </div>
-
-            <!-- Nomor KK -->
-            <div class="mb-4">
-                <label for="nomor_kk" class="block text-sm font-medium text-gray-700 mb-2">Nomor Kartu Keluarga</label>
-                <input 
-                    type="text" 
-                    id="nomor_kk" 
-                    name="nomor_kk" 
-                    value="{{ old('nomor_kk') }}"  
-                    placeholder="Masukkan Nomor Kartu Keluarga" 
-                    class="w-full p-2 border border-gray-300 rounded-md"
-                    maxlength="16"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16)"
-                >
-            </div>
-
-            <!-- Tempat & Tanggal Lahir -->
-            <div class="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                    <label for="tempat_lahir" class="block text-sm font-medium text-gray-700 mb-2">Tempat Lahir</label>
-                    <input type="text" id="tempat_lahir" name="tempat_lahir" value="{{ old('tempat_lahir') }}"  placeholder="Tempat Lahir" class="w-full p-2 border border-gray-300 rounded-md">
-                </div>
-                <div>
-                    <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Lahir</label>
-                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" class="w-full p-2 border border-gray-300 rounded-md">
-                </div>
-            </div>
-
-            <!-- Jenis Kelamin -->
-            <div class="mb-4">
-                <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700 mb-2">Pilih Jenis Kelamin</label>
-                <select id="jenis_kelamin" name="jenis_kelamin" class="w-full p-2 border border-gray-300 rounded-md" onchange="toggleKopiahDropdown()">
-                    <option value="">Jenis Kelamin</option>
-                    <option value="laki-laki" {{ old('jenis_kelamin') == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                    <option value="perempuan" {{ old('jenis_kelamin') == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
-                </select>
-            </div>
-
-            <!-- Alamat -->
-            <div class="mb-4">
-                <label for="alamat_domisili" class="block text-sm font-medium text-gray-700 mb-2">Alamat Domisili</label>
-                <input type="text" id="alamat_domisili" name="alamat_domisili"  value="{{ old('alamat_domisili') }}"  placeholder="Contoh: Jalan Mawar No. 12, Kelurahan Suka Maju, Kecamatan Sejahtera, Kota Samarinda, Kalimantan Timur" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-        
-            <!-- Provinsi -->
-            <div class="mb-4">
-                <label for="provinceDropdown" class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
-                <!-- Dropdown -->
-                <select 
-                    id="provinceDropdown"
-                    name="provinsi" 
-                    class="w-full p-2 border border-gray-300 rounded-md"
-                    onchange="handleProvinceChange(event)"
-                >
-                    <option value="">Pilih Provinsi</option>
-                </select>
-                <input 
-                    id="customProvinceInput"
-                    type="text" 
-                    name="custom_provinsi" 
-                    placeholder="Masukkan Provinsi..." 
-                    class="w-full p-2 border border-gray-300 rounded-md mt-2" 
-                    style="display: none;" 
-                >
-                <input type="hidden" id="selectedProvince" name="selected_provinsi">
-            </div>
-
-            <!-- Kota -->
-            <div class="mb-4">
-                <label for="cityDropdown" class="block text-sm font-medium text-gray-700 mb-2">Kota</label>
-                <select 
-                    id="cityDropdown"
-                    name="kota" 
-                    class="w-full p-2 border border-gray-300 rounded-md"
-                    onchange="handleCityChange(event)"
-                >
-                    <option value="">Pilih Kota</option>
-                </select>
-                
-                <!-- Input teks jika "Pilih Lainnya" dipilih -->
-                <input 
-                    id="customCityInput"
-                    type="text" 
-                    name="custom_city" 
-                    placeholder="Masukkan Kota ..." 
-                    class="w-full p-2 border border-gray-300 rounded-md mt-2" 
-                    style="display: none;" 
-                />
-                <input type="hidden" id="selectedCity" name="selected_kota">
-            </div>
-            
-            <!-- Kecamatan -->
-            <div class="mb-4" >
-                <label for="districtDropdown" class="block text-sm font-medium text-gray-700 mb-2">Kecamatan</label>
-                <select 
-                    id="districtDropdown" 
-                    name="kecamatan" 
-                    class="w-full p-2 border border-gray-300 rounded-md" 
-                    onchange="handleDistrictChange(event)"
-                >
-                    <option value="">Pilih Kecamatan</option>
-                    <option value="other" class="bg-yellow-400 text-white">PILIH LAINNYA</option>
-                </select>
-                <input 
-                    id="customDistrictInput" 
-                    type="text" 
-                    name="custom_district" 
-                    placeholder="Masukkan Kecamatan ..." 
-                    class="w-full p-2 border border-gray-300 rounded-md mt-2" 
-                    style="display: none;"
-                />
-                <input type="hidden" id="selectedDistrict" name="selected_kecamatan">
-            </div>
-
-            <!-- Kelurahan -->
-            <div class="mb-4" >
-                <label for="villageDropdown" class="block text-sm font-medium text-gray-700 mb-2">Kelurahan</label>
-                <select 
-                    id="villageDropdown" 
-                    name="kelurahan" 
-                    class="w-full p-2 border border-gray-300 rounded-md"
-                    onchange="handleVillageChange(event)"
-                >
-                    <option value="">Pilih Kelurahan</option>
-                    <option value="other" class="bg-yellow-400 text-white">PILIH LAINNYA</option>
-                </select>
-                <input 
-                    id="customVillageInput" 
-                    type="text" 
-                    name="custom_village" 
-                    placeholder="Masukkan Kelurahan ..." 
-                    class="w-full p-2 border border-gray-300 rounded-md mt-2" 
-                    style="display: none;"
-                />
-                <input type="hidden" id="selectedVillage" name="selected_kelurahan">
-            </div>
-
-            <!-- Jumlah Saudara -->
-            <div class="mb-4">
-                <label for="jumlah_saudara" class="block text-sm font-medium text-gray-700 mb-2">Jumlah Saudara</label>
-                <input type="number" id="jumlah_saudara" name="jumlah_saudara" value="{{ old('jumlah_saudara') }}" placeholder="Anak Ke*" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-            
-            <!-- Anak Ke -->
-            <div class="mb-4">
-                <label for="anak_ke" class="block text-sm font-medium text-gray-700 mb-2">Anak Ke*</label>
-                <input type="number" id="anak_ke" name="anak_ke" value="{{ old('anak_ke') }}" placeholder="Anak Ke*" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-           
-            <!-- Asal Sekolah -->
-            <div class="mb-4">
-                <label for="asal_sekolah" class="block text-sm font-medium text-gray-700 mb-2">Asal Sekolah Sebelumnya</label>
-                <input type="text" id="asal_sekolah" name="asal_sekolah" value="{{ old('asal_sekolah') }}" placeholder="MI / MTS?" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-        
-            <!-- Nama Ayah -->
-            <div class="mb-4">
-                <label for="nama_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Nama Ayah Kandung</label>
-                <input type="text" id="nama_ayah" name="nama_ayah" value="{{ old('nama_ayah') }}" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-
-            <!-- NIK Ayah -->
-            <div class="mb-4">
-                <label for="nik_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Nomor Induk Kependudukan (NIK)</label>
-                <input 
-                    type="text" 
-                    id="nik_ayah" 
-                    name="nik_ayah" 
-                    value="{{ old('nik_ayah') }}"
-                    placeholder="Nomor Induk Kependudukan Ayah" 
-                    class="w-full p-2 border border-gray-300 rounded-md"
-                    maxlength="16"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16)"
-                >
-            </div>
-
-            <!-- Pendidikan Ayah -->
-            <div class="mb-4">
-                <label for="pendidikan_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pendidikan Terakhir Ayah</label>
-                <input type="text" id="pendidikan_ayah" name="pendidikan_ayah" value="{{ old('pendidikan_ayah') }}" placeholder="Pendidikan Terakhir Ayah" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-
-            <!-- Pekerjaan Ayah -->
-            <div class="mb-4">
-                <label for="pekerjaan_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pekerjaan Ayah</label>
-                <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah" value="{{ old('pekerjaan_ayah') }}" placeholder="Pekerjaan Ayah" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-
-            <!-- Nama Ibu -->
-            <div class="mb-4">
-                <label for="nama_ibu" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Nama Ibu Kandung</label>
-                <input type="text" id="nama_ibu" name="nama_ibu" value="{{ old('nama_ibu') }}" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-
-             <!-- NIK Ibu -->
-             <div class="mb-4">
-                <label for="nik_ibu" class="block text-sm font-medium text-gray-700 mb-2">Nomor Induk Kependudukan (NIK)</label>
-                <input type="text" id="nik_ibu" name="nik_ibu" value="{{ old('nik_ibu') }}" placeholder="Nomor Induk Kependudukan Ibu" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-
-            <!-- Pendidikan Ibu -->
-            <div class="mb-4">
-                <label for="pendidikan_ibu" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pendidikan Terakhir Ibu</label>
-                <input type="text" id="pendidikan_ibu" name="pendidikan_ibu" value="{{ old('pendidikan_ibu') }}" placeholder="Pendidikan Terakhir Ibu" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-
-            <!-- Pekerjaan Ibu -->
-            <div class="mb-4">
-                <label for="pekerjaan_ibu" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pekerjaan Ibu</label>
-                <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu" value="{{ old('pekerjaan_ibu') }}" placeholder="Pekerjaan Ibu" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-
-            <!-- Penghasilan-->
-            <div class="mb-4">
-                <label for="penghasilan" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Penghasilan</label>
-                <select id="penghasilan" name="penghasilan" class="w-full p-2 border border-gray-300 rounded-md" onchange="toggleCustomInput(this)">
-                    <option value="-">Rata - Rata Penghasilan</option>
-                    <option value="Kurang dari Rp. 500.000"> < Rp. 500.000</option>
-                    <option value="Rp. 500.000 - Rp. 1.000.000">Rp. 500.000 - Rp. 1.000.000</option>
-                    <option value="Rp. 1.000.000 - Rp. 2.000.000">Rp. 1.000.000 - Rp. 2.000.000</option>
-                    <option value="Rp. 2.000.000 - Rp. 3.000.000">Rp. 2.000.000 - Rp. 3.000.000</option>
-                    <option value="Rp. 3.000.000 - Rp. 5.000.000">Rp. 3.000.000 - Rp. 5.000.000</option>
-                    <option value="Lebih dari Rp. 5.000.000">> 5.000.000</option>
-                </select>
-            </div>
-
-            <!-- Alamat -->
-            <div class="mb-4">
-                <label for="alamat_kk" class="block text-sm font-medium text-gray-700 mb-2">Alamat Sesuai Kartu Keluarga (KK)</label>
-                <input type="text" id="alamat_kk" name="alamat_kk" value="{{ old('alamat_kk') }}" placeholder="Contoh: Jalan Mawar No. 12, Kelurahan Suka Maju, Kecamatan Sejahtera, Kota Samarinda, Kalimantan Timur" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-
-            <!-- Nomor Hp Orang tua WhatsApp -->
-            <div class="mb-4">
-                <label for="no_hp_orangtua" class="block text-sm font-medium text-gray-700 mb-2">Nomor Hp Orang tua (WhatsApp)</label>
-                <input type="text" id="no_hp_orangtua" name="no_hp_orangtua" value="{{ old('no_hp_orangtua') }}" placeholder="Masukkan Nomor Handphone" class="w-full p-2 border border-gray-300 rounded-md">
-            </div>
-           
-            <!-- Ukuran Kopiah -->
-            <div class="mb-4" id="kopiah_container">
-                <label for="kopiah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Ukuran Kopiah</label>
-                <select id="kopiah" name="kopiah" class="w-full p-2 border border-gray-300 rounded-md">
-                    <option value="">Pilih Ukuran Kopiah</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                </select>
-            </div>
-
-             <!-- seragam -->
-             <div class="mb-4">
-                <label for="seragam" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Ukuran Seragam</label>
-                <select id="seragam" name="seragam" class="w-full p-2 border border-gray-300 rounded-md">
-                    <option value="">Pilih Ukuran Seragam</option>
-                    <option value="s">Ukuran Seragam "S"</option>
-                    <option value="m">Ukuran Seragam "M"</option>
-                    <option value="l">Ukuran Seragam "L"</option>
-                    <option value="xl">Ukuran Seragam "XL"</option>
-                    <option value="xxl">Ukuran Seragam "XXL"</option>
-                    <option value="xxxl">Ukuran Seragam "XXXL"</option>
-                </select>
-            </div>
-            <div class="mb-6 p-4 bg-white border border-gray-200 rounded-lg shadow-md space-y-4">
-                <!-- Header Informasi -->
-                <div class="text-center">
-                    <h1 class="text-xl font-bold text-gray-800">YPI AZ ZAINI AL AZHARI PASER</h1>
-                    <p class="text-sm text-gray-600"><span class="bg-green-700 text-white p-1 me-2 rounded">BSI</span> 2220120239</p>
-                </div>
-            
-                <!-- Form Input -->
-                <div>
-                    <label for="nama_pengirim" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Masukkan Nama Pengirim <span class="italic text-gray-500">(Sesuai Rekening)</span>
-                    </label>
-                    <input 
-                        type="text" 
-                        id="nama_pengirim" 
-                        name="nama_pengirim" 
-                        value="{{ old('nama_pengirim') }}" 
-                        placeholder="Contoh: Muhammad Yusuf" 
-                        class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400"
-                    >
-                </div>
-                <div class="mb-4" x-data="{ imagePreview: null, handleFilePreview(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        this.imagePreview = URL.createObjectURL(file); // Membuat URL sementara untuk file yang diupload
-                    }
-                    } }" class="space-y-4">
-                    <!-- File Input -->
-                    <input
-                        class="block w-full text-2xl text-gray-900 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer focus:outline-none "
-                        id="image"
-                        type="file"
-                        name="image"
-                        accept="image/*"
-                        @change="handleFilePreview($event)">
-
-                    <p class="p-1 mt-2 text-center text-white bg-yellow-500 rounded">gambar menggunakan format ; jpeg,png,jpg | max: 2mb </p>
-                    <!-- Image Preview -->
-                    <template x-if="imagePreview">
-                        <div class="w-full max-w-sm mx-auto">
-                            <img :src="imagePreview" alt="Selected Image" class="object-cover w-full h-64 border-4 border-gray-200 rounded-lg shadow-lg">
-                        </div>
-                    </template>
-                </div>
-            </div>   
-            <!-- Submit Button -->
-            <div class="text-center">
-                <button 
-                    type="button" 
-                    id="submit" 
-                    class="w-full px-6 py-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-500" 
-                    onclick="openModal('modelConfirm')"
-                >
-                    Submit
-                </button>
-                 <!-- Modal Confirmation -->
-                 <div id="modelConfirm" class="fixed inset-0 z-50 hidden w-full h-full px-4 overflow-y-auto bg-gray-900 bg-opacity-60">
-                    <div class="relative max-w-md mx-auto bg-white rounded-md shadow-xl top-40">
-                        <div class="flex justify-end p-2">
-                            <button                        
-                                type="button" 
-                                class="text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                                onclick="closeModal('modelConfirm')"
-                            >
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="p-6 pt-0 text-center">
-                            <h3 class="mt-5 mb-6 text-xl font-semibold text-gray-700">Lanjutkan Pendaftaran?</h3>
-                            <table class="w-full text-left table-auto">
-                                <tbody class="space-y-2">
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">NISN</td>
-                                        <td id="nisnDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Nama</td>
-                                        <td id="namaDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Program Pendidikan</td>
-                                        <td id="programPendidikanDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">NIK</td>
-                                        <td id="nikDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Nomor KK</td>
-                                        <td id="nomorKkDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Tempat Lahir</td>
-                                        <td id="tempatLahirDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Tanggal Lahir</td>
-                                        <td id="tanggalLahirDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Jenis Kelamin</td>
-                                        <td id="jenisKelaminDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Alamat Domisili</td>
-                                        <td id="alamatDomisiliDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Provinsi</td>
-                                        <td id="provinceDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Kota</td>
-                                        <td id="cityDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Kecamatan</td>
-                                        <td id="districtDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Desa</td>
-                                        <td id="villageDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Jumlah Saudara</td>
-                                        <td id="jumlahSaudaraDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Anak Ke</td>
-                                        <td id="anakKeDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Asal Sekolah</td>
-                                        <td id="asalSekolahDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Nama Ayah</td>
-                                        <td id="namaAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">NIK Ayah</td>
-                                        <td id="nikAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Pendidikan Ayah</td>
-                                        <td id="pendidikanAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Pekerjaan Ayah</td>
-                                        <td id="pekerjaanAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Nama Ibu</td>
-                                        <td id="namaIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">NIK Ibu</td>
-                                        <td id="nikIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Pendidikan Ibu</td>
-                                        <td id="pendidikanIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Pekerjaan Ibu</td>
-                                        <td id="pekerjaanIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Penghasilan</td>
-                                        <td id="penghasilanDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Alamat KK</td>
-                                        <td id="alamatKkDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">No HP Orangtua</td>
-                                        <td id="noHpOrangtuaDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Kopiah</td>
-                                        <td id="kopiahDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-semibold text-gray-700">Seragam</td>
-                                        <td id="seragamDisplay" class="text-lg font-semibold text-gray-700"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!-- Buttons Section -->
-                            <div class="mt-6 flex justify-between space-x-4">
-                                <!-- Tombol batal -->
-                                <button 
-                                    type="button" 
-                                    onclick="closeModal('modelConfirm')" 
-                                    class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 rounded-lg px-4 py-2.5 w-full sm:w-auto"
-                                >
-                                    Kembali
-                                </button>
-                                
-                                <!-- Tombol submit -->
-                                <button 
-                                    type="submit" 
-                                    class="text-white bg-green-600 hover:bg-green-800 rounded-lg px-4 py-2.5 w-full sm:w-auto"
-                                >
-                                    Lanjutkan
-                                </button>
-                            </div>
-                        </div>                        
-                    </div>
-                </div>
-                
-            </div>
-        </form>
-        @if ($errors->any())
-            <div>
-                <ul>
-                    @foreach ($errors->all() as $error)
+        <div x-data="{ currentStep: 1, totalSteps: 4 }" class="w-full">
+            <!-- Stepper Indicator -->
+            <ol class="flex items-start justify-start w-full text-sm font-medium text-start text-gray-500 dark:text-gray-400 sm:text-base mb-6">
+                <template x-for="step in totalSteps" :key="step">
                     <li
-                        class="p-4 mt-4 mb-4 text-sm text-center text-white bg-red-600 border border-green-300 rounded-md">
-                        {{ $error }}
+                        class="flex items-start mx-3"
+                        :class="currentStep === step ? 'text-green-600 dark:text-green-500 font-bold' : currentStep > step ? 'text-blue-600' : 'text-gray-500'"
+                    >
+                        <span
+                            class="flex items-center cursor-pointer step-content"
+                            @click="currentStep = step"
+                        >
+                            <span x-show="step === 1">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                </svg>
+                            </span>
+                            <span x-show="step === 2">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                </svg>
+                            </span>
+                            <span x-show="step === 3">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                </svg>
+                            </span>
+                            <span x-show="step === 4">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                </svg>
+                            </span>
+                            <span class="step-label" x-text="step === 1 ? 'Tahapan Pendaftaran' : step === 2 ? 'Aturan Pondok Pesantren' : step === 3 ? 'Unduh Surat Pernyataan' : 'Formulir Pendaftaran'"></span>
+                        </span>
                     </li>
-                    @endforeach
-                </ul>
+                </template>
+            </ol>
+            
+          
+            <!-- Step Content -->
+            <div class="mt-4">
+                <div x-show="currentStep === 1" 
+                    class="step-content"
+                    x-transition:enter="transition-opacity ease-out duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition-opacity ease-in duration-200"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                >Tahapan Pendaftaran</div>
+              <!-- Step 1 -->
+              <div  x-show="currentStep === 2" 
+                    class="step-content"
+                    x-transition:enter="transition-opacity ease-out duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition-opacity ease-in duration-200"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                >Aturan Pondok Pesantren</div>
+              <!-- Step 2 -->
+              <div  x-show="currentStep === 3" 
+                    class="step-content"
+                    x-transition:enter="transition-opacity ease-out duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition-opacity ease-in duration-200"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                >Unduh Surat Pernyataan</div>
+              <!-- Step 3: Form -->
+              <div  x-show="currentStep === 4" 
+                    class="step-content"
+                    x-transition:enter="transition-opacity ease-out duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition-opacity ease-in duration-200"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                >
+
+
+                <form action="{{ route('pendaftaran.store') }}" method="POST" id="form_siswa" enctype="multipart/form-data">
+                    @csrf
+                    <!-- Nomor Induk Siswa Nasional -->
+                    <div class="mb-4">
+                        <label for="nisn" class="block text-sm font-medium text-gray-700 mb-2">
+                            Nomor Induk Siswa Nasional (NISN)
+                        </label>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                            <input 
+                                type="text" 
+                                id="nisn" 
+                                name="nisn"
+                                value="{{ old('nisn') }}"  
+                                placeholder="Masukkan Nomor NISN Siswa" 
+                                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                aria-label="Masukkan nomor NISN siswa"
+                                maxlength="10"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+                            >
+                            <button 
+                                type="button" 
+                                class="w-full sm:w-auto min-w-[80px] px-4 py-2 text-xs font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex justify-center items-center"
+                                aria-label="Cek nomor NISN"
+                                onclick="searchSiswa()"
+                            >
+                                CEK NISN
+                            </button>
+        
+                        </div>
+                        <p id="status-message"  class="p-2 text-xs text-left text-white bg-yellow-400 mt-2 rounded-md w-full sm:w-72">
+                            NISN wajib diisi. Untuk bantuan, hubungi 
+                            <a href="#" class="underline text-blue-900 hover:text-blue-600">klik disini</a>
+                        </p>
+                    </div>
+                    
+                    <!-- Nama Lengkap -->
+                    <div class="mb-4">
+                        <label for="nama" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap (Sesuai Akta/KTP)</label>
+                        <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+        
+                    <!-- Program Pendidikan -->
+                    <div class="mb-4">
+                        <label for="program_pendidikan" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Program Pendidikan</label>
+                        <select id="program_pendidikan" name="program_pendidikan" class="w-full p-2 border border-gray-300 rounded-md">
+                            <option value="">Pilih Program Pendidikan</option>
+                            <option value="wustha" {{ old('program_pendidikan') == 'wustha' ? 'selected' : '' }}>Wustha (Pondok Setara MTs dan SMP)</option>
+                            <option value="ulya" {{ old('program_pendidikan') == 'ulya' ? 'selected' : '' }}>Ulya (Pondok Setara MA dan SMA)</option>
+                            <option value="mts" {{ old('program_pendidikan') == 'mts' ? 'selected' : '' }}>Madrasah Tsanawiyah (MTS)</option>
+                            <option value="ma" {{ old('program_pendidikan') == 'ma' ? 'selected' : '' }}>Madrasah Aliyah (MA)</option>
+                        </select>
+                    </div>
+        
+                    <!-- NIK -->
+                    <div class="mb-4">
+                        <label for="nik" class="block text-sm font-medium text-gray-700 mb-2">Nomor Induk Kependudukan (NIK)</label>
+                        <input 
+                            type="text" 
+                            id="nik" 
+                            name="nik"
+                            value="{{ old('nik') }}"   
+                            placeholder="Masukkan Nomor Induk Kependudukan" 
+                            class="w-full p-2 border border-gray-300 rounded-md"
+                            maxlength="16"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16)"
+                        >
+                    </div>
+        
+                    <!-- Nomor KK -->
+                    <div class="mb-4">
+                        <label for="nomor_kk" class="block text-sm font-medium text-gray-700 mb-2">Nomor Kartu Keluarga</label>
+                        <input 
+                            type="text" 
+                            id="nomor_kk" 
+                            name="nomor_kk" 
+                            value="{{ old('nomor_kk') }}"  
+                            placeholder="Masukkan Nomor Kartu Keluarga" 
+                            class="w-full p-2 border border-gray-300 rounded-md"
+                            maxlength="16"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16)"
+                        >
+                    </div>
+        
+                    <!-- Tempat & Tanggal Lahir -->
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="tempat_lahir" class="block text-sm font-medium text-gray-700 mb-2">Tempat Lahir</label>
+                            <input type="text" id="tempat_lahir" name="tempat_lahir" value="{{ old('tempat_lahir') }}"  placeholder="Tempat Lahir" class="w-full p-2 border border-gray-300 rounded-md">
+                        </div>
+                        <div>
+                            <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Lahir</label>
+                            <input type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" class="w-full p-2 border border-gray-300 rounded-md">
+                        </div>
+                    </div>
+        
+                    <!-- Jenis Kelamin -->
+                    <div class="mb-4">
+                        <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700 mb-2">Pilih Jenis Kelamin</label>
+                        <select id="jenis_kelamin" name="jenis_kelamin" class="w-full p-2 border border-gray-300 rounded-md" onchange="toggleKopiahDropdown()">
+                            <option value="">Jenis Kelamin</option>
+                            <option value="laki-laki" {{ old('jenis_kelamin') == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="perempuan" {{ old('jenis_kelamin') == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                    </div>
+        
+                    <!-- Alamat -->
+                    <div class="mb-4">
+                        <label for="alamat_domisili" class="block text-sm font-medium text-gray-700 mb-2">Alamat Domisili</label>
+                        <input type="text" id="alamat_domisili" name="alamat_domisili"  value="{{ old('alamat_domisili') }}"  placeholder="Contoh: Jalan Mawar No. 12, Kelurahan Suka Maju, Kecamatan Sejahtera, Kota Samarinda, Kalimantan Timur" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+                
+                    <!-- Provinsi -->
+                    <div class="mb-4">
+                        <label for="provinceDropdown" class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
+                        <!-- Dropdown -->
+                        <select 
+                            id="provinceDropdown"
+                            name="provinsi" 
+                            class="w-full p-2 border border-gray-300 rounded-md"
+                            onchange="handleProvinceChange(event)"
+                        >
+                            <option value="">Pilih Provinsi</option>
+                        </select>
+                        <input 
+                            id="customProvinceInput"
+                            type="text" 
+                            name="custom_provinsi" 
+                            placeholder="Masukkan Provinsi..." 
+                            class="w-full p-2 border border-gray-300 rounded-md mt-2" 
+                            style="display: none;" 
+                        >
+                        <input type="hidden" id="selectedProvince" name="selected_provinsi">
+                    </div>
+        
+                    <!-- Kota -->
+                    <div class="mb-4">
+                        <label for="cityDropdown" class="block text-sm font-medium text-gray-700 mb-2">Kota</label>
+                        <select 
+                            id="cityDropdown"
+                            name="kota" 
+                            class="w-full p-2 border border-gray-300 rounded-md"
+                            onchange="handleCityChange(event)"
+                        >
+                            <option value="">Pilih Kota</option>
+                        </select>
+                        
+                        <!-- Input teks jika "Pilih Lainnya" dipilih -->
+                        <input 
+                            id="customCityInput"
+                            type="text" 
+                            name="custom_city" 
+                            placeholder="Masukkan Kota ..." 
+                            class="w-full p-2 border border-gray-300 rounded-md mt-2" 
+                            style="display: none;" 
+                        />
+                        <input type="hidden" id="selectedCity" name="selected_kota">
+                    </div>
+                    
+                    <!-- Kecamatan -->
+                    <div class="mb-4" >
+                        <label for="districtDropdown" class="block text-sm font-medium text-gray-700 mb-2">Kecamatan</label>
+                        <select 
+                            id="districtDropdown" 
+                            name="kecamatan" 
+                            class="w-full p-2 border border-gray-300 rounded-md" 
+                            onchange="handleDistrictChange(event)"
+                        >
+                            <option value="">Pilih Kecamatan</option>
+                            <option value="other" class="bg-yellow-400 text-white">PILIH LAINNYA</option>
+                        </select>
+                        <input 
+                            id="customDistrictInput" 
+                            type="text" 
+                            name="custom_district" 
+                            placeholder="Masukkan Kecamatan ..." 
+                            class="w-full p-2 border border-gray-300 rounded-md mt-2" 
+                            style="display: none;"
+                        />
+                        <input type="hidden" id="selectedDistrict" name="selected_kecamatan">
+                    </div>
+        
+                    <!-- Kelurahan -->
+                    <div class="mb-4" >
+                        <label for="villageDropdown" class="block text-sm font-medium text-gray-700 mb-2">Kelurahan</label>
+                        <select 
+                            id="villageDropdown" 
+                            name="kelurahan" 
+                            class="w-full p-2 border border-gray-300 rounded-md"
+                            onchange="handleVillageChange(event)"
+                        >
+                            <option value="">Pilih Kelurahan</option>
+                            <option value="other" class="bg-yellow-400 text-white">PILIH LAINNYA</option>
+                        </select>
+                        <input 
+                            id="customVillageInput" 
+                            type="text" 
+                            name="custom_village" 
+                            placeholder="Masukkan Kelurahan ..." 
+                            class="w-full p-2 border border-gray-300 rounded-md mt-2" 
+                            style="display: none;"
+                        />
+                        <input type="hidden" id="selectedVillage" name="selected_kelurahan">
+                    </div>
+        
+                    <!-- Jumlah Saudara -->
+                    <div class="mb-4">
+                        <label for="jumlah_saudara" class="block text-sm font-medium text-gray-700 mb-2">Jumlah Saudara</label>
+                        <input type="number" id="jumlah_saudara" name="jumlah_saudara" value="{{ old('jumlah_saudara') }}" placeholder="Anak Ke*" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+                    
+                    <!-- Anak Ke -->
+                    <div class="mb-4">
+                        <label for="anak_ke" class="block text-sm font-medium text-gray-700 mb-2">Anak Ke*</label>
+                        <input type="number" id="anak_ke" name="anak_ke" value="{{ old('anak_ke') }}" placeholder="Anak Ke*" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+                   
+                    <!-- Asal Sekolah -->
+                    <div class="mb-4">
+                        <label for="asal_sekolah" class="block text-sm font-medium text-gray-700 mb-2">Asal Sekolah Sebelumnya</label>
+                        <input type="text" id="asal_sekolah" name="asal_sekolah" value="{{ old('asal_sekolah') }}" placeholder="MI / MTS?" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+                
+                    <!-- Nama Ayah -->
+                    <div class="mb-4">
+                        <label for="nama_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Nama Ayah Kandung</label>
+                        <input type="text" id="nama_ayah" name="nama_ayah" value="{{ old('nama_ayah') }}" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+        
+                    <!-- NIK Ayah -->
+                    <div class="mb-4">
+                        <label for="nik_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Nomor Induk Kependudukan (NIK)</label>
+                        <input 
+                            type="text" 
+                            id="nik_ayah" 
+                            name="nik_ayah" 
+                            value="{{ old('nik_ayah') }}"
+                            placeholder="Nomor Induk Kependudukan Ayah" 
+                            class="w-full p-2 border border-gray-300 rounded-md"
+                            maxlength="16"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16)"
+                        >
+                    </div>
+        
+                    <!-- Pendidikan Ayah -->
+                    <div class="mb-4">
+                        <label for="pendidikan_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pendidikan Terakhir Ayah</label>
+                        <input type="text" id="pendidikan_ayah" name="pendidikan_ayah" value="{{ old('pendidikan_ayah') }}" placeholder="Pendidikan Terakhir Ayah" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+        
+                    <!-- Pekerjaan Ayah -->
+                    <div class="mb-4">
+                        <label for="pekerjaan_ayah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pekerjaan Ayah</label>
+                        <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah" value="{{ old('pekerjaan_ayah') }}" placeholder="Pekerjaan Ayah" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+        
+                    <!-- Nama Ibu -->
+                    <div class="mb-4">
+                        <label for="nama_ibu" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Nama Ibu Kandung</label>
+                        <input type="text" 
+                        id="nama_ibu" name="nama_ibu" value="{{ old('nama_ibu') }}" placeholder="Nama Lengkap" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+        
+                     <!-- NIK Ibu -->
+                     <div class="mb-4">
+                        <label for="nik_ibu" class="block text-sm font-medium text-gray-700 mb-2">Nomor Induk Kependudukan (NIK)</label>
+                        <input type="text" 
+                        id="nik_ibu" 
+                        name="nik_ibu" 
+                        value="{{ old('nik_ibu') }}" 
+                        placeholder="Nomor Induk Kependudukan Ibu" 
+                        class="w-full p-2 border border-gray-300 rounded-md"
+                        maxlength="16"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16)">
+                    </div>
+        
+                    <!-- Pendidikan Ibu -->
+                    <div class="mb-4">
+                        <label for="pendidikan_ibu" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pendidikan Terakhir Ibu</label>
+                        <input type="text" id="pendidikan_ibu" name="pendidikan_ibu" value="{{ old('pendidikan_ibu') }}" placeholder="Pendidikan Terakhir Ibu" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+        
+                    <!-- Pekerjaan Ibu -->
+                    <div class="mb-4">
+                        <label for="pekerjaan_ibu" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Pekerjaan Ibu</label>
+                        <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu" value="{{ old('pekerjaan_ibu') }}" placeholder="Pekerjaan Ibu" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+        
+                    <!-- Penghasilan-->
+                    <div class="mb-4">
+                        <label for="penghasilan" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Penghasilan</label>
+                        <select id="penghasilan" name="penghasilan" class="w-full p-2 border border-gray-300 rounded-md" onchange="toggleCustomInput(this)">
+                            <option value="-">Rata - Rata Penghasilan</option>
+                            <option value="Kurang dari Rp. 500.000"> < Rp. 500.000</option>
+                            <option value="Rp. 500.000 - Rp. 1.000.000">Rp. 500.000 - Rp. 1.000.000</option>
+                            <option value="Rp. 1.000.000 - Rp. 2.000.000">Rp. 1.000.000 - Rp. 2.000.000</option>
+                            <option value="Rp. 2.000.000 - Rp. 3.000.000">Rp. 2.000.000 - Rp. 3.000.000</option>
+                            <option value="Rp. 3.000.000 - Rp. 5.000.000">Rp. 3.000.000 - Rp. 5.000.000</option>
+                            <option value="Lebih dari Rp. 5.000.000">> 5.000.000</option>
+                        </select>
+                    </div>
+        
+                    <!-- Alamat -->
+                    <div class="mb-4">
+                        <label for="alamat_kk" class="block text-sm font-medium text-gray-700 mb-2">Alamat Sesuai Kartu Keluarga (KK)</label>
+                        <input type="text" id="alamat_kk" name="alamat_kk" value="{{ old('alamat_kk') }}" placeholder="Contoh: Jalan Mawar No. 12, Kelurahan Suka Maju, Kecamatan Sejahtera, Kota Samarinda, Kalimantan Timur" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+        
+                    <!-- Nomor Hp Orang tua WhatsApp -->
+                    <div class="mb-4">
+                        <label for="no_hp_orangtua" class="block text-sm font-medium text-gray-700 mb-2">Nomor Hp Orang tua (WhatsApp)</label>
+                        <input type="text" id="no_hp_orangtua" name="no_hp_orangtua" value="{{ old('no_hp_orangtua') }}" placeholder="Masukkan Nomor Handphone" class="w-full p-2 border border-gray-300 rounded-md">
+                    </div>
+                   
+                    <!-- Ukuran Kopiah -->
+                    <div class="mb-4" id="kopiah_container">
+                        <label for="kopiah" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Ukuran Kopiah</label>
+                        <select id="kopiah" name="kopiah" class="w-full p-2 border border-gray-300 rounded-md">
+                            <option value="">Pilih Ukuran Kopiah</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+        
+                     <!-- seragam -->
+                     <div class="mb-4">
+                        <label for="seragam" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Ukuran Seragam</label>
+                        <select id="seragam" name="seragam" class="w-full p-2 border border-gray-300 rounded-md">
+                            <option value="">Pilih Ukuran Seragam</option>
+                            <option value="s">Ukuran Seragam "S"</option>
+                            <option value="m">Ukuran Seragam "M"</option>
+                            <option value="l">Ukuran Seragam "L"</option>
+                            <option value="xl">Ukuran Seragam "XL"</option>
+                            <option value="xxl">Ukuran Seragam "XXL"</option>
+                            <option value="xxxl">Ukuran Seragam "XXXL"</option>
+                        </select>
+                    </div>
+                    <div class="mb-6 p-4 bg-white border border-gray-200 rounded-lg shadow-md space-y-4">
+                        <!-- Header Informasi -->
+                        <div class="text-center">
+                            <h1 class="text-xl font-bold text-gray-800">YPI AZ ZAINI AL AZHARI PASER</h1>
+                            <p class="text-sm text-gray-600"><span class="bg-green-700 text-white p-1 me-2 rounded">BSI</span> 2220120239</p>
+                        </div>
+                    
+                        <!-- Form Input -->
+                        <div>
+                            <label for="nama_pengirim" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Masukkan Nama Pengirim <span class="italic text-gray-500">(Sesuai Rekening)</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="nama_pengirim" 
+                                name="nama_pengirim" 
+                                value="{{ old('nama_pengirim') }}" 
+                                placeholder="Contoh: Muhammad Yusuf" 
+                                class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400"
+                            >
+                        </div>
+                        <div class="mb-4" x-data="{ imagePreview: null, handleFilePreview(event) {
+                            const file = event.target.files[0];
+                            if (file) {
+                                this.imagePreview = URL.createObjectURL(file); // Membuat URL sementara untuk file yang diupload
+                            }
+                            } }" class="space-y-4">
+                            <!-- File Input -->
+                            <input
+                                class="block w-full text-2xl text-gray-900 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer focus:outline-none "
+                                id="image"
+                                type="file"
+                                name="image"
+                                accept="image/*"
+                                @change="handleFilePreview($event)">
+        
+                            <p class="p-1 mt-2 text-center text-white bg-yellow-500 rounded">gambar menggunakan format ; jpeg,png,jpg | max: 2mb </p>
+                            <!-- Image Preview -->
+                            <template x-if="imagePreview">
+                                <div class="w-full max-w-sm mx-auto">
+                                    <img :src="imagePreview" alt="Selected Image" class="object-cover w-full h-64 border-4 border-gray-200 rounded-lg shadow-lg">
+                                </div>
+                            </template>
+                        </div>
+                    </div>   
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button 
+                            type="button" 
+                            id="submit" 
+                            class="w-full px-6 py-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-500" 
+                            onclick="openModal('modelConfirm')"
+                        >
+                            Submit
+                        </button>
+                         <!-- Modal Confirmation -->
+                         <div id="modelConfirm" class="fixed inset-0 z-50 hidden w-full h-full px-4 overflow-y-auto bg-gray-900 bg-opacity-60">
+                            <div class="relative max-w-md mx-auto bg-white rounded-md shadow-xl top-40">
+                                <div class="flex justify-end p-2">
+                                    <button                        
+                                        type="button" 
+                                        class="text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                        onclick="closeModal('modelConfirm')"
+                                    >
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="p-6 pt-0 text-center">
+                                    <h3 class="mt-5 mb-6 text-xl font-semibold text-gray-700">Lanjutkan Pendaftaran?</h3>
+                                    <table class="w-full text-left table-auto">
+                                        <tbody class="space-y-2">
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">NISN</td>
+                                                <td id="nisnDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Nama</td>
+                                                <td id="namaDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Program Pendidikan</td>
+                                                <td id="programPendidikanDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">NIK</td>
+                                                <td id="nikDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Nomor KK</td>
+                                                <td id="nomorKkDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Tempat Lahir</td>
+                                                <td id="tempatLahirDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Tanggal Lahir</td>
+                                                <td id="tanggalLahirDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Jenis Kelamin</td>
+                                                <td id="jenisKelaminDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Alamat Domisili</td>
+                                                <td id="alamatDomisiliDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Provinsi</td>
+                                                <td id="provinceDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Kota</td>
+                                                <td id="cityDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Kecamatan</td>
+                                                <td id="districtDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Desa</td>
+                                                <td id="villageDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Jumlah Saudara</td>
+                                                <td id="jumlahSaudaraDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Anak Ke</td>
+                                                <td id="anakKeDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Asal Sekolah</td>
+                                                <td id="asalSekolahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Nama Ayah</td>
+                                                <td id="namaAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">NIK Ayah</td>
+                                                <td id="nikAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Pendidikan Ayah</td>
+                                                <td id="pendidikanAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Pekerjaan Ayah</td>
+                                                <td id="pekerjaanAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Nama Ibu</td>
+                                                <td id="namaIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">NIK Ibu</td>
+                                                <td id="nikIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Pendidikan Ibu</td>
+                                                <td id="pendidikanIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Pekerjaan Ibu</td>
+                                                <td id="pekerjaanIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Penghasilan</td>
+                                                <td id="penghasilanDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Alamat KK</td>
+                                                <td id="alamatKkDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">No HP Orangtua</td>
+                                                <td id="noHpOrangtuaDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Kopiah</td>
+                                                <td id="kopiahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Seragam</td>
+                                                <td id="seragamDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- Buttons Section -->
+                                    <div class="mt-6 flex justify-between space-x-4">
+                                        <!-- Tombol batal -->
+                                        <button 
+                                            type="button" 
+                                            onclick="closeModal('modelConfirm')" 
+                                            class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 rounded-lg px-4 py-2.5 w-full sm:w-auto"
+                                        >
+                                            Kembali
+                                        </button>
+                                        
+                                        <!-- Tombol submit -->
+                                        <button 
+                                            type="submit" 
+                                            class="text-white bg-green-600 hover:bg-green-800 rounded-lg px-4 py-2.5 w-full sm:w-auto"
+                                        >
+                                            Lanjutkan
+                                        </button>
+                                    </div>
+                                </div>                        
+                            </div>
+                        </div>
+                        
+                    </div>
+                </form>
+                @if ($errors->any())
+                    <div>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li
+                                class="p-4 mt-4 mb-4 text-sm text-center text-white bg-red-600 border border-green-300 rounded-md">
+                                {{ $error }}
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+              </div>
             </div>
-        @endif
+          
+            <!-- Navigation Buttons -->
+            <div class="mt-4 flex justify-between">
+                <!-- Previous Button -->
+                <button
+                  x-show="currentStep > 1"  
+                  @click="currentStep = Math.max(currentStep - 1, 1)"
+                  class="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+                >
+                  Previous
+                </button>
+            
+                <!-- Next Button -->
+                <button
+                  x-show="currentStep < totalSteps"
+                  @click="currentStep = Math.min(currentStep + 1, totalSteps)"
+                  class="bg-blue-600 text-white px-4 py-2 rounded"
+                >
+                  Next
+                </button>
+              </div>
+        </div>  
     </section>
 
 {{-- Modal Button Simpan --}}
@@ -756,37 +872,37 @@ document.onkeydown = function(event) {
 
     // Daftar semua elemen yang ingin diaktifkan
     const fieldsToEnable = [
-    'nama',
-    'program_pendidikan',
-    'nik',
-    'nomor_kk',
-    'tempat_lahir',
-    'tanggal_lahir',
-    'jenis_kelamin',
-    'alamat_domisili',
-    'provinceDropdown',
-    'cityDropdown',
-    'districtDropdown',
-    'villageDropdown',
-    'jumlah_saudara',
-    'anak_ke',
-    'asal_sekolah',
-    'nama_ayah',
-    'nik_ayah',
-    'pendidikan_ayah',
-    'pekerjaan_ayah',
-    'nama_ibu',
-    'nik_ibu',
-    'pendidikan_ibu',
-    'pekerjaan_ibu',
-    'penghasilan',
-    'alamat_kk',
-    'no_hp_orangtua',
-    'kopiah',
-    'seragam',
-    'nama_pengirim',
-    'image',
-    'submit'
+        'nama',
+        'program_pendidikan',
+        'nik',
+        'nomor_kk',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'alamat_domisili',
+        'provinceDropdown',
+        'cityDropdown',
+        'districtDropdown',
+        'villageDropdown',
+        'jumlah_saudara',
+        'anak_ke',
+        'asal_sekolah',
+        'nama_ayah',
+        'nik_ayah',
+        'pendidikan_ayah',
+        'pekerjaan_ayah',
+        'nama_ibu',
+        'nik_ibu',
+        'pendidikan_ibu',
+        'pekerjaan_ibu',
+        'penghasilan',
+        'alamat_kk',
+        'no_hp_orangtua',
+        'kopiah',
+        'seragam',
+        'nama_pengirim',
+        'image',
+        'submit'
     ];
 
     // Fungsi untuk mengaktifkan elemen
@@ -809,37 +925,37 @@ document.onkeydown = function(event) {
 
     // Daftar semua elemen yang ingin dinonaktifkan
     const fieldsToDisable = [
-    'nama',
-    'program_pendidikan',
-    'nik',
-    'nomor_kk',
-    'tempat_lahir',
-    'tanggal_lahir',
-    'jenis_kelamin',
-    'alamat_domisili',
-    'provinceDropdown',
-    'cityDropdown',
-    'districtDropdown',
-    'villageDropdown',
-    'jumlah_saudara',
-    'anak_ke',
-    'asal_sekolah',
-    'nama_ayah',
-    'nik_ayah',
-    'pendidikan_ayah',
-    'pekerjaan_ayah',
-    'nama_ibu',
-    'nik_ibu',
-    'pendidikan_ibu',
-    'pekerjaan_ibu',
-    'penghasilan',
-    'alamat_kk',
-    'no_hp_orangtua',
-    'kopiah',
-    'seragam',
-    'nama_pengirim',
-    'image',
-    'submit',
+        'nama',
+        'program_pendidikan',
+        'nik',
+        'nomor_kk',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'alamat_domisili',
+        'provinceDropdown',
+        'cityDropdown',
+        'districtDropdown',
+        'villageDropdown',
+        'jumlah_saudara',
+        'anak_ke',
+        'asal_sekolah',
+        'nama_ayah',
+        'nik_ayah',
+        'pendidikan_ayah',
+        'pekerjaan_ayah',
+        'nama_ibu',
+        'nik_ibu',
+        'pendidikan_ibu',
+        'pekerjaan_ibu',
+        'penghasilan',
+        'alamat_kk',
+        'no_hp_orangtua',
+        'kopiah',
+        'seragam',
+        'nama_pengirim',
+        'image',
+        'submit',
     ];
 
     // Fungsi untuk mengatur styling elemen yang dinonaktifkan
@@ -848,16 +964,16 @@ document.onkeydown = function(event) {
     field.style.cursor = 'not-allowed'; // Terapkan kursor "tidak diizinkan"
 
     // Terapkan gaya tambahan jika elemen bukan tombol submit
-    if (field.id !== 'submit') {
-        field.style.backgroundColor = '#ccc'; // Set warna latar belakang
-        field.style.color = '#666'; // Set warna teks
+        if (field.id !== 'submit') {
+            field.style.backgroundColor = '#ccc'; // Set warna latar belakang
+            field.style.color = '#666'; // Set warna teks
 
-        // Tambahkan efek shadow sementara saat perubahan status
-        field.style.boxShadow = '0 0 5px rgba(255, 0, 0, 0.5)'; // Highlight merah redup
-        setTimeout(() => {
-            field.style.boxShadow = 'none'; // Hapus efek shadow setelah animasi selesai
-        }, 300); // Durasi sama dengan `transition` di CSS
-    }
+            // Tambahkan efek shadow sementara saat perubahan status
+            field.style.boxShadow = '0 0 5px rgba(255, 0, 0, 0.5)'; // Highlight merah redup
+            setTimeout(() => {
+                field.style.boxShadow = 'none'; // Hapus efek shadow setelah animasi selesai
+            }, 300); // Durasi sama dengan `transition` di CSS
+        }
     }
 
     // Loop untuk menerapkan disableField ke setiap elemen
