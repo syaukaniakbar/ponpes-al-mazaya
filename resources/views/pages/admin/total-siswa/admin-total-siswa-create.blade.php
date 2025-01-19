@@ -50,6 +50,26 @@
                             id="mts"
                             type="radio"
                             name="tingkatan"
+                            value="Wustha"
+                            class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                            {{ old('tingkatan') == 'Wustha' ? 'checked' : '' }}>
+                        <label for="MTS" class="block text-sm font-medium text-gray-900 ms-2">Wustha</label>
+                    </div>
+                    <div class="flex items-center my-4">
+                        <input
+                            id="mts"
+                            type="radio"
+                            name="tingkatan"
+                            value="Ulya"
+                            class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                            {{ old('tingkatan') == 'Ulya' ? 'checked' : '' }}>
+                        <label for="MTS" class="block text-sm font-medium text-gray-900 ms-2">Ulya</label>
+                    </div>
+                    <div class="flex items-center my-4">
+                        <input
+                            id="mts"
+                            type="radio"
+                            name="tingkatan"
                             value="MTS"
                             class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
                             {{ old('tingkatan') == 'MTS' ? 'checked' : '' }}>
@@ -64,16 +84,6 @@
                             class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
                             {{ old('tingkatan') == 'MA' ? 'checked' : '' }}>
                         <label for="MA" class="block text-sm font-medium text-gray-900 ms-2">MA</label>
-                    </div>
-                    <div class="flex items-center mb-4">
-                        <input
-                            id="santri-pondok"
-                            type="radio"
-                            name="tingkatan"
-                            value="Santri Pondok"
-                            class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                            {{ old('tingkatan') == 'Santri Pondok' ? 'checked' : '' }}>
-                        <label for="Santri Pondok" class="block text-sm font-medium text-gray-900 ms-2">Santri Pondok</label>
                     </div>
                 </fieldset>
             </div>

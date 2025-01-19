@@ -46,7 +46,6 @@
             background: #ffffff;
             color: #379777;
         }
-        
     </style>
 </head>
 
@@ -196,7 +195,7 @@
                     })
                     .then(data => {
                         const years = [...new Set(data.map(item => item.tahun))].sort(); // Get unique years, sorted
-                        const order = ['MTS', 'MA', 'Santri Pondok']; // Custom order for tingkatan
+                        const order = ['MTS', 'MA', 'Ulya', 'Wustha']; // Custom order for tingkatan
                         const maxY = calculateMaxValue(data);
 
                         // Create datasets for each tingkatan
@@ -211,12 +210,14 @@
                             const colors = {
                                 'MTS': 'rgba(54, 162, 235, 1)',
                                 'MA': 'rgba(75, 192, 192, 1)',
-                                'Santri Pondok': 'rgba(255, 99, 132, 1)'
+                                'Ulya': 'rgba(255, 99, 132, 1)',
+                                'Wustha': 'rgba(225, 219, 159, 1)'
                             };
                             const bgColors = {
                                 'MTS': 'rgba(54, 162, 235, 0.2)',
                                 'MA': 'rgba(75, 192, 192, 0.2)',
-                                'Santri Pondok': 'rgba(255, 99, 132, 0.2)'
+                                'Ulya': 'rgba(255, 99, 132, 0.2)',
+                                'Wustha': 'rgba(225, 219, 159, 0.2)'
                             };
 
                             return {

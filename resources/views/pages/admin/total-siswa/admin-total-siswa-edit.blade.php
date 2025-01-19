@@ -53,6 +53,26 @@
                             name="tingkatan"
                             value="MTS"
                             class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                            {{ old('tingkatan', $navLink->tingkatan) == 'Wustha' ? 'checked' : '' }}>
+                        <label for="MTS" class="block text-sm font-medium text-gray-900 ms-2">Wustha</label>
+                    </div>
+                    <div class="flex items-center my-4">
+                        <input
+                            id="mts"
+                            type="radio"
+                            name="tingkatan"
+                            value="MTS"
+                            class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                            {{ old('tingkatan', $navLink->tingkatan) == 'Ulya' ? 'checked' : '' }}>
+                        <label for="MTS" class="block text-sm font-medium text-gray-900 ms-2">Ulya</label>
+                    </div>
+                    <div class="flex items-center my-4">
+                        <input
+                            id="mts"
+                            type="radio"
+                            name="tingkatan"
+                            value="MTS"
+                            class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
                             {{ old('tingkatan', $navLink->tingkatan) == 'MTS' ? 'checked' : '' }}>
                         <label for="MTS" class="block text-sm font-medium text-gray-900 ms-2">MTS</label>
                     </div>
