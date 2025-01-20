@@ -29,34 +29,46 @@
 
         <div x-data="{ currentStep: 1, totalSteps: 4 }" class="w-full">
             <!-- Stepper Indicator -->
-            <ol class="flex items-start justify-start w-full text-sm font-medium text-start text-gray-500 dark:text-gray-400 sm:text-base mb-6">
+            <ol class="flex flex-col items-center justify-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 md:flex-row md:items-start md:text-base mb-6 md:text-start">
                 <template x-for="step in totalSteps" :key="step">
                     <li
-                        class="flex items-start mx-3"
-                        :class="currentStep === step ? 'text-green-600 dark:text-green-500 font-bold' : currentStep > step ? 'text-blue-600' : 'text-gray-500'"
+                        class="flex flex-col items-center mb-4 md:mb-0 md:flex-row md:items-start mx-0 md:mx-3"
+                        :class="{
+                            'hidden md:flex': currentStep !== step,
+                            'block md:flex text-green-600 dark:text-green-500 font-bold': currentStep === step,
+                            'text-blue-600': currentStep > step
+                        }"
                     >
                         <span
-                            class="flex items-center cursor-pointer step-content"
+                            class="flex flex-col items-center cursor-pointer step-content md:flex-row"
                             @click="currentStep = step"
                         >
                             <span x-show="step === 1">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                <svg class="w-6 h-6 mb-2 md:mb-0 md:me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+                                    />
                                 </svg>
                             </span>
                             <span x-show="step === 2">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                <svg class="w-6 h-6 mb-2 md:mb-0 md:me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+                                    />
                                 </svg>
                             </span>
                             <span x-show="step === 3">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                <svg class="w-6 h-6 mb-2 md:mb-0 md:me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+                                    />
                                 </svg>
                             </span>
                             <span x-show="step === 4">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                <svg class="w-6 h-6 mb-2 md:mb-0 md:me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+                                    />
                                 </svg>
                             </span>
                             <span class="step-label" x-text="step === 1 ? 'Tahapan Pendaftaran' : step === 2 ? 'Aturan Pondok Pesantren' : step === 3 ? 'Unduh Surat Pernyataan' : 'Formulir Pendaftaran'"></span>
@@ -64,8 +76,7 @@
                     </li>
                 </template>
             </ol>
-            
-          
+
             <!-- Step Content -->
             <div class="mt-4">
                 <div x-show="currentStep === 1" 
@@ -77,6 +88,7 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                 >Tahapan Pendaftaran</div>
+
               <!-- Step 1 -->
               <div  x-show="currentStep === 2" 
                     class="step-content"
@@ -87,6 +99,7 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                 >Aturan Pondok Pesantren</div>
+
               <!-- Step 2 -->
               <div  x-show="currentStep === 3" 
                     class="step-content"
@@ -97,6 +110,7 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                 >Unduh Surat Pernyataan</div>
+
               <!-- Step 3: Form -->
               <div  x-show="currentStep === 4" 
                     class="step-content"
@@ -107,7 +121,6 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                 >
-
 
                 <form action="{{ route('pendaftaran.store') }}" method="POST" id="form_siswa" enctype="multipart/form-data">
                     @csrf
@@ -451,17 +464,22 @@
                             <option value="xxxl">Ukuran Seragam "XXXL"</option>
                         </select>
                     </div>
+
                     <div class="mb-6 p-4 bg-white border border-gray-200 rounded-lg shadow-md space-y-4">
                         <!-- Header Informasi -->
                         <div class="text-center">
-                            <h1 class="text-xl font-bold text-gray-800">YPI AZ ZAINI AL AZHARI PASER</h1>
-                            <p class="text-sm text-gray-600"><span class="bg-green-700 text-white p-1 me-2 rounded">BSI</span> 2220120239</p>
+                            <h1 class="text-lg font-bold text-gray-800 sm:text-xl">YPI AZ ZAINI AL AZHARI PASER</h1>
+                            <p class="text-xs text-gray-600 sm:text-sm">
+                                <span class="bg-green-700 text-white p-1 me-2 rounded">BSI</span> 
+                                2220120239
+                            </p>
                         </div>
                     
                         <!-- Form Input -->
                         <div>
                             <label for="nama_pengirim" class="block text-sm font-semibold text-gray-700 mb-2">
-                                Masukkan Nama Pengirim <span class="italic text-gray-500">(Sesuai Rekening)</span>
+                                Masukkan Nama Pengirim 
+                                <span class="italic text-gray-500">(Sesuai Rekening)</span>
                             </label>
                             <input 
                                 type="text" 
@@ -469,33 +487,47 @@
                                 name="nama_pengirim" 
                                 value="{{ old('nama_pengirim') }}" 
                                 placeholder="Contoh: Muhammad Yusuf" 
-                                class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400"
+                                class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 text-sm sm:text-base"
                             >
                         </div>
-                        <div class="mb-4" x-data="{ imagePreview: null, handleFilePreview(event) {
-                            const file = event.target.files[0];
-                            if (file) {
-                                this.imagePreview = URL.createObjectURL(file); // Membuat URL sementara untuk file yang diupload
-                            }
-                            } }" class="space-y-4">
+                    
+                        <!-- File Input & Image Preview -->
+                        <div x-data="{ 
+                                imagePreview: null, 
+                                handleFilePreview(event) {
+                                    const file = event.target.files[0];
+                                    if (file) {
+                                        this.imagePreview = URL.createObjectURL(file);
+                                    }
+                                } 
+                            }" 
+                            class="space-y-4"
+                        >
                             <!-- File Input -->
                             <input
-                                class="block w-full text-2xl text-gray-900 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer focus:outline-none "
+                                class="block w-full text-xs text-gray-900 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer focus:outline-none sm:text-sm"
                                 id="image"
                                 type="file"
                                 name="image"
                                 accept="image/*"
-                                @change="handleFilePreview($event)">
-        
-                            <p class="p-1 mt-2 text-center text-white bg-yellow-500 rounded">gambar menggunakan format ; jpeg,png,jpg | max: 2mb </p>
+                                @change="handleFilePreview($event)"
+                            >
+                            <p class="p-1 mt-2 text-xs text-center text-white bg-yellow-500 rounded sm:text-sm">
+                                Gambar menggunakan format: jpeg, png, jpg | Max: 2MB
+                            </p>
                             <!-- Image Preview -->
                             <template x-if="imagePreview">
-                                <div class="w-full max-w-sm mx-auto">
-                                    <img :src="imagePreview" alt="Selected Image" class="object-cover w-full h-64 border-4 border-gray-200 rounded-lg shadow-lg">
+                                <div class="w-full max-w-xs mx-auto sm:max-w-sm">
+                                    <img 
+                                        :src="imagePreview" 
+                                        alt="Selected Image" 
+                                        class="object-cover w-full h-48 border-4 border-gray-200 rounded-lg shadow-lg sm:h-64"
+                                    >
                                 </div>
                             </template>
                         </div>
-                    </div>   
+                    </div>
+
                     <!-- Submit Button -->
                     <div class="text-center">
                         <button 
@@ -507,14 +539,13 @@
                             Submit
                         </button>
                          <!-- Modal Confirmation -->
-                         <div id="modelConfirm" class="fixed inset-0 z-50 hidden w-full h-full px-4 overflow-y-auto bg-gray-900 bg-opacity-60">
+                        <div id="modelConfirm" class="fixed inset-0 z-50 hidden w-full h-full px-4 overflow-y-auto bg-gray-900 bg-opacity-60">
                             <div class="relative max-w-md mx-auto bg-white rounded-md shadow-xl top-40">
                                 <div class="flex justify-end p-2">
                                     <button                        
                                         type="button" 
                                         class="text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                                        onclick="closeModal('modelConfirm')"
-                                    >
+                                        onclick="closeModal('modelConfirm')">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                         </svg>
@@ -640,6 +671,14 @@
                                                 <td class="font-semibold text-gray-700">Seragam</td>
                                                 <td id="seragamDisplay" class="text-lg font-semibold text-gray-700"></td>
                                             </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Nama Pengirim</td>
+                                                <td id="namaPengirimDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold text-gray-700">Image</td>
+                                                <td id="imageDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <!-- Buttons Section -->
@@ -702,7 +741,7 @@
                   Next
                 </button>
               </div>
-        </div>  
+            </div>  
     </section>
 
 {{-- Modal Button Simpan --}}
@@ -738,6 +777,8 @@
     const noHpOrangtuaValue = document.getElementById('no_hp_orangtua').value;
     const kopiahValue = document.getElementById('kopiah').value;
     const seragamValue = document.getElementById('seragam').value;
+    const namaPengirim = document.getElementById('nama_pengirim').value;
+    const image = document.getElementById('image').value;
 
     nisnDisplay.textContent = `${nisnValue}`;
     namaDisplay.textContent = `${namaValue}`;
@@ -768,6 +809,7 @@
     noHpOrangtuaDisplay.textContent = `${noHpOrangtuaValue}`;
     kopiahDisplay.textContent = `${kopiahValue}`;
     seragamDisplay.textContent = `${seragamValue}`;
+    
 
     document.getElementById(modalId).style.display = 'block'
     document.getElementsByTagName('body')[0].classList.add('overflow-y-hidden')
