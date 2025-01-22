@@ -77,9 +77,9 @@
                 <label for="program_pendidikan" class="block text-sm font-medium text-gray-700 mb-2">Masukkan Program Pendidikan</label>
                 <select id="program_pendidikan" name="program_pendidikan" class="w-full p-2 border border-gray-300 rounded-md">
                     <option value="">Pilih Program Pendidikan</option>
-                    <option value="pondok" {{ old('program_pendidikan', $siswa->program_pendidikan ?? '') == 'wustha' ? 'selected' : '' }}>wustha</option>
-                    <option value="pondok" {{ old('program_pendidikan', $siswa->program_pendidikan ?? '') == 'ulya' ? 'selected' : '' }}>Pondok</option>
-                    <option value="mts" {{ old('program_pendidikan', $siswa->program_pendidikan ?? '') == 'mts' ? 'selected' : '' }}>Madrasah Tsanawiyah (MTS)</option>
+                    <option value="wustha" {{ old('program_pendidikan', $siswa->program_pendidikan ?? '') == 'wustha' ? 'selected' : '' }}>Wustha</option>
+                    <option value="ulya" {{ old('program_pendidikan', $siswa->program_pendidikan ?? '') == 'ulya' ? 'selected' : '' }}>Ulya</option>
+                    <option value="mts" {{ old('program_pendidikan', $siswa->program_pendidikan ?? '') == 'mts' ? 'selected' : '' }}>Madrasah Tsanawiyah (MTs)</option>
                     <option value="ma" {{ old('program_pendidikan', $siswa->program_pendidikan ?? '') == 'ma' ? 'selected' : '' }}>Madrasah Aliyah (MA)</option>
                 </select>
             </div>

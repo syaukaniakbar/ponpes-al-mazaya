@@ -43,8 +43,7 @@
                 x-transition:leave-end="opacity-0 -translate-y-2">
                 <a href="{{ route('siswa', ['program_pendidikan' => 'wustha']) }}" class="{{ request()->is('wustha*') ? 'active-nav-link' : '' }} block py-2">Wustha</a>
                 <a href="{{ route('siswa', ['program_pendidikan' => 'ulya']) }}" class="{{ request()->is('ulya*') ? 'active-nav-link' : '' }} block py-2">Ulya</a>
-
-                <a href="{{ route('siswa', ['program_pendidikan' => 'mts']) }}" class="{{ request()->is('mts*') ? 'active-nav-link' : '' }} block py-2">MTS</a>
+                <a href="{{ route('siswa', ['program_pendidikan' => 'mts']) }}" class="{{ request()->is('mts*') ? 'active-nav-link' : '' }} block py-2">MTs</a>
                 <a href="{{ route('siswa', ['program_pendidikan' => 'ma']) }}" class="{{ request()->is('ma*') ? 'active-nav-link' : '' }} block py-2">MA</a>
             </div>
 
