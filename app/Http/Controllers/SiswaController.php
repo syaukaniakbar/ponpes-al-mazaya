@@ -38,18 +38,18 @@ class SiswaController extends Controller
             'nisn' => 'required|digits:10|unique:siswa',
             'nama' => 'required|string|max:255',
             'program_pendidikan' => 'required|in:wustha,ulya,mts,ma',
-            'nik' => 'required|digits:16|unique:siswa', 
-            'nomor_kk' => 'required|digits:16', 
+            'nik' => 'required|digits:16|unique:siswa',
+            'nomor_kk' => 'required|digits:16',
             'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date|before:today', 
+            'tanggal_lahir' => 'required|date|before:today',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'alamat_domisili' => 'required|string|max:255',
             'provinsi' => 'required|string|max:255',
             'kota' => 'required|string|max:255',
             'kecamatan' => 'required|string|max:255',
             'kelurahan' => 'required|string|max:255',
-            'jumlah_saudara' => 'required|integer|min:0', 
-            'anak_ke' => 'required|integer|min:1', 
+            'jumlah_saudara' => 'required|integer|min:0',
+            'anak_ke' => 'required|integer|min:1',
             'asal_sekolah' => 'required|string|max:255',
             'nama_ayah' => 'required|string|max:255',
             'nik_ayah' => 'required|digits:16',
@@ -61,7 +61,7 @@ class SiswaController extends Controller
             'pekerjaan_ibu' => 'required|string|max:255',
             'penghasilan' => 'required|string|max:255',
             'alamat_kk' => 'required|string|max:255',
-            'no_hp_orangtua' => 'required|string', 
+            'no_hp_orangtua' => 'required|string',
             'kopiah' => 'nullable|string|max:10',
             'seragam' => 'nullable|string|max:10',
             'nama_pengirim' => 'nullable|string',
@@ -127,6 +127,7 @@ class SiswaController extends Controller
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
+            'tahun' => now()->year,
             'alamat_domisili' => $request->alamat_domisili,
             'provinsi' => $request->provinsi,
             'kota' => $request->kota,
@@ -156,7 +157,7 @@ class SiswaController extends Controller
     public function search(Request $request)
     {
         $nisn = $request->input('nisn');
-        
+
         // Misalnya mencari data siswa berdasarkan NISN
         $siswa = Siswa::where('nisn', $nisn)->first();
 
@@ -178,16 +179,15 @@ class SiswaController extends Controller
         $siswas = Siswa::where('program_pendidikan', $program_pendidikan)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-    
+
         return view('pages.admin.siswa.admin-siswa', compact('siswas')); // Corrected variable name
     }
 
-    public function edit(string $id) {
+    public function edit(string $id)
+    {
         $siswa = Siswa::findOrFail($id);
         return view('pages.admin.siswa.admin-siswa-edit', compact('siswa'));
     }
-    
-    
 
     public function update(Request $request, string $id)
 {
@@ -228,7 +228,7 @@ class SiswaController extends Controller
 
     // Initialize image path
     $imagePath = $siswa->image_bukti_transaksi_url;
-
+  
     // Check if a new image is uploaded
     if ($request->hasFile('image')) {
         try {
@@ -313,8 +313,4 @@ class SiswaController extends Controller
         return redirect()->route('siswa', ['program_pendidikan' => $program_pendidikan])
             ->with('success', 'Siswa ' . $nama . ' berhasil dihapus.');
     }
-
-
-
-    
 }

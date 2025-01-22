@@ -34,7 +34,8 @@ class TeacherStaffController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'role' => 'required|string|max:100',
-            'email' => 'nullable|email|max:255',
+            'role_detail' => 'required|string|max:100',
+            'nip' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:15',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'joined_date' => 'required|date',
@@ -54,7 +55,8 @@ class TeacherStaffController extends Controller
         TeacherStaff::create([
             'name' => $request->name,
             'role' => $request->role,
-            'email' => $request->email,
+            'role_detail' => $request->role_detail,
+            'nip' => $request->nip,
             'phone' => $request->phone,
             'image_path' => $imagePath,
             'joined_date' => $request->joined_date,
@@ -74,7 +76,8 @@ class TeacherStaffController extends Controller
         return response()->json([
             'name' => $teacherStaff->name,
             'role' => $teacherStaff->role,
-            'email' => $teacherStaff->email,
+            'role_detail' => $teacherStaff->role_detail,
+            'nip' => $teacherStaff->nip,
             'phone' => $teacherStaff->phone,
             'image_url' => $teacherStaff->image_path ? asset('storage/' . $teacherStaff->image_path) : null,
             'joined_date' => $teacherStaff->joined_date->format('d/m/Y'),
@@ -100,7 +103,8 @@ class TeacherStaffController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'role' => 'required|string|max:100',
-            'email' => 'nullable|email|max:255',
+            'role_detail' => 'required|string|max:100',
+            'nip' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:15',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'joined_date' => 'required|date',
@@ -119,7 +123,8 @@ class TeacherStaffController extends Controller
         $teacherStaff->update([
             'name' => $request->name,
             'role' => $request->role,
-            'email' => $request->email,
+            'role_detail' => $request->role_detail,
+            'nip' => $request->nip,
             'phone' => $request->phone,
             'joined_date' => $request->joined_date,
             'status' => 'active',

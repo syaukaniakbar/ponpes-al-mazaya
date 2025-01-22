@@ -2,6 +2,7 @@
 
     @section('title', 'Pendaftaran | Ponpes-Al-Mazaya') <!-- Mengisi bagian @yield('title') di parent -->
 
+
     <section class="max-w-4xl mx-auto p-8 shadow-md rounded-lg my-28 border">
         <h1 class="text-2xl font-bold text-center mb-2">Pendaftaran Santri Baru</h1>
         <p class="text-center text-gray-600 mb-6">Isikan data dengan benar untuk proses pendaftaran.</p>
@@ -919,47 +920,104 @@ document.onkeydown = function(event) {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
+            
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).style.display = 'none'
+            document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
+        }
 
-            const result = await response.json();
+        // Close all modals when press ESC
+        document.onkeydown = function(event) {
+            event = event || window.event;
+            if (event.keyCode === 27) {
+                document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
+                let modals = document.getElementsByClassName('modal');
+                Array.prototype.slice.call(modals).forEach(i => {
+                    i.style.display = 'none'
+                })
+            }
+        };
+    </script>
 
-            // Jika siswa ditemukan
-            if (result.status === 'success') {
-                alert('Siswa telah terdaftar, silahkan cek melalui status pendaftaran');
+    {{-- CEK NISN --}}
+    <script>
+        async function searchSiswa() {
+            const nisn = document.getElementById('nisn').value.trim();
+            const statusMessage = document.getElementById('status-message');
 
-                fieldsToDisable.forEach(fieldId => {
-                    const field = document.getElementById(fieldId);
-                    if (field) {
-                        disableField(field);
-                    }
-                });
-
-                // Kosongkan pesan status
+            try {
+                // Reset status pesan
                 statusMessage.textContent = '';
                 statusMessage.className = '';
 
-            } else { // Jika siswa tidak ditemukan
-                fieldsToEnable.forEach(fieldId => {
-                    const field = document.getElementById(fieldId);
-                    if (field) {
-                        enableField(field);
-                        field.classList.add('enabled-field');
-                    }
+                // Validasi panjang NISN
+                if (nisn.length < 10) {
+                    alert('Masukkan 10 Digit NISN!');
+                    return;
+                }
+
+                // Tampilkan indikator proses
+                statusMessage.textContent = 'Memproses...';
+                statusMessage.classList.add('bg-blue-400', 'text-center', 'flex', 'items-center', 'justify-center', 'h-8');
+
+                // Kirim request ke backend
+                const response = await fetch(`/siswa/search`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: JSON.stringify({
+                        nisn: nisn
+                    }),
                 });
 
-                // Perbarui status pesan
-                statusMessage.textContent = 'Silahkan Lanjutkan Pendaftaran.';
-                statusMessage.classList.remove('bg-yellow-400');
-                statusMessage.classList.add('bg-green-500', 'text-center', 'text-white','flex', 'items-center', 'justify-center', 'h-8');
+                // Tangani error HTTP
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                // Jika siswa ditemukan
+                if (result.status === 'success') {
+                    alert('Siswa telah terdaftar, silahkan cek melalui status pendaftaran');
+
+                    fieldsToDisable.forEach(fieldId => {
+                        const field = document.getElementById(fieldId);
+                        if (field) {
+                            disableField(field);
+                        }
+                    });
+
+                    // Kosongkan pesan status
+                    statusMessage.textContent = '';
+                    statusMessage.className = '';
+
+                } else { // Jika siswa tidak ditemukan
+                    fieldsToEnable.forEach(fieldId => {
+                        const field = document.getElementById(fieldId);
+                        if (field) {
+                            enableField(field);
+                            field.classList.add('enabled-field');
+                        }
+                    });
+
+                    // Perbarui status pesan
+                    statusMessage.textContent = 'Silahkan Lanjutkan Pendaftaran.';
+                    statusMessage.classList.remove('bg-yellow-400');
+                    statusMessage.classList.add('bg-green-500', 'text-center', 'text-white', 'flex', 'items-center', 'justify-center', 'h-8');
+                }
+
+            } catch (error) {
+                console.error('Terjadi kesalahan:', error);
+                alert('Gagal melakukan pencarian. Silakan coba lagi.');
+
+                // Hapus pesan loading jika ada kesalahan
+                statusMessage.textContent = 'Gagal memproses pencarian.';
+                statusMessage.classList.remove('bg-blue-400');
+                statusMessage.classList.add('bg-red-500', 'text-center', 'flex', 'items-center', 'justify-center', 'h-8');
             }
-
-        } catch (error) {
-            console.error('Terjadi kesalahan:', error);
-            alert('Gagal melakukan pencarian. Silakan coba lagi.');
-
-            // Hapus pesan loading jika ada kesalahan
-            statusMessage.textContent = 'Gagal memproses pencarian.';
-            statusMessage.classList.remove('bg-blue-400');
-            statusMessage.classList.add('bg-red-500', 'text-center', 'flex', 'items-center', 'justify-center', 'h-8');
         }
     }
 
@@ -1095,64 +1153,90 @@ document.onkeydown = function(event) {
         } else {
             kopiahContainer.style.display = 'block';   
         }
-    }
-</script>
+    </script>
 
-{{-- Fetch API Wilayah --}}
-<script>
-    const provinceNameToIdMap = {};
-    const cityNameToIdMap = {};
-    const districtNameToIdMap = {};
+    {{-- Fetch API Wilayah --}}
+    <script>
+        const provinceNameToIdMap = {};
+        const cityNameToIdMap = {};
+        const districtNameToIdMap = {};
 
-    // Fungsi untuk mengambil data provinsi dari API
-    async function loadProvinces() {
-        try {
-            const provinceDropdown = document.getElementById('provinceDropdown');
-            
-            // Reset dropdown
-            provinceDropdown.innerHTML = '<option value="">Pilih Provinsi</option>';
+        // Fungsi untuk mengambil data provinsi dari API
+        async function loadProvinces() {
+            try {
+                const provinceDropdown = document.getElementById('provinceDropdown');
 
-            const response = await fetch('https://syaukaniakbar.github.io/api-wilayah-indonesia/api/provinces.json');
-            const provinces = await response.json();
+                // Reset dropdown
+                provinceDropdown.innerHTML = '<option value="">Pilih Provinsi</option>';
 
-            // Populate the province dropdown
-            provinces.forEach(province => {
-                const option = document.createElement('option');
-                option.value = province.name;
-                option.textContent = province.name;
-                provinceDropdown.appendChild(option);
+                const response = await fetch('https://syaukaniakbar.github.io/api-wilayah-indonesia/api/provinces.json');
+                const provinces = await response.json();
 
-                // Save the mapping
-                provinceNameToIdMap[province.name] = province.id;
-            });
+                // Populate the province dropdown
+                provinces.forEach(province => {
+                    const option = document.createElement('option');
+                    option.value = province.name;
+                    option.textContent = province.name;
+                    provinceDropdown.appendChild(option);
 
-            // Tambahkan opsi "PILIH LAINNYA"
-            const otherOption = document.createElement('option');
-            otherOption.value = 'other';
-            otherOption.textContent = 'PILIH LAINNYA';
-            otherOption.className = 'bg-yellow-400 text-white';
-            provinceDropdown.appendChild(otherOption);
+                    // Save the mapping
+                    provinceNameToIdMap[province.name] = province.id;
+                });
 
-        } catch (error) {
-            console.error('Error fetching provinces:', error);
+                // Tambahkan opsi "PILIH LAINNYA"
+                const otherOption = document.createElement('option');
+                otherOption.value = 'other';
+                otherOption.textContent = 'PILIH LAINNYA';
+                otherOption.className = 'bg-yellow-400 text-white';
+                provinceDropdown.appendChild(otherOption);
+
+            } catch (error) {
+                console.error('Error fetching provinces:', error);
+            }
         }
-    }
 
-    //Function to load cities based on selected province
-    async function loadCities(provinceName) {
-        const cityDropdown = document.getElementById('cityDropdown');
-        const customCityInput = document.getElementById('customCityInput');
-        const selectedCity = document.getElementById('selectedCity');
-        
-        // Reset city-related elements
-        cityDropdown.innerHTML = '<option value="">Pilih Kota</option>';
-        customCityInput.style.display = 'none';
-        selectedCity.value = '';
+        //Function to load cities based on selected province
+        async function loadCities(provinceName) {
+            const cityDropdown = document.getElementById('cityDropdown');
+            const customCityInput = document.getElementById('customCityInput');
+            const selectedCity = document.getElementById('selectedCity');
 
-        try {
-            // Jika provinsi yang dipilih adalah custom (other)
-            if (!provinceNameToIdMap[provinceName]) {
-                console.log('Custom province selected, skipping API call.');
+            // Reset city-related elements
+            cityDropdown.innerHTML = '<option value="">Pilih Kota</option>';
+            customCityInput.style.display = 'none';
+            selectedCity.value = '';
+
+            try {
+                // Jika provinsi yang dipilih adalah custom (other)
+                if (!provinceNameToIdMap[provinceName]) {
+                    console.log('Custom province selected, skipping API call.');
+
+                    // Pastikan "PILIH LAINNYA" hanya ditambahkan sekali
+                    if (!cityDropdown.querySelector('option[value="other"]')) {
+                        const otherOption = document.createElement('option');
+                        otherOption.value = 'other';
+                        otherOption.textContent = 'PILIH LAINNYA';
+                        otherOption.className = 'bg-yellow-400 text-white';
+                        cityDropdown.appendChild(otherOption);
+                    }
+                    return;
+                }
+
+                // Dapatkan provinceId dari provinceName
+                const provinceId = provinceNameToIdMap[provinceName];
+                const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/regencies/${provinceId}.json`);
+                const cities = await response.json();
+                console.log('Fetched cities:', cities);
+
+                // Populate city dropdown dengan data kota
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.name;
+                    option.textContent = city.name;
+                    cityDropdown.appendChild(option);
+                    // Simpan mapping
+                    cityNameToIdMap[city.name] = city.id;
+                });
 
                 // Pastikan "PILIH LAINNYA" hanya ditambahkan sekali
                 if (!cityDropdown.querySelector('option[value="other"]')) {
@@ -1162,256 +1246,228 @@ document.onkeydown = function(event) {
                     otherOption.className = 'bg-yellow-400 text-white';
                     cityDropdown.appendChild(otherOption);
                 }
-                return;
+
+            } catch (error) {
+                console.error('Error fetching cities:', error);
             }
-
-            // Dapatkan provinceId dari provinceName
-            const provinceId = provinceNameToIdMap[provinceName];
-            const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/regencies/${provinceId}.json`);
-            const cities = await response.json();
-            console.log('Fetched cities:', cities);
-
-            // Populate city dropdown dengan data kota
-            cities.forEach(city => {
-                const option = document.createElement('option');
-                option.value = city.name;
-                option.textContent = city.name;
-                cityDropdown.appendChild(option);
-                // Simpan mapping
-                cityNameToIdMap[city.name] = city.id;
-            });
-
-            // Pastikan "PILIH LAINNYA" hanya ditambahkan sekali
-            if (!cityDropdown.querySelector('option[value="other"]')) {
-                const otherOption = document.createElement('option');
-                otherOption.value = 'other';
-                otherOption.textContent = 'PILIH LAINNYA';
-                otherOption.className = 'bg-yellow-400 text-white';
-                cityDropdown.appendChild(otherOption);
-            }
-
-        } catch (error) {
-            console.error('Error fetching cities:', error);
         }
-    }
 
 
-    async function loadDistricts(cityName) {
-        const districtDropdown = document.getElementById('districtDropdown');
-        const customDistrictInput = document.getElementById('customDistrictInput');
-        const selectedDistrict = document.getElementById('selectedDistrict');
+        async function loadDistricts(cityName) {
+            const districtDropdown = document.getElementById('districtDropdown');
+            const customDistrictInput = document.getElementById('customDistrictInput');
+            const selectedDistrict = document.getElementById('selectedDistrict');
 
-        // Reset district-related elements
-        districtDropdown.innerHTML = '<option value="">Pilih Kecamatan</option>';
-        customDistrictInput.style.display = 'none';
-        selectedDistrict.value = '';
+            // Reset district-related elements
+            districtDropdown.innerHTML = '<option value="">Pilih Kecamatan</option>';
+            customDistrictInput.style.display = 'none';
+            selectedDistrict.value = '';
 
-        try {
-            // Jika kota yang dipilih adalah custom (other)
-            if (!cityNameToIdMap[cityName]) {
-                console.log('Custom city selected, skipping API call.');
+            try {
+                // Jika kota yang dipilih adalah custom (other)
+                if (!cityNameToIdMap[cityName]) {
+                    console.log('Custom city selected, skipping API call.');
+
+                    // Pastikan "PILIH LAINNYA" hanya ditambahkan sekali
+                    if (!districtDropdown.querySelector('option[value="other"]')) {
+                        const otherOption = document.createElement('option');
+                        otherOption.value = 'other';
+                        otherOption.textContent = 'PILIH LAINNYA';
+                        otherOption.className = 'bg-yellow-400 text-white';
+                        districtDropdown.appendChild(otherOption);
+                    }
+                    return;
+                }
+
+                // Dapatkan cityId dari cityName
+                const cityId = cityNameToIdMap[cityName];
+
+                // Fetch data kecamatan dari API
+                const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/districts/${cityId}.json`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch districts. HTTP status: ${response.status}`);
+                }
+
+                const districts = await response.json();
+                if (!Array.isArray(districts)) {
+                    throw new Error('Invalid districts data format received from API');
+                }
+
+                console.log('Fetched districts:', districts);
+
+                // Populate district dropdown dengan data kecamatan
+                districts.forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district.name; // Menggunakan nama kecamatan sebagai nilai
+                    option.textContent = district.name; // Menampilkan nama kecamatan
+                    districtDropdown.appendChild(option);
+
+                    // Simpan mapping
+                    districtNameToIdMap[district.name] = district.id;
+                });
 
                 // Pastikan "PILIH LAINNYA" hanya ditambahkan sekali
-                 if (!districtDropdown.querySelector('option[value="other"]')) {
+                if (!districtDropdown.querySelector('option[value="other"]')) {
                     const otherOption = document.createElement('option');
                     otherOption.value = 'other';
                     otherOption.textContent = 'PILIH LAINNYA';
                     otherOption.className = 'bg-yellow-400 text-white';
                     districtDropdown.appendChild(otherOption);
                 }
-                return;
+
+            } catch (error) {
+                console.error('Error fetching districts:', error);
             }
-
-            // Dapatkan cityId dari cityName
-            const cityId = cityNameToIdMap[cityName];
-
-            // Fetch data kecamatan dari API
-            const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/districts/${cityId}.json`);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch districts. HTTP status: ${response.status}`);
-            }
-
-            const districts = await response.json();
-            if (!Array.isArray(districts)) {
-                throw new Error('Invalid districts data format received from API');
-            }
-
-            console.log('Fetched districts:', districts);
-
-            // Populate district dropdown dengan data kecamatan
-            districts.forEach(district => {
-                const option = document.createElement('option');
-                option.value = district.name; // Menggunakan nama kecamatan sebagai nilai
-                option.textContent = district.name; // Menampilkan nama kecamatan
-                districtDropdown.appendChild(option);
-
-                // Simpan mapping
-                districtNameToIdMap[district.name] = district.id;
-            });
-
-            // Pastikan "PILIH LAINNYA" hanya ditambahkan sekali
-            if (!districtDropdown.querySelector('option[value="other"]')) {
-                const otherOption = document.createElement('option');
-                otherOption.value = 'other';
-                otherOption.textContent = 'PILIH LAINNYA';
-                otherOption.className = 'bg-yellow-400 text-white';
-                districtDropdown.appendChild(otherOption);
-            }
-
-        } catch (error) {
-            console.error('Error fetching districts:', error);
         }
-    }
 
-    async function loadVillages(districtName) {
-        try {
+        async function loadVillages(districtName) {
+            try {
 
-            const districtId = districtNameToIdMap[districtName];
+                const districtId = districtNameToIdMap[districtName];
 
-            // Ambil districtId dari mapping berdasarkan districtName
-            if (!districtId) {
-                console.error('District ID not found for:', districtName);
-                return;
-            }
+                // Ambil districtId dari mapping berdasarkan districtName
+                if (!districtId) {
+                    console.error('District ID not found for:', districtName);
+                    return;
+                }
 
-            // Fetch data dari endpoint dengan districtId yang dinamis
-            const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/villages/${districtId}.json`);
-            const villages = await response.json();
+                // Fetch data dari endpoint dengan districtId yang dinamis
+                const response = await fetch(`https://syaukaniakbar.github.io/api-wilayah-indonesia/api/villages/${districtId}.json`);
+                const villages = await response.json();
 
-            const villageDropdown = document.getElementById('villageDropdown');
-            villageDropdown.innerHTML = '<option value="">Pilih Kelurahan</option>'; // Reset village dropdown
+                const villageDropdown = document.getElementById('villageDropdown');
+                villageDropdown.innerHTML = '<option value="">Pilih Kelurahan</option>'; // Reset village dropdown
 
-            // Populate the village dropdown with fetched villages
-            villages.forEach(village => {
-                const option = document.createElement('option');
-                option.value = village.name; // Gunakan nama kelurahan sebagai nilai
-                option.textContent = village.name; // Tampilkan nama kelurahan
-                villageDropdown.appendChild(option);
-            });
+                // Populate the village dropdown with fetched villages
+                villages.forEach(village => {
+                    const option = document.createElement('option');
+                    option.value = village.name; // Gunakan nama kelurahan sebagai nilai
+                    option.textContent = village.name; // Tampilkan nama kelurahan
+                    villageDropdown.appendChild(option);
+                });
 
-            // Add "Pilih Lainnya" option manually
-            const otherOption = document.createElement('option');
+                // Add "Pilih Lainnya" option manually
+                const otherOption = document.createElement('option');
                 otherOption.value = 'other';
                 otherOption.textContent = 'PILIH LAINNYA';
                 otherOption.className = 'bg-yellow-400 text-white';
                 villageDropdown.appendChild(otherOption);
 
-        } catch (error) {
-            console.error('Error fetching villages:', error);
+            } catch (error) {
+                console.error('Error fetching villages:', error);
+            }
         }
-    }
 
-    // Function to handle province change
-    function handleProvinceChange(event) {
-        const selectedValue = event.target.value;
-        const customProvinceInput = document.getElementById('customProvinceInput');
-        const selectedProvince = document.getElementById('selectedProvince');
-        const cityDropdown = document.getElementById('cityDropdown');
+        // Function to handle province change
+        function handleProvinceChange(event) {
+            const selectedValue = event.target.value;
+            const customProvinceInput = document.getElementById('customProvinceInput');
+            const selectedProvince = document.getElementById('selectedProvince');
+            const cityDropdown = document.getElementById('cityDropdown');
 
-        if (selectedValue === 'other') {
-            // Tampilkan input custom provinsi
-            customProvinceInput.style.display = 'block';
-            customProvinceInput.value = '';
-            selectedProvince.value = '';
-            
-            // Hapus event listener lama jika ada
-            customProvinceInput.oninput = null;
-            
-            // Tambahkan event listener baru untuk input custom
-            customProvinceInput.oninput = function() {
-                selectedProvince.value = this.value;
-                
-                // Kosongkan city dropdown jika provinsi custom dipilih
-                cityDropdown.innerHTML = '<option value="">Pilih Kota</option>';
-                
-                // Tambahkan "PILIH LAINNYA" di dropdown kota
-                const otherOption = document.createElement('option');
-                otherOption.value = 'other';
-                otherOption.textContent = 'PILIH LAINNYA';
-                otherOption.className = 'bg-yellow-400 text-white';
-                cityDropdown.appendChild(otherOption);
-            };
-        } else {
-            customProvinceInput.style.display = 'none';
-            selectedProvince.value = selectedValue;
-            customProvinceInput.value = '';
-            loadCities(selectedValue);
+            if (selectedValue === 'other') {
+                // Tampilkan input custom provinsi
+                customProvinceInput.style.display = 'block';
+                customProvinceInput.value = '';
+                selectedProvince.value = '';
+
+                // Hapus event listener lama jika ada
+                customProvinceInput.oninput = null;
+
+                // Tambahkan event listener baru untuk input custom
+                customProvinceInput.oninput = function() {
+                    selectedProvince.value = this.value;
+
+                    // Kosongkan city dropdown jika provinsi custom dipilih
+                    cityDropdown.innerHTML = '<option value="">Pilih Kota</option>';
+
+                    // Tambahkan "PILIH LAINNYA" di dropdown kota
+                    const otherOption = document.createElement('option');
+                    otherOption.value = 'other';
+                    otherOption.textContent = 'PILIH LAINNYA';
+                    otherOption.className = 'bg-yellow-400 text-white';
+                    cityDropdown.appendChild(otherOption);
+                };
+            } else {
+                customProvinceInput.style.display = 'none';
+                selectedProvince.value = selectedValue;
+                customProvinceInput.value = '';
+                loadCities(selectedValue);
+            }
         }
-    }
 
 
-    // Function to handle city change
-    function handleCityChange(event) {       
-        const selectedValue = event.target.value;
-        const customCityInput = document.getElementById('customCityInput');
-        const selectedCity = document.getElementById('selectedCity');
+        // Function to handle city change
+        function handleCityChange(event) {
+            const selectedValue = event.target.value;
+            const customCityInput = document.getElementById('customCityInput');
+            const selectedCity = document.getElementById('selectedCity');
 
-        if (selectedValue === 'other') {
-            // Tampilkan input custom kota
-            customCityInput.style.display = 'block';
-            customCityInput.value = '';
-            selectedCity.value = '';
-            
-            // Tambahkan event listener untuk custom input kota
-            customCityInput.oninput = function() {
-                selectedCity.value = this.value;
-            };
-            
-        } else {
-            // Sembunyikan input custom kota
-            customCityInput.style.display = 'none';
-            selectedCity.value = selectedValue;
-            customCityInput.value = '';
-            loadDistricts(selectedValue); 
+            if (selectedValue === 'other') {
+                // Tampilkan input custom kota
+                customCityInput.style.display = 'block';
+                customCityInput.value = '';
+                selectedCity.value = '';
+
+                // Tambahkan event listener untuk custom input kota
+                customCityInput.oninput = function() {
+                    selectedCity.value = this.value;
+                };
+
+            } else {
+                // Sembunyikan input custom kota
+                customCityInput.style.display = 'none';
+                selectedCity.value = selectedValue;
+                customCityInput.value = '';
+                loadDistricts(selectedValue);
+            }
         }
-    }
 
-    // Function to handle district dropdown change
-    function handleDistrictChange(event) {
-        
-        const selectedValue = event.target.value;
-        const customDistrictInput = document.getElementById('customDistrictInput');
-        const selectedDistrict = document.getElementById('selectedDistrict');
+        // Function to handle district dropdown change
+        function handleDistrictChange(event) {
 
-        if (selectedValue === 'other') {
-            // Tampilkan input custom district
-            customDistrictInput.style.display = 'block'; // Tampilkan input custom
-            customDistrictInput.value = '';
-            selectedDistrict.value = ''; 
+            const selectedValue = event.target.value;
+            const customDistrictInput = document.getElementById('customDistrictInput');
+            const selectedDistrict = document.getElementById('selectedDistrict');
 
-            // Tambahkan event listener untuk custom input kota
-            customDistrictInput.oninput = function() {
-                selectedDistrict.value = this.value;
-            };
-        } else {
-            customDistrictInput.style.display = 'none'; 
-            selectedDistrict.value = selectedValue; 
-            customDistrictInput.value = '';
-            loadVillages(selectedValue); 
+            if (selectedValue === 'other') {
+                // Tampilkan input custom district
+                customDistrictInput.style.display = 'block'; // Tampilkan input custom
+                customDistrictInput.value = '';
+                selectedDistrict.value = '';
+
+                // Tambahkan event listener untuk custom input kota
+                customDistrictInput.oninput = function() {
+                    selectedDistrict.value = this.value;
+                };
+            } else {
+                customDistrictInput.style.display = 'none';
+                selectedDistrict.value = selectedValue;
+                customDistrictInput.value = '';
+                loadVillages(selectedValue);
+            }
         }
-    }
 
-    function handleVillageChange(event) {
-        const selectedValue = event.target.value;
-        const customVillageInput = document.getElementById('customVillageInput');
-        const selectedVillage = document.getElementById('selectedVillage');
+        function handleVillageChange(event) {
+            const selectedValue = event.target.value;
+            const customVillageInput = document.getElementById('customVillageInput');
+            const selectedVillage = document.getElementById('selectedVillage');
 
-        if (selectedValue === 'other') {
-            customVillageInput.style.display = 'block';
-            customVillageInput.value = '';
-            selectedVillage.value = '';
+            if (selectedValue === 'other') {
+                customVillageInput.style.display = 'block';
+                customVillageInput.value = '';
+                selectedVillage.value = '';
 
-            customVillageInput.oninput = function () {
-                selectedVillage.value = this.value;
-            };
+                customVillageInput.oninput = function() {
+                    selectedVillage.value = this.value;
+                };
 
-        } else {
-            customVillageInput.style.display = 'none';
-            selectedVillage.value = selectedValue;
-            customVillageInput.value = '';
+            } else {
+                customVillageInput.style.display = 'none';
+                selectedVillage.value = selectedValue;
+                customVillageInput.value = '';
+            }
         }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
         loadProvinces();
         loadCities();
@@ -1421,7 +1477,5 @@ document.onkeydown = function(event) {
 </script>
 
 
-
-    
 
 </x-main-layout>

@@ -4,11 +4,13 @@
 
 
     <div class="w-full mt-12">
-        <a href="{{ route('pendaftaran') }}">
-            <button class="p-3 text-white bg-green-600 rounded">
-                Daftar Siswa
-            </button>
-        </a>
+        <div class="flex justify-between">
+            <a href="{{ route('pendaftaran') }}">
+                <button class="p-3 text-white bg-green-600 rounded">
+                    Daftar Siswa
+                </button>
+            </a>
+        </div>
         @if(session('success'))
         <div x-data="{ show: true }"
             x-init="setTimeout(() => show = false, 10000)"
@@ -29,7 +31,7 @@
             <span>{{ session('success') }}</span>
         </div>
         @endif
-        <p class="flex items-center p-5 text-xl ">
+        <p class="flex items-center py-5 text-xl ">
             Al-Mazaya Blog
         </p>
         <div class="overflow-auto bg-white">
@@ -74,6 +76,7 @@
                     @forelse ($siswas as $key => $siswa)
                     <tr class="border-b">
                         <td class="px-4 py-3">{{ $siswas->firstItem() + $key }}</td>
+
                             <td class="px-4 py-3">{{ $siswa->nisn }}</td>
                             <td class="px-4 py-3 uppercase">{{ $siswa->nama }}</td>
                             <td class="px-4 py-3 uppercase">{{ $siswa->program_pendidikan}}</td>
@@ -108,7 +111,6 @@
                                 <img src="{{ asset('storage/' . $siswa->image_bukti_transaksi_url) }}" alt="Blog Image" class="object-cover w-32 h-32">
                             </td>
                             @endif
-                 
                         <td class="px-4 py-3">
                             <a href="{{ route('siswa.edit', $siswa->id) }}" class="block w-full p-2 mb-2 text-center text-white bg-blue-600 rounded">
                                 Edit
@@ -152,6 +154,40 @@
                 </div>
             </div>
         </div>
+        <form action="{{ route('download.images') }}" method="GET" class="max-w-lg p-6 mx-auto bg-white rounded-lg shadow-md">
+            @csrf
+            <div class="mb-4">
+                <label for="tahun" class="block mb-2 text-sm font-medium text-gray-700">Year</label>
+                <input
+                    type="number"
+                    name="tahun"
+                    id="tahun"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter year (e.g., 2025)"
+                    required>
+            </div>
+
+            <div class="mb-4">
+                <label for="program_pendidikan" class="block mb-2 text-sm font-medium text-gray-700">Program Pendidikan</label>
+                <select
+                    name="program_pendidikan"
+                    id="program_pendidikan"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required>
+                    <option value="wustha">Wustha</option>
+                    <option value="ulya">Ulya</option>
+                    <option value="mts">MTS</option>
+                    <option value="ma">MA</option>
+                </select>
+            </div>
+
+            <button
+                type="submit"
+                class="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
+                Download Images
+            </button>
+        </form>
+
         @if(session('error'))
         <div x-data="{ show: true }"
             x-init="setTimeout(() => show = false, 3000)"

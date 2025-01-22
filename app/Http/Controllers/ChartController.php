@@ -19,7 +19,7 @@ class ChartController extends Controller
             ->groupBy('tingkatan')
             ->get()
             ->sortBy(function ($item) {
-                $order = ['MTS', 'MA', 'Santri Pondok'];
+                $order = ['MTS', 'MA', 'Ulya', 'Wustha'];
                 return array_search($item->tingkatan, $order);
             })
             ->values();
@@ -40,7 +40,7 @@ class ChartController extends Controller
 
         // Ensure the 'tingkatan' are sorted correctly
         $orderedData = $data->sortBy(function ($item) {
-            $order = ['MTs', 'MA', 'Santri Pondok'];
+            $order = ['MTs', 'MA', 'Ulya', 'Wustha'];
             return array_search($item->tingkatan, $order);
         })->values();
 
