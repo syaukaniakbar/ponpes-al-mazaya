@@ -5,34 +5,13 @@
     <section class="max-w-4xl mx-auto p-8 shadow-md rounded-lg my-28 border">
         <h1 class="text-2xl font-bold text-center mb-2">Pendaftaran Santri Baru</h1>
         <p class="text-center text-gray-600 mb-6">Isikan data dengan benar untuk proses pendaftaran.</p>
-        
-        @if(session('success'))
-        <div x-data="{ show: true }"
-            x-init="setTimeout(() => show = false, 10000)"
-            x-show="show"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 transform scale-90"
-            x-transition:enter-end="opacity-100 transform scale-100"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100 transform scale-100"
-            x-transition:leave-end="opacity-0 transform scale-90"
-            class="fixed z-50 flex items-center w-full max-w-xs p-4 space-x-3 text-sm text-green-800 bg-green-100 border border-green-300 rounded-md shadow-lg top-24 right-5"
-            role="alert">
-            <!-- Icon -->
-            <svg class="w-5 h-5 text-green-800" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd" />
-            </svg>
-            <!-- Message -->
-            <span>{{ session('success') }}</span>
-        </div>
-        @endif
 
         <div x-data="{ currentStep: 1, totalSteps: 4 }" class="w-full">
             <!-- Stepper Indicator -->
-            <ol class="flex flex-col items-center justify-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 md:flex-row md:items-start md:text-base mb-6 md:text-start">
+            <ol class="flex flex-col items-center justify-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 md:flex-row md:items-start md:text-base lg:mb-4 lg:mt-20 md:text-start">
                 <template x-for="step in totalSteps" :key="step">
                     <li
-                        class="flex flex-col items-center mb-4 md:mb-0 md:flex-row md:items-start mx-0 md:mx-3"
+                        class="flex flex-col items-center lg:mb-20 md:mb-0 md:flex-row md:items-start mx-0 md:mx-3"
                         :class="{
                             'hidden md:flex': currentStep !== step,
                             'block md:flex text-green-600 dark:text-green-500 font-bold': currentStep === step,
@@ -79,7 +58,9 @@
 
             <!-- Step Content -->
             <div class="mt-4">
-                <div x-show="currentStep === 1" 
+                <div 
+                    x-data="{ isZoomed: false }"
+                    x-show="currentStep === 1" 
                     class="step-content"
                     x-transition:enter="transition-opacity ease-out duration-300"
                     x-transition:enter-start="opacity-0"
@@ -87,29 +68,84 @@
                     x-transition:leave="transition-opacity ease-in duration-200"
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
-                >Tahapan Pendaftaran</div>
+                >
+                    <div class="text-center mb-6">
+                        <h2 class="text-3xl font-semibold text-gray-800 mb-2">Tahapan Pendaftaran</h2>
+                        <p class="text-gray-600 text-lg">Tahapan pendaftaran yang telah ditentukan di Pondok Pesantren Al-Mazaya.</p>
+                    </div>
+                    <div class="relative">
+                        <img 
+                            :class="{ 'cursor-zoom-out': isZoomed, 'cursor-zoom-in': !isZoomed }" 
+                            @click="isZoomed = !isZoomed" 
+                            src="{{ asset('images/alur_pendaftaran_desktop.jpg') }}" 
+                            alt="alur_pendaftaran"
+                            class="w-full h-auto max-w-md md:max-w-lg lg:max-w-2xl mx-auto transition-transform duration-300"
+                            :class="{ 'cursor-zoom-out scale-150': isZoomed, 'cursor-zoom-in': !isZoomed }"
+                        >
+                    </div>
 
-              <!-- Step 1 -->
-              <div  x-show="currentStep === 2" 
-                    class="step-content"
-                    x-transition:enter="transition-opacity ease-out duration-300"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition-opacity ease-in duration-200"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                >Aturan Pondok Pesantren</div>
+                    <!-- Zoomed Background (Optional for Modal Effect) -->
+                    <div 
+                        x-show="isZoomed" 
+                        @click="isZoomed = false"
+                        class="fixed inset-0 bg-black bg-opacity-50 z-10 flex items-center justify-center"
+                    >
+                        <img 
+                            src="{{ asset('images/alur_pendaftaran_desktop.jpg') }}" 
+                            alt="alur_pendaftaran"
+                            class="max-w-7xl w-full h-auto transition-transform duration-300 top-"
+                        >
+                    </div>
+                </div>
 
-              <!-- Step 2 -->
-              <div  x-show="currentStep === 3" 
+                <div x-show="currentStep === 2"
                     class="step-content"
-                    x-transition:enter="transition-opacity ease-out duration-300"
+                    x-transition:enter="transition-opacity ease-out duration-500"
                     x-transition:enter-start="opacity-0"
                     x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition-opacity ease-in duration-200"
+                    x-transition:leave="transition-opacity ease-in duration-300"
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
-                >Unduh Surat Pernyataan</div>
+                    class="py-8 px-6 bg-white rounded-lg shadow-md"
+                    style="max-width: 1200px; margin: 0 auto;">
+                    
+                    <!-- Judul dan Deskripsi PDF -->
+                    <div class="text-center mb-6">
+                        <h2 class="text-3xl font-semibold text-gray-800 mb-2">Aturan Pondok Pesantren</h2>
+                        <p class="text-gray-600 text-lg">Dokumen ini menjelaskan berbagai aturan yang berlaku di Pondok Pesantren kami. Pastikan Anda membacanya dengan baik.</p>
+                    </div>
+                    <!-- Tampilan PDF -->
+                    <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg m-12">
+                        <iframe src="{{ $pdf1Path }}" width="100%" height="600px" class="object-cover rounded-lg shadow-lg"></iframe>
+                    </div>
+                </div>
+
+                
+                <!-- Step 2 -->
+                <div  x-show="currentStep === 3" 
+                        class="step-content"
+                        x-transition:enter="transition-opacity ease-out duration-300"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition-opacity ease-in duration-200"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
+                    >
+                    <div class="text-center mb-6">
+                        <h2 class="text-3xl font-semibold text-gray-800 mb-2">Surat Pernyataan</h2>
+                        <p class="text-gray-600 text-lg">Dokumen ini menjelaskan berbagai aturan yang berlaku di Pondok Pesantren kami. Pastikan Anda membacanya dengan baik.</p>
+                    </div>
+                    <!-- Tombol Unduh PDF -->
+                    <div class="text-center mt-4">
+                        <a href="{{ $pdf2Path }}" download="{{ $pdf2Path }}" class="inline-block text-white bg-orange-600 hover:bg-orange-800 rounded-lg px-6 py-3 mt-4">
+                            Unduh Surat Pernyataan
+                        </a>
+                    </div>
+                     <!-- Tampilan PDF -->
+                     <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg m-12">
+                        <iframe src="{{ $pdf2Path }}" width="100%" height="600px" class="object-cover rounded-lg shadow-lg"></iframe>
+                    </div>
+                </div>
 
               <!-- Step 3: Form -->
               <div  x-show="currentStep === 4" 
@@ -169,7 +205,7 @@
                         <select id="program_pendidikan" name="program_pendidikan" class="w-full p-2 border border-gray-300 rounded-md">
                             <option value="">Pilih Program Pendidikan</option>
                             <option value="wustha" {{ old('program_pendidikan') == 'wustha' ? 'selected' : '' }}>Wustha (Pondok Setara MTs dan SMP)</option>
-                            <option value="ulya" {{ old('program_pendidikan') == 'ulya' ? 'selected' : '' }}>Ulya (Pondok Setara MA dan SMA)</option>
+                            <option value="ulya" {{ old('program_pendidikan') == 'ulya' ? 'selected' : '' }}>Ulya (Pondok Setara MA dan SMA)</option>
                             <option value="mts" {{ old('program_pendidikan') == 'mts' ? 'selected' : '' }}>Madrasah Tsanawiyah (MTS)</option>
                             <option value="ma" {{ old('program_pendidikan') == 'ma' ? 'selected' : '' }}>Madrasah Aliyah (MA)</option>
                         </select>
@@ -470,8 +506,8 @@
                         <div class="text-center">
                             <h1 class="text-lg font-bold text-gray-800 sm:text-xl">YPI AZ ZAINI AL AZHARI PASER</h1>
                             <p class="text-xs text-gray-600 sm:text-sm">
-                                <span class="bg-green-700 text-white p-1 me-2 rounded">BSI</span> 
-                                2220120239
+                                <span class="me-4" >Pembayaran Rp. 200.000</span><span class="bg-green-700 text-white p-1 me-2 rounded">BSI</span> 
+                                2220120239 
                             </p>
                         </div>
                     
@@ -492,17 +528,32 @@
                         </div>
                     
                         <!-- File Input & Image Preview -->
-                        <div x-data="{ 
+                        <div 
+                            x-data="{ 
                                 imagePreview: null, 
                                 handleFilePreview(event) {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                        this.imagePreview = URL.createObjectURL(file);
+                                const file = event.target.files[0];
+                                if (file) {
+                                    this.imagePreview = URL.createObjectURL(file);
+
+                                    // Cek apakah sudah ada elemen img di dalam .imageDisplay
+                                    const imageDisplayCell = document.querySelector('.imageDisplay');
+                                    let imgElement = imageDisplayCell.querySelector('img');
+
+                                    if (!imgElement) {
+                                    // Jika belum ada, buat elemen img
+                                    imgElement = document.createElement('img');
+                                    imgElement.classList.add('object-cover', 'w-32', 'h-32', 'rounded-lg', 'shadow-md');
+                                    imageDisplayCell.appendChild(imgElement);
                                     }
+
+                                    // Update src gambar
+                                    imgElement.src = this.imagePreview;
+                                }
                                 } 
                             }" 
                             class="space-y-4"
-                        >
+                            >
                             <!-- File Input -->
                             <input
                                 class="block w-full text-xs text-gray-900 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer focus:outline-none sm:text-sm"
@@ -553,131 +604,131 @@
                                 </div>
                                 <div class="p-6 pt-0 text-center">
                                     <h3 class="mt-5 mb-6 text-xl font-semibold text-gray-700">Lanjutkan Pendaftaran?</h3>
-                                    <table class="w-full text-left table-auto">
+                                    <table class="w-full text-left table-auto border-separate border-spacing-y-2">
                                         <tbody class="space-y-2">
                                             <tr>
-                                                <td class="font-semibold text-gray-700">NISN</td>
-                                                <td id="nisnDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td class="font-medium text-gray-600">NISN</td>
+                                                <td id="nisnDisplay" class="text-gray-800 font-semibold"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Nama</td>
-                                                <td id="namaDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="namaDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Program Pendidikan</td>
-                                                <td id="programPendidikanDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="programPendidikanDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">NIK</td>
-                                                <td id="nikDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="nikDisplay" class="text-gray-800 font-semibold"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Nomor KK</td>
-                                                <td id="nomorKkDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="nomorKkDisplay" class="text-gray-800 font-semibold"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Tempat Lahir</td>
-                                                <td id="tempatLahirDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="tempatLahirDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Tanggal Lahir</td>
-                                                <td id="tanggalLahirDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="tanggalLahirDisplay" class="text-gray-800 font-semibold"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Jenis Kelamin</td>
-                                                <td id="jenisKelaminDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="jenisKelaminDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Alamat Domisili</td>
-                                                <td id="alamatDomisiliDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="alamatDomisiliDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Provinsi</td>
-                                                <td id="provinceDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="provinceDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Kota</td>
-                                                <td id="cityDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="cityDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Kecamatan</td>
-                                                <td id="districtDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="districtDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Desa</td>
-                                                <td id="villageDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="villageDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Jumlah Saudara</td>
-                                                <td id="jumlahSaudaraDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="jumlahSaudaraDisplay" class="text-gray-800 font-semibold"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Anak Ke</td>
-                                                <td id="anakKeDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="anakKeDisplay" class="text-gray-800 font-semibold"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Asal Sekolah</td>
-                                                <td id="asalSekolahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="asalSekolahDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Nama Ayah</td>
-                                                <td id="namaAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="namaAyahDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">NIK Ayah</td>
-                                                <td id="nikAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="nikAyahDisplay" class="text-gray-800 font-semibold"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Pendidikan Ayah</td>
-                                                <td id="pendidikanAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="pendidikanAyahDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Pekerjaan Ayah</td>
-                                                <td id="pekerjaanAyahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="pekerjaanAyahDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Nama Ibu</td>
-                                                <td id="namaIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="namaIbuDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">NIK Ibu</td>
-                                                <td id="nikIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="nikIbuDisplay" class="text-gray-800 font-semibold"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Pendidikan Ibu</td>
-                                                <td id="pendidikanIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="pendidikanIbuDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Pekerjaan Ibu</td>
-                                                <td id="pekerjaanIbuDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="pekerjaanIbuDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Penghasilan</td>
-                                                <td id="penghasilanDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="penghasilanDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Alamat KK</td>
-                                                <td id="alamatKkDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="alamatKkDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">No HP Orangtua</td>
-                                                <td id="noHpOrangtuaDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="noHpOrangtuaDisplay" class="text-gray-800 font-semibold"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Kopiah</td>
-                                                <td id="kopiahDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="kopiahDisplay" class="text-gray-800 font-semibold"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Seragam</td>
-                                                <td id="seragamDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="seragamDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
                                                 <td class="font-semibold text-gray-700">Nama Pengirim</td>
-                                                <td id="namaPengirimDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td id="namaPengirimDisplay" class="text-gray-800 font-semibold uppercase"></td>
                                             </tr>
                                             <tr>
-                                                <td class="font-semibold text-gray-700">Image</td>
-                                                <td id="imageDisplay" class="text-lg font-semibold text-gray-700"></td>
+                                                <td class="font-semibold text-gray-700" >Gambar Transaksi</td>
+                                                <td class="imageDisplay"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -777,8 +828,7 @@
     const noHpOrangtuaValue = document.getElementById('no_hp_orangtua').value;
     const kopiahValue = document.getElementById('kopiah').value;
     const seragamValue = document.getElementById('seragam').value;
-    const namaPengirim = document.getElementById('nama_pengirim').value;
-    const image = document.getElementById('image').value;
+    const namaPengirimValue = document.getElementById('nama_pengirim').value;
 
     nisnDisplay.textContent = `${nisnValue}`;
     namaDisplay.textContent = `${namaValue}`;
@@ -809,6 +859,7 @@
     noHpOrangtuaDisplay.textContent = `${noHpOrangtuaValue}`;
     kopiahDisplay.textContent = `${kopiahValue}`;
     seragamDisplay.textContent = `${seragamValue}`;
+    namaPengirimDisplay.textContent = `${namaPengirimValue}`;
     
 
     document.getElementById(modalId).style.display = 'block'
@@ -1027,14 +1078,20 @@ document.onkeydown = function(event) {
     });
 </script>
 
+{{-- Function Kopiah --}}
 <script>
     function toggleKopiahDropdown() {
         const jenisKelamin = document.getElementById('jenis_kelamin').value;
         const kopiahContainer = document.getElementById('kopiah_container');
+        const kopiah = document.getElementById('kopiah');
 
         if (jenisKelamin === 'perempuan') {
             kopiahContainer.style.display = 'none'; 
-            kopiahDropdown.value = null; 
+            kopiah.value = null; 
+            let kopiahRow = document.querySelector('#kopiahDisplay').closest('tr');
+            if (kopiahRow) {
+                kopiahRow.style.display = 'none';  // Menyembunyikan elemen <tr>
+            }
         } else {
             kopiahContainer.style.display = 'block';   
         }
@@ -1361,7 +1418,6 @@ document.onkeydown = function(event) {
         loadDistricts();
         loadVillages();
     });
-
 </script>
 
 

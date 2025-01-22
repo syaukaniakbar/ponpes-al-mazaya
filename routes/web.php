@@ -19,6 +19,7 @@ Route::prefix('/')->group(function () {
     Route::get('/cek-status', [MainController::class, 'cek_status'])->name('cek-status');
     Route::get('/pendaftaran', [SiswaController::class, 'create'])->name('pendaftaran');
     Route::post('/pendaftaran/store', [SiswaController::class, 'store'])->name('pendaftaran.store');
+    Route::get('/success/{nisn}', [SiswaController::class, 'success'])->name('success');
     Route::get('/category/{category}', [MainController::class, 'category'])->name('category');
     Route::get('/search', [MainController::class, 'search'])->name('blog.search');
     Route::get('/al-mazaya-blog', [MainController::class, 'blog'])->name('blog.al-mazaya');
@@ -39,7 +40,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
 
     Route::get('/siswa/{program_pendidikan}', [SiswaController::class, 'siswa'])->name('siswa');
     Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('siswa.edit');

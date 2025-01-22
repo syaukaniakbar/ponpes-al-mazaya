@@ -162,7 +162,7 @@
                     if (blogs.length > 0) {
                         searchResults.innerHTML = blogs
                             .map(blog => `
-                                <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}" class="block px-4 py-2 hover:bg-gray-100">
+                                <a href="/blog/${blog.slug}" class="block px-4 py-2 hover:bg-gray-100">
                                     <p>${blog.title}</p>
                                 </a>
                             `)

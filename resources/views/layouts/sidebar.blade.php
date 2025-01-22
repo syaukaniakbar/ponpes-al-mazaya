@@ -42,7 +42,8 @@
                 x-transition:leave-start="opacity-100 translate-y-0"
                 x-transition:leave-end="opacity-0 -translate-y-2"
             >
-                <a href="{{ route('siswa', ['program_pendidikan' => 'pondok']) }}" class="{{ request()->is('pondok*') ? 'active-nav-link' : '' }} block py-2">Pondok</a>
+                <a href="{{ route('siswa', ['program_pendidikan' => 'wustha']) }}" class="{{ request()->is('wustha*') ? 'active-nav-link' : '' }} block py-2">WUSTHA</a>
+                <a href="{{ route('siswa', ['program_pendidikan' => 'ulya']) }}" class="{{ request()->is('ulya*') ? 'active-nav-link' : '' }} block py-2">ULYA</a>
                 <a href="{{ route('siswa', ['program_pendidikan' => 'mts']) }}" class="{{ request()->is('mts*') ? 'active-nav-link' : '' }} block py-2">MTS</a>
                 <a href="{{ route('siswa', ['program_pendidikan' => 'ma']) }}" class="{{ request()->is('ma*') ? 'active-nav-link' : '' }} block py-2">MA</a>
             </div>

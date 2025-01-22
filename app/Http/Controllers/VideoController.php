@@ -14,9 +14,10 @@ class VideoController extends Controller
         $urls = Video::pluck('url');
         $id = Video::get()->pluck('id');
         $id = $id[0];
-       
+    
         // Initialize an empty embed URL
         $embedUrl = '';
+        $videoUrl = ''; // Menyimpan URL asli
 
         // Check if there is at least one URL in the database
         if ($urls->isNotEmpty()) {
@@ -32,13 +33,14 @@ class VideoController extends Controller
                 if (!empty($matches[1])) {
                     $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
                 }
+            } else {
+                // Jika URL bukan YouTube, tetap simpan URL asli
+                $embedUrl = $videoUrl; // Menyimpan URL asli jika bukan YouTube
             }
         }
 
-    
-
-        // Pass the embed URL to the view
-        return view('pages.admin.video-profile.admin-video-profile', compact('embedUrl', 'id'));
+        // Pass the embed URL and original URL to the view
+        return view('pages.admin.video-profile.admin-video-profile', compact('embedUrl', 'videoUrl', 'id'));
     }
 
     public function edit($id)

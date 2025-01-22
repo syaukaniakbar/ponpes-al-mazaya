@@ -6,7 +6,7 @@
     <!-- Floating WhatsApp Button -->
     <div x-data="{ tooltip: false }" class="fixed bottom-6 right-6 z-50 flex flex-col items-center space-y-2">
         <!-- Button -->
-        <a href="https://wa.me/yourphonenumber" 
+        <a href="https://wa.me/+6282324379253" 
         target="_blank" 
         rel="noopener noreferrer" 
         aria-label="Chat via WhatsApp"
@@ -65,7 +65,7 @@
                             <p class="mb-6 text-lg font-light">
                                 {{ $header->description }}
                             </p>
-                            <a href="{{ route('pendaftaran') }}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-black bg-green-600 text-white rounded-lg hover:text-white hover:bg-green-600">
+                            <a href="{{ route('pendaftaran') }}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium  bg-green-600 text-white rounded-lg hover:text-white hover:bg-green-600">
                                 Daftar Sekarang
                             </a>
                         </div>

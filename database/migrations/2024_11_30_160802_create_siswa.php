@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('penghasilan');
             $table->string('alamat_kk');
             $table->string('no_hp_orangtua');
-            $table->integer('kopiah');
+            $table->integer('kopiah')->nullable();
             $table->string('seragam');
             $table->string('nama_pengirim');
             $table->string('image_bukti_transaksi_url');

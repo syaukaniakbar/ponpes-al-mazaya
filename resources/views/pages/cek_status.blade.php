@@ -2,7 +2,7 @@
     @section('title', 'Official Website Ponpes Al-Mazaya | Home') <!-- Mengisi bagian @yield('title') di parent -->
     
     <div class="container mx-auto p-4 min-h-screen flex items-center justify-center">
-        <div class="w-full max-w-2xl">
+        <div class="w-full max-w-2xl relative">
             <h1 class="text-2xl text-center mb-6">Cek Status Pendaftaran | <span class="font-bold text-green-900" >Ponpes Al-Mazaya</span> </h1>
 
             <form id="searchForm" class="flex items-center w-full mb-6" onsubmit="event.preventDefault(); searchSiswa();">
@@ -25,21 +25,25 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>Cari
                 </button>
-            </form>                  
+            </form>
+            <!-- Error -->    
+            <div id="errorMessage" class="hidden transition-opacity duration-500 ease-in-out absolute w-full">
+               
+            </div>  
         </div>
         <!-- Modal for Showing Cek NISN -->
         <div id="cekModal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-900 bg-opacity-60">
-            <div class="relative max-w-4xl mx-auto bg-white rounded-lg shadow-xl top-20">
+            <div class="relative max-w-4xl mx-auto bg-white rounded-lg shadow-xl top-6">
                 <!-- Close Button -->
                 <div class="flex justify-end p-4">
-                    <button onclick="closeModal()" class="inline-flex items-center p-2 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200">
+                    <button onclick="closeModal()" class="inline-flex items-center p-2 text-sm text-white bg-red-600 rounded-lg hover:bg-white hover:text-red-600 duration-100">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                         </svg>
                     </button>
                 </div>
                 <!-- Cek NISN Content -->
-                <div id="blogDetailContent" class="p-8 mb-12 text-left">
+                <div id="blogDetailContent" class="ps-8 pe-8 pb-8 mb-12">
                     <!-- Cek NISN will be inserted here dynamically -->
                 </div>
             </div>
@@ -86,256 +90,278 @@
                 // If successful, display data
                 if (result.status === 'success') {
                     let content = `
-                        <h2 class="text-2xl font-bold mb-6">Detail Siswa</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
+                        <div class="grid grid-cols-1 gap-6">
+                            <h2 class="text-3xl font-semibold text-center text-gray-900">Detail Siswa</h2>
                             <!-- Nomor Induk Siswa Nasional -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Induk Siswa Nasional (NISN)</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                                     ${result.data.nisn}
                                 </div>
                             </div>
 
                             <!-- Nama Lengkap -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap (Sesuai Akta/KTP)</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.nama}
                                 </div>
                             </div>
 
                             <!-- Program Pendidikan -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Program Pendidikan</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.program_pendidikan}
                                 </div>
                             </div>
 
                             <!-- NIK -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Induk Kependudukan (NIK)</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                                     ${result.data.nik}
                                 </div>
                             </div>
 
                             <!-- Nomor KK -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Kartu Keluarga</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                                     ${result.data.nomor_kk}
                                 </div>
                             </div>
 
                             <!-- Tempat & Tanggal Lahir -->
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Tempat Lahir</label>
-                                    <div class="p-2 border border-gray-300 rounded-md">
+                                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                         ${result.data.tempat_lahir}
                                     </div>
                                 </div>
-                                <div>
+                                <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Lahir</label>
-                                    <div class="p-2 border border-gray-300 rounded-md">
+                                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                                         ${result.data.tanggal_lahir}
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Jenis Kelamin -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Kelamin</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.jenis_kelamin}
                                 </div>
                             </div>
 
                             <!-- Alamat Domisili -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Alamat Domisili</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.alamat_domisili}
                                 </div>
                             </div>
 
                             <!-- Provinsi -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Provinsi</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.provinsi}
                                 </div>
                             </div>
 
                             <!-- Kota -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Kota</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.kota}
                                 </div>
                             </div>
 
                             <!-- Kecamatan -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Kecamatan</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.kecamatan}
                                 </div>
                             </div>
 
                             <!-- Kelurahan -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Kelurahan</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.kelurahan}
                                 </div>
                             </div>
 
                             <!-- Jumlah Saudara -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Jumlah Saudara</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                                     ${result.data.jumlah_saudara}
                                 </div>
                             </div>
 
                             <!-- Anak Ke -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Anak Ke</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                                     ${result.data.anak_ke}
                                 </div>
                             </div>
 
                             <!-- Asal Sekolah -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Asal Sekolah</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.asal_sekolah}
                                 </div>
                             </div>
 
                             <!-- Nama Ayah -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Nama Ayah</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.nama_ayah}
                                 </div>
                             </div>
 
                             <!-- NIK Ayah -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">NIK Ayah</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                                     ${result.data.nik_ayah}
                                 </div>
                             </div>
 
                             <!-- Pendidikan Ayah -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Pendidikan Ayah</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.pendidikan_ayah}
                                 </div>
                             </div>
 
                             <!-- Pekerjaan Ayah -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Pekerjaan Ayah</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.pekerjaan_ayah}
                                 </div>
                             </div>
 
                             <!-- Nama Ibu -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Nama Ibu</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.nama_ibu}
                                 </div>
                             </div>
 
                             <!-- NIK Ibu -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">NIK Ibu</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                                     ${result.data.nik_ibu}
                                 </div>
                             </div>
 
                             <!-- Pendidikan Ibu -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Pendidikan Ibu</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.pendidikan_ibu}
                                 </div>
                             </div>
 
                             <!-- Pekerjaan Ibu -->
-                            <div class="mb-4">
+                            <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Pekerjaan Ibu</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                                     ${result.data.pekerjaan_ibu}
                                 </div>
                             </div>
-                            <div class="mb-4">
+                        </div>
+
+                        <!-- Penghasilan -->
+                        <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Penghasilan</label>
-                            <div class="p-2 border border-gray-300 rounded-md">
-                                    ${result.data.penghasilan}
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Alamat Sesuai Kartu Keluarga (KK)</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
-                                    ${result.data.alamat_kk}
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Nomor HP Orangtua (WhatsApp)</label>
-                                <div class="p-2 border border-gray-300 rounded-md">
-                                    ${result.data.no_hp_orangtua}
-                                </div>
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
+                                ${result.data.penghasilan}
                             </div>
                         </div>
+
+                        <!-- Alamat Sesuai Kartu Keluarga (KK) -->
+                        <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Alamat Sesuai Kartu Keluarga (KK)</label>
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
+                                ${result.data.alamat_kk}
+                            </div>
+                        </div>
+
+                        <!-- Nomor HP Orangtua -->
+                        <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nomor HP Orangtua (WhatsApp)</label>
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                ${result.data.no_hp_orangtua}
+                            </div>
+                        </div>
+
+
+                            
                     `;
     
                     // Only show Kopiah field if gender is male
                     if (result.data.jenis_kelamin === "laki-laki") {
                         content += `
-                        <div class="mb-4">
+                        <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Ukuran Kopiah</label>
-                            <div class="p-2 border border-gray-300 rounded-md">
-                               <p>Ukuran ${result.data.kopiah}</p>  
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
+                                ${result.data.kopiah}
                             </div>
                         </div>`;
                     }
     
                     // Display Seragam field
                     content += `
-                    <div class="mb-4">
+                    <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Ukuran Seragam</label>
-                        <div class="p-2 border border-gray-300 rounded-md">
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                             ${result.data.seragam}
                         </div>        
                     </div>`;
     
                     blogDetailContent.innerHTML = content;
                     openModal(); // Open modal
+
+                    errorMessage.innerHTML = '';
                 } else {
                     // If not found, display error message
-                    blogDetailContent.innerHTML = `<p class="text-red-500">${result.message}</p>`;
-                    openModal(); // Open modal for error message
+                    document.getElementById("errorMessage").classList.remove("hidden");
+
+                    errorMessage.innerHTML = `
+                    <div class="bg-red-100 border border-red-400 text-red-700 rounded-lg shadow-sm text-center">
+                        <p class="font-medium">${result.message}</p>
+                    </div>
+
+                    
+                    `;
                 }
     
             } catch (error) {
                 // If an error occurs during fetch
                 console.error('Error fetching data:', error); // Log error for debugging
-                blogDetailContent.innerHTML = `<p class="text-red-500">Terjadi kesalahan. Silakan coba lagi.</p>`;
-                openModal(); // Open modal to show error message
+
+                document.getElementById("errorMessage").classList.remove("hidden");
+
+                errorMessage.innerHTML = 
+                `
+                <div class="bg-red-100 border border-red-400 text-red-700 rounded-lg shadow-sm text-center">
+                    <p class="font-medium">Terjadi kesalahan. Silakan coba lagi.</p>
+                </div>
+                `;
             }
         }
     </script>
