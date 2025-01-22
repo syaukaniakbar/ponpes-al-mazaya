@@ -76,11 +76,27 @@
                     @endforelse
                 </tbody>
             </table>
-
-            <!-- Pagination -->
-            <div class="flex justify-center p-10 mt-6">
+            <div class="w-full mt-16 mb-16 flex justify-center">
                 <div class="flex items-center space-x-2">
-                    {{ $teacherStaffs->links('pagination::tailwind') }}
+                    @if ($teacherStaffs->onFirstPage())
+                        <span class="px-4 py-2 bg-gray-300 text-gray-700 rounded cursor-not-allowed">← Previous</span>
+                    @else
+                        <a href="{{ $teacherStaffs->previousPageUrl() }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">← Previous</a>
+                    @endif
+        
+                    @foreach ($teacherStaffs->getUrlRange(1, $teacherStaffs->lastPage()) as $page => $url)
+                        @if ($page == $teacherStaffs->currentPage())
+                            <span class="px-4 py-2 bg-green-600 text-white rounded font-bold">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-green-600 hover:text-white">{{ $page }}</a>
+                        @endif
+                    @endforeach
+        
+                    @if ($teacherStaffs->hasMorePages())
+                        <a href="{{ $teacherStaffs->nextPageUrl() }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Next →</a>
+                    @else
+                        <span class="px-4 py-2 bg-gray-300 text-gray-700 rounded cursor-not-allowed">Next →</span>
+                    @endif
                 </div>
             </div>
         </div>

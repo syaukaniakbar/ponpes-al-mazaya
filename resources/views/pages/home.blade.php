@@ -2,6 +2,40 @@
 
     @section('title', 'Official Website Ponpes Al-Mazaya | Home') <!-- Mengisi bagian @yield('title') di parent -->
 
+
+    <!-- Floating WhatsApp Button -->
+    <div x-data="{ tooltip: false }" class="fixed bottom-6 right-6 z-50 flex flex-col items-center space-y-2">
+        <!-- Button -->
+        <a href="https://wa.me/+6282324379253" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        aria-label="Chat via WhatsApp"
+        @mouseenter="tooltip = true" 
+        @mouseleave="tooltip = false"
+        @focus="tooltip = true" 
+        @blur="tooltip = false"
+        class="flex items-center justify-center w-16 h-16 bg-green-500 text-white rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-green-300 focus:ring-offset-2 transition-all duration-300 ease-in-out">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true">
+                <path d="M187.58,144.84l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88,40,40,0,0,0,40-40A8,8,0,0,0,187.58,144.84ZM152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23L101,118a8,8,0,0,0-.73,7.51,56.47,56.47,0,0,0,30.15,30.15A8,8,0,0,0,138,155l14.61-9.74,23,11.48A24,24,0,0,1,152,176ZM128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Z"></path>
+            </svg>
+        </a>
+
+        <!-- Tooltip -->
+        <div x-show="tooltip" 
+            x-transition:enter="transition-opacity duration-300 ease-out" 
+            x-transition:enter-start="opacity-0 translate-y-2" 
+            x-transition:enter-end="opacity-100 translate-y-0" 
+            x-transition:leave="transition-opacity duration-200 ease-in" 
+            x-transition:leave-start="opacity-100 translate-y-0" 
+            x-transition:leave-end="opacity-0 translate-y-2"
+            class="absolute bottom-20 right-0 bg-gray-800 text-white text-xs font-medium px-3 py-2 rounded-md shadow-lg transition-all duration-300 ease-in-out">
+            WhatsApp
+        </div>
+    </div>
+
+
+
+
     <section class="hero-section bg-green-800 text-white w-full">
         <div class="relative w-full h-[700px] overflow-hidden" 
             x-data="{
@@ -31,7 +65,7 @@
                             <p class="mb-6 text-lg font-light">
                                 {{ $header->description }}
                             </p>
-                            <a href="{{ route('pendaftaran') }}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-black bg-green-600 text-white rounded-lg hover:text-white hover:bg-green-600">
+                            <a href="{{ route('pendaftaran') }}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium  bg-green-600 text-white rounded-lg hover:text-white hover:bg-green-600">
                                 Daftar Sekarang
                             </a>
                         </div>
@@ -60,42 +94,53 @@
         </div>
     </section>
 
-    <section class="highlight bg-white">
-        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-8 lg:grid-cols-12 my-32">
-            <!-- Title Headline -->
-            <div class="mr-auto place-self-center lg:col-span-7">
-                <h2 class="text-5xl font-bold mb-4">Headline highlighting customer results</h2>
-                <p class="text-lg mb-8">Highlight the Unique Selling Proposition (USP) with a short summary of the main feature and how it benefits customers. The idea here is to keep it short and direct. If the visitor wishes to learn more they will hit the button.</p>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <section class="highlight bg-gray-50 py-16">
+        <div class="max-w-screen-xl mx-auto px-6 sm:px-12 lg:px-20 grid lg:grid-cols-2 items-center gap-12">
+            <!-- Left Content: Title and Stats -->
+            <div class="space-y-8">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-800 leading-tight">
+                    Highlighting Our Best Results
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Experience the best outcomes with our unique approach. Here are some of the metrics that define our excellence and success in helping students achieve their goals.
+                </p>
+    
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 lg:grid-cols-2 gap-6">
                     <!-- Card 1 -->
-                    <div class="relative text-start p-4 bg-gray-100 transform transition duration-300 shadow-lg hover:shadow-xl">
-                        <p class="font-bold mb-2 text-5xl text-green-600 hover:text-green-700 transition duration-300">230</p>
-                        <p class="text-black font-medium">Jumlah Siswa MTs</p>
-                        <div class="absolute inset-0 border-green-500 border-l-4 hover:border-l-0 hover:border-b-4 transition-all duration-300"></div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 text-center">
+                        <p class="text-5xl font-extrabold text-green-600">230</p>
+                        <p class="text-gray-800 mt-2 text-lg font-semibold">Jumlah Siswa MTs</p>
                     </div>
                     <!-- Card 2 -->
-                    <div class="relative text-start p-4 bg-gray-100 transform transition duration-300 shadow-lg hover:shadow-xl">
-                        <p class="font-bold mb-2 text-5xl text-green-600 hover:text-green-700 transition duration-300">98</p>
-                        <p class="text-black font-medium">Jumlah Siswa MA</p>
-                        <div class="absolute inset-0 border-green-500 border-l-4 hover:border-l-0 hover:border-b-4 transition-all duration-300"></div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 text-center">
+                        <p class="text-5xl font-extrabold text-green-600">98</p>
+                        <p class="text-gray-800 mt-2 text-lg font-semibold">Jumlah Siswa MA</p>
                     </div>
                     <!-- Card 3 -->
-                    <div class="relative text-start p-4 bg-gray-100 transform transition duration-300 shadow-lg hover:shadow-xl">
-                        <p class="font-bold mb-2 text-5xl text-green-600 hover:text-green-700 transition duration-300">0</p>
-                        <p class="text-black font-medium">Jumlah Santri Pondok</p>
-                        <div class="absolute inset-0 border-green-500 border-l-4 hover:border-l-0 hover:border-b-4 transition-all duration-300"></div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 text-center">
+                        <p class="text-5xl font-extrabold text-green-600">0</p>
+                        <p class="text-gray-800 mt-2 text-lg font-semibold">Jumlah Santri Wustha</p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 text-center">
+                        <p class="text-5xl font-extrabold text-green-600">0</p>
+                        <p class="text-gray-800 mt-2 text-lg font-semibold">Jumlah Santri Ulya</p>
                     </div>
                 </div>
-
             </div>
-
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex pl-14">
-                <img src="{{ asset('images/ponpes-headline.png') }}" alt="ponpes-al-mazaya-highlight" class="w-full max-w-lg lg:max-w-xl">
+    
+            <!-- Right Content: Image -->
+            <div class="flex justify-center lg:justify-end">
+                <img 
+                    src="{{ asset('images/ponpes-headline.png') }}" 
+                    alt="Ponpes Al-Mazaya Highlight" 
+                    class="w-full max-w-md lg:max-w-lg object-contain rounded-xl shadow-xl"
+                >
             </div>
         </div>
     </section>
-
+    
     <!-- Guru dan staff -->
     <section class="staff bg-green-800">
         <div class="grid max-w-screen-xl px-4 py-16 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
