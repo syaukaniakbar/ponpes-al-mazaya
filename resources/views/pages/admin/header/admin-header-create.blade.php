@@ -56,18 +56,18 @@
                     maxlength="100">
 
             </div>
-            
+
             <p>Jumlah Karakter <span class="jumlah">0</span></p>
-      
+
             <label for="message" class="block my-4 text-sm font-medium text-gray-900 dark:text-white">Tambahkan Deskripsi</label>
-            <textarea 
-                id="description" 
-                name="description" 
-                rows="2" 
-                class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" 
+            <textarea
+                id="description"
+                name="description"
+                rows="2"
+                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Masukkan Deskripsi">{{ old('description') }}
             </textarea>
-            
+
             <label class="block my-5 text-sm font-medium text-gray-900" for="image">Tambahkan Gambar Thumbnail</label>
 
             <div x-data="{ imagePreview: null, handleFilePreview(event) {
@@ -84,8 +84,8 @@
                     name="image"
                     accept="image/*"
                     @change="handleFilePreview($event)">
-                
-                <p class="bg-red-600 text-center text-white p-4 rounded" >thumbnail menggunakan format ; jpeg,png,jpg | max: 2mb | 16:9 diutamakan</p>
+
+                <p class="p-4 text-center text-red-600 border border-red-600 rounded">thumbnail menggunakan format ; jpeg,png,jpg | max: 5mb | 16:9 diutamakan</p>
 
                 <!-- Image Preview -->
                 <template x-if="imagePreview">
@@ -131,7 +131,7 @@
         </div>
         @endif
     </div>
-    
+
     {{-- Menghitung jumlah karakter title --}}
     <script>
         // Get the elements

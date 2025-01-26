@@ -137,7 +137,7 @@
                     accept="image/*"
                     @change="handleFilePreview($event)">
 
-                <p class="p-4 text-center text-white bg-red-600 rounded">foto menggunakan format ; jpeg,png,jpg | max: 2mb | 3:4 diutamakan</p>
+                <p class="p-4 text-center text-red-600 border border-red-600 rounded">foto menggunakan format ; jpeg,png,jpg | max: 5mb | 3:4 diutamakan</p>
 
                 <!-- Image Preview -->
                 <template x-if="imagePreview">

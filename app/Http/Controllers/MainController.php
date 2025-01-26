@@ -5,42 +5,58 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Video;
 use App\Models\Header;
+use App\Models\JumlahSiswa;
 use App\Models\NavLink;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
     public function index()
-{   
-    $headers = Header::all();
-    $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3); 
-    
-    // Retrieve all URLs from the 'url' column
-    $urls = Video::pluck('url');
+    {
+        $currentYear = Carbon::now()->year;
 
-    // Initialize an empty embed URL
-    $embedUrl = '';
+        $headers = Header::all();
 
-    // Check if there is at least one URL in the database
-    if ($urls->isNotEmpty()) {
-        // Get the first URL
-        $videoUrl = $urls[0];
+        // Fetch data for the past 3 years
+        $students = JumlahSiswa::where('tahun', '>=', $currentYear - 2)
+            ->orderBy('tahun', 'desc')
+            ->get()
+            ->groupBy('tingkatan')
+            ->map(function ($group) {
+                return $group->sum('total_siswa');
+            });
 
-        // Check if the URL is a valid YouTube URL
-        if (strpos($videoUrl, 'youtube.com') !== false || strpos($videoUrl, 'youtu.be') !== false) {
-            // Extract the video ID from the URL
-            preg_match('/(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\s]{11}))/i', $videoUrl, $matches);
+        $years = range($currentYear - 2, $currentYear);
 
-            // If a video ID is found, construct the embed URL
-            if (!empty($matches[1])) {
-                $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
+        $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3);
+
+        // Retrieve all URLs from the 'url' column
+        $urls = Video::pluck('url');
+
+        // Initialize an empty embed URL
+        $embedUrl = '';
+
+        // Check if there is at least one URL in the database
+        if ($urls->isNotEmpty()) {
+            // Get the first URL
+            $videoUrl = $urls[0];
+
+            // Check if the URL is a valid YouTube URL
+            if (strpos($videoUrl, 'youtube.com') !== false || strpos($videoUrl, 'youtu.be') !== false) {
+                // Extract the video ID from the URL
+                preg_match('/(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\s]{11}))/i', $videoUrl, $matches);
+
+                // If a video ID is found, construct the embed URL
+                if (!empty($matches[1])) {
+                    $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
+                }
             }
         }
-    }
 
-    // Kirim data ke view
-    return view('pages.home', compact('headers', 'blogs','embedUrl'));
-}
+        // Kirim data ke view
+        return view('pages.home', compact('headers', 'students', 'years', 'blogs', 'embedUrl'));
+    }
 
 
     public function cek_status()
@@ -64,10 +80,10 @@ class MainController extends Controller
         $blogs = Blog::where('category', $category)
             ->orderBy('created_at', 'desc')
             ->paginate(9);
-    
+
         return view('pages.blog', compact('blogs')); // Corrected variable name
     }
-    
+
     public function show($slug)
     {
         $blog = Blog::where('slug', $slug)->firstOrFail();
@@ -105,5 +121,4 @@ class MainController extends Controller
         // Return data sebagai JSON
         return response()->json($blogs);
     }
-
 }
