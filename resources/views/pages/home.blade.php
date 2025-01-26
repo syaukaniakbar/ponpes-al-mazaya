@@ -33,9 +33,6 @@
         </div>
     </div>
 
-
-
-
     <section class="hero-section bg-green-800 text-white w-full">
         <div class="relative w-full h-[700px] overflow-hidden" 
             x-data="{

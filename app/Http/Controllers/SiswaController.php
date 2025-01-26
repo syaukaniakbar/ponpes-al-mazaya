@@ -65,7 +65,7 @@ class SiswaController extends Controller
             'kopiah' => 'nullable|string|max:10',
             'seragam' => 'nullable|string|max:10',
             'nama_pengirim' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
         ], 
         
         [
@@ -100,7 +100,7 @@ class SiswaController extends Controller
             'seragam.max' => 'Seragam maksimal 10 karakter.',
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'File gambar harus dalam format jpeg, png, atau jpg.',
-            'image.max' => 'Ukuran file gambar tidak boleh lebih dari 2MB.',
+            'image.max' => 'Ukuran file gambar tidak boleh lebih dari 5MB.',
         ]);
 
         // Initialize image path
@@ -221,7 +221,42 @@ class SiswaController extends Controller
         'no_hp_orangtua' => 'required|string',
         'kopiah' => 'nullable|string|max:10',
         'seragam' => 'nullable|string|max:10',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+    ],  
+        
+    [
+        'nisn.required' => 'NISN harus diisi.',
+        'nama.required' => 'Nama harus diisi.',
+        'program_pendidikan.required' => 'Program pendidikan harus dipilih.',
+        'nik.required' => 'NIK harus diisi.',
+        'nomor_kk.required' => 'Nomor KK harus diisi.',
+        'tempat_lahir.required' => 'Tempat lahir harus diisi.',
+        'tanggal_lahir.required' => 'Tanggal lahir harus diisi.',
+        'jenis_kelamin.required' => 'Jenis kelamin harus dipilih.',
+        'alamat_domisili.required' => 'Alamat domisili harus diisi.',
+        'provinsi.required' => 'Provinsi harus diisi.',
+        'kota.required' => 'Kota harus diisi.',
+        'kecamatan.required' => 'Kecamatan harus diisi.',
+        'kelurahan.required' => 'Kelurahan harus diisi.',
+        'jumlah_saudara.required' => 'Jumlah saudara harus diisi.',
+        'anak_ke.required' => 'Anak ke harus diisi.',
+        'asal_sekolah.required' => 'Asal sekolah harus diisi.',
+        'nama_ayah.required' => 'Nama ayah harus diisi.',
+        'nik_ayah.required' => 'NIK ayah harus diisi.',
+        'pendidikan_ayah.required' => 'Pendidikan ayah harus diisi.',
+        'pekerjaan_ayah.required' => 'Pekerjaan ayah harus diisi.',
+        'nama_ibu.required' => 'Nama ibu harus diisi.',
+        'nik_ibu.required' => 'NIK ibu harus diisi.',
+        'pendidikan_ibu.required' => 'Pendidikan ibu harus diisi.',
+        'pekerjaan_ibu.required' => 'Pekerjaan ibu harus diisi.',
+        'penghasilan.required' => 'Penghasilan harus diisi.',
+        'alamat_kk.required' => 'Alamat KK harus diisi.',
+        'no_hp_orangtua.required' => 'Nomor HP orangtua harus diisi.',
+        'kopiah.max' => 'Kopiah maksimal 10 karakter.',
+        'seragam.max' => 'Seragam maksimal 10 karakter.',
+        'image.image' => 'File yang diunggah harus berupa gambar.',
+        'image.mimes' => 'File gambar harus dalam format jpeg, png, atau jpg.',
+        'image.max' => 'Ukuran file gambar tidak boleh lebih dari 5MB.',
     ]);
 
     $siswa = Siswa::findOrFail($id);

@@ -71,7 +71,7 @@ class HeaderController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'title' => 'required|string|max:155',
             'description' => 'required|string',
         ]);

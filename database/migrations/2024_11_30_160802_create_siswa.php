@@ -44,6 +44,7 @@ return new class extends Migration
             $table->string('seragam');
             $table->string('nama_pengirim');
             $table->string('image_bukti_transaksi_url');
+            $table->string('status_pendaftaran')->default('menunggu verifikasi');
             $table->timestamps();
         });
     }

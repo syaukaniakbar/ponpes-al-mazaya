@@ -42,7 +42,7 @@
                 </li>
                 @endforeach
                 <li>
-                    <a href=" {{ route('pendaftaran') }}" class="block px-4 py-2 text-white bg-green-600 rounded text-center">Pendaftaran</a>
+                    <a href=" {{ route('pendaftaran') }}" class="block px-4 py-2 mb-4 mt-6 md:mb-0 md:mt-0 text-white bg-green-600 rounded text-center">Pendaftaran</a>
                 </li>
                 <li>
                     <a href=" {{ route('cek-status') }}" class="block px-4 py-2 text-green-700 bg-white rounded text-center border border-green-700">Cek Status Pendaftaran</a>

@@ -41,7 +41,8 @@ class Siswa extends Model
         'kopiah',
         'seragam',
         'nama_pengirim',
-        'image_bukti_transaksi_url'
+        'image_bukti_transaksi_url',
+        'status_pendaftaran'
     ];
 
 
