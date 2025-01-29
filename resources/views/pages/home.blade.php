@@ -50,22 +50,21 @@
             <div class="flex h-full transition-transform duration-700 ease-out"
                 :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
                 @foreach ($headers as $header)
-                    <div class="relative w-full flex-shrink-0 h-full">
-                        <img src="{{ asset('storage/' . $header->image_url) }}" alt="Slide" class="w-full object-cover h-full">
-                        <div class="absolute top-0 left-0 w-full h-full flex flex-col items-start justify-center p-7 lg:p-28 bg-black bg-opacity-70 text-white">
-                            <p class="text-lg font-light border rounded-2xl border-white px-4 py-2 mb-4">
-                                {{ $header->label}}
-                            </p>
-                            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl">
-                                {{ $header->title }}
-                            </h1>
-                            <p class="mb-6 text-lg font-light">
-                                {{ $header->description }}
-                            </p>
-                            <a href="{{ url($header->url_aksi) }}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium  bg-green-600 text-white rounded-lg hover:text-white hover:bg-green-600">
-                                {{ $header->nama_tombol_aksi}}
-                            </a>
-                        </div>
+                <div class="relative flex-shrink-0 w-full h-full">
+                    <img src="{{ asset('storage/' . $header->image_url) }}" alt="Slide" class="object-cover w-full h-full">
+                    <div class="absolute top-0 left-0 flex flex-col items-start justify-center w-full h-full text-white bg-black p-7 lg:p-28 bg-opacity-70">
+                        <p class="px-4 py-2 mb-4 text-lg font-light border border-white rounded-2xl">
+                            {{ $header->label}}
+                        </p>
+                        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl">
+                            {{ $header->title }}
+                        </h1>
+                        <p class="mb-6 text-lg font-light">
+                            {{ $header->description }}
+                        </p>
+                        <a href="{{ url($header->url_aksi) }}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-green-600 rounded-lg hover:text-white hover:bg-green-600">
+                            {{ $header->nama_tombol_aksi}}
+                        </a>
                     </div>
                 </div>
                 @endforeach
@@ -127,7 +126,7 @@
     </section>
 
     <!-- Guru dan staff -->
-    <section class="relative w-full bg-green-700 py-10" x-data="{
+    <section class="relative w-full py-10 bg-green-700" x-data="{
         teacherStaffs: {{ Js::from($teacherStaffs) }},
         currentIndex: 0,
         perPage: 4,
@@ -147,61 +146,60 @@
                 this.teacherStaffs.slice(i * this.perPage, (i + 1) * this.perPage)
             );
         }
-    }" 
-    x-init="updatePerPage(); window.addEventListener('resize', () => { updatePerPage(); currentIndex = 0 })"
->
-    <div class="text-center mb-6 px-4">
-        <h2 class="text-white text-3xl font-bold">Guru dan Staff Al Mazaya</h2>
-        <p class="text-white text-sm max-w-2xl mx-auto">
-            Mendidik dengan Hati, Membimbing dengan Dedikasi
-        </p>
-    </div>
+    }"
+        x-init="updatePerPage(); window.addEventListener('resize', () => { updatePerPage(); currentIndex = 0 })">
+        <div class="px-4 mb-6 text-center">
+            <h2 class="text-3xl font-bold text-white">Guru dan Staff Al Mazaya</h2>
+            <p class="max-w-2xl mx-auto text-sm text-white">
+                Highlight the Unique Selling Proposition (USP) with a short summary of the main feature and how it benefits customers.
+            </p>
+        </div>
 
-    <!-- Carousel Wrapper -->
-    <div class="relative w-full max-w-5xl mx-auto overflow-hidden">
-        <!-- Inner Container -->
-        <div class="flex transition-transform duration-500 ease-in-out"
-            :style="'transform: translateX(-' + (currentIndex * 100) + '%)'">
-            <template x-for="(slide, index) in slides" :key="index">
-                <div class="flex-shrink-0 w-full flex flex-wrap justify-center gap-4 px-2">
-                    <template x-for="teacherStaff in slide" :key="teacherStaff.id">
-                        <div class="w-full sm:w-[calc(100%-16px)] md:w-[calc(25%-16px)]">
-                            <div class="relative group rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
-                                <!-- Image Container -->
-                                <div class="aspect-square bg-gray-200">
-                                    <img :src="'/storage/' + teacherStaff.image_path" :alt="teacherStaff.name" 
-                                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform">
-                                </div>
-                                
-                                <!-- Text Overlay -->
-                                <div class="absolute bottom-0 left-0 right-0 bg-white text-left px-4 w-full">
-                                    <p class="font-bold text-lg mb-1" x-text="teacherStaff.name"></p>
-                                    <p class="text-sm font-medium" x-text="teacherStaff.role_detail"></p>
+        <!-- Carousel Wrapper -->
+        <div class="relative w-full max-w-5xl mx-auto overflow-hidden">
+            <!-- Inner Container -->
+            <div class="flex transition-transform duration-500 ease-in-out"
+                :style="'transform: translateX(-' + (currentIndex * 100) + '%)'">
+                <template x-for="(slide, index) in slides" :key="index">
+                    <div class="flex flex-wrap justify-center flex-shrink-0 w-full gap-4 px-2">
+                        <template x-for="teacherStaff in slide" :key="teacherStaff.id">
+                            <div class="w-full sm:w-[calc(100%-16px)] md:w-[calc(25%-16px)]">
+                                <div class="relative overflow-hidden transition-all duration-300 rounded-lg shadow-md group hover:shadow-lg">
+                                    <!-- Image Container -->
+                                    <div class="bg-gray-200 aspect-square">
+                                        <img :src="'/storage/' + teacherStaff.image_path" :alt="teacherStaff.name"
+                                            class="object-cover w-full h-full transition-transform transform group-hover:scale-105">
+                                    </div>
+
+                                    <!-- Text Overlay -->
+                                    <div class="absolute bottom-0 left-0 right-0 w-full px-4 text-left bg-white">
+                                        <p class="mb-1 text-lg font-bold" x-text="teacherStaff.name"></p>
+                                        <p class="text-sm font-medium" x-text="teacherStaff.role_detail"></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </template>
-                </div>
-            </template>
+                        </template>
+                    </div>
+                </template>
+            </div>
         </div>
-    </div>
 
-    <!-- Navigation Buttons -->
-    <div class="flex justify-center space-x-4 mt-6">
-        <button @click="currentIndex = currentIndex > 0 ? currentIndex - 1 : totalSlides - 1"
-            class="bg-white text-black px-4 py-2 rounded-full shadow-lg">❮</button>
-        <button @click="currentIndex = currentIndex < totalSlides - 1 ? currentIndex + 1 : 0"
-            class="bg-white text-black px-4 py-2 rounded-full shadow-lg">❯</button>
-    </div>
-</section>
-    
+        <!-- Navigation Buttons -->
+        <div class="flex justify-center mt-6 space-x-4">
+            <button @click="currentIndex = currentIndex > 0 ? currentIndex - 1 : totalSlides - 1"
+                class="px-4 py-2 text-black bg-white rounded-full shadow-lg">❮</button>
+            <button @click="currentIndex = currentIndex < totalSlides - 1 ? currentIndex + 1 : 0"
+                class="px-4 py-2 text-black bg-white rounded-full shadow-lg">❯</button>
+        </div>
+    </section>
+
 
     <!-- Berita al-mazaya -->
     <section class="p-6 news md:p-12 lg:p-24">
         <!-- Kolom Teks -->
         <div class="max-w-3xl mx-auto mb-12 text-center">
-            <h2 class="text-3xl md:text-4xl font-semibold mb-6 text-gray-800">Berita Al Mazaya</h2>
-            <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl">
+            <h2 class="mb-6 text-3xl font-semibold text-gray-800 md:text-4xl">Berita Al Mazaya</h2>
+            <p class="max-w-2xl mb-8 text-lg text-gray-600 md:text-xl">
                 Temukan berita terbaru dan informasi menarik seputar Al Mazaya. Dari kegiatan keagamaan hingga kegiatan sosial, kami selalu berusaha memberikan informasi yang bermanfaat untuk Anda.
             </p>
         </div>
@@ -209,48 +207,43 @@
         <!-- Blog Cards Section -->
         <div class="grid max-w-screen-xl grid-cols-1 gap-8 px-4 mx-auto sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($blogs as $blog)
-                <article class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 relative">
-                    <!-- Image -->
-                    <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}">
-                        <div class="block relative group">
-                            <img src="{{ asset('storage/' . $blog->image_url) }}" alt="{{ $blog->title }}" class="w-full h-48 sm:h-56 object-cover group-hover:opacity-90 transition">
-                            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition"></div>
+            <article class="relative flex flex-col overflow-hidden transition-transform duration-300 transform bg-white rounded-lg shadow-md hover:scale-105">
+                <!-- Image -->
+                <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}">
+                    <div class="relative block group">
+                        <img src="{{ asset('storage/' . $blog->image_url) }}" alt="{{ $blog->title }}" class="object-cover w-full h-48 transition sm:h-56 group-hover:opacity-90">
+                        <div class="absolute inset-0 transition bg-black bg-opacity-20 group-hover:bg-opacity-30"></div>
+                    </div>
+
+                    <!-- Category -->
+                    <span class="absolute px-3 py-1 text-xs font-semibold text-white uppercase bg-green-600 rounded right-2 top-2">
+                        {{ $blog->category }}
+                    </span>
+
+                    <!-- Content -->
+                    <div class="flex flex-col flex-grow p-5">
+                        <!-- Title -->
+                        <p class="mb-2 text-lg font-bold text-gray-800 transition hover:text-green-600">
+                            {{ $blog->title }}
+                        </p>
+
+                        <!-- Description -->
+                        <p class="mt-2 mb-4 text-sm text-gray-600">
+                            {!! Str::limit($blog->description, 100) !!}
+                        </p>
+
+                        <!-- Continue Reading -->
+                        <div class="mt-auto">
+                            <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}" class="font-medium text-green-600 hover:underline">
+                                Continue Reading &rarr;
+                            </a>
                         </div>
-        
-                        <!-- Category -->
-                        <span class="bg-green-600 text-white absolute text-xs font-semibold uppercase px-3 py-1 rounded right-2 top-2">
-                            {{ $blog->category }}
-                        </span>
-        
-                        <!-- Content -->
-                        <div class="p-5 flex flex-col flex-grow">
-                            <!-- Title -->
-                            <p  class="text-lg font-bold text-gray-800 hover:text-green-600 transition mb-2">
-                                {{ $blog->title }}
-                            </p>
-        
-                            <!-- Description -->
-                            <p class="text-gray-600 text-sm mt-2 mb-4">
-                                {!! Str::limit($blog->description, 100) !!}
-                            </p>
-        
-                            <!-- Continue Reading -->
-                            <div class="mt-auto">
-                                <a href="{{ route('blog.show', ['slug' => $blog->slug]) }}" class="text-green-600 font-medium hover:underline">
-                                    Continue Reading &rarr;
-                                </a>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-            @empty
-                <div class="flex items-center justify-center col-span-full w-full h-72 bg-green-100 border border-green-200 rounded-lg">
-                    <p class="text-center text-gray-600 text-lg">Postingan Tidak Tersedia.</p>
-                </div>
+                    </div>
+                </a>
             </article>
             @empty
             <div class="flex items-center justify-center w-full bg-green-100 border border-green-200 rounded-lg col-span-full h-72">
-                <p class="text-lg text-center text-gray-600">No blog posts available.</p>
+                <p class="text-lg text-center text-gray-600">Postingan Tidak Tersedia.</p>
             </div>
             @endforelse
         </div>
@@ -289,11 +282,12 @@
                     allowfullscreen>
                 </iframe>
                 @else
-                </div>
-                <tr>
-                    <td colspan="3" class="py-10 text-center">Video Tidak Tersedia!</td>
-                </tr>
-                @endif
+            </div>
+            <tr>
+                <td colspan="3" class="py-10 text-center">Video Tidak Tersedia!</td>
+            </tr>
+            @endif
+
         </div>
     </section>
 

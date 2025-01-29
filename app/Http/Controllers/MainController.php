@@ -14,46 +14,47 @@ use Illuminate\Http\Request;
 class MainController extends Controller
 {
     public function index()
-{   
-    $teacherStaffs = TeacherStaff::all();
-    $headers = Header::all();
-    $currentYear = Carbon::now()->year;
+    {
+        $teacherStaffs = TeacherStaff::all();
+        $headers = Header::all();
+        $currentYear = Carbon::now()->year;
 
-    // Fetch data for the past 3 years
-    $students = JumlahSiswa::where('tahun', '>=', $currentYear - 2)
-        ->orderBy('tahun', 'desc')
-        ->get()
-        ->groupBy('tingkatan')
-        ->map(function ($group) {
-            return $group->sum('total_siswa');
-        });
+        // Fetch data for the past 3 years
+        $students = JumlahSiswa::where('tahun', '>=', $currentYear - 2)
+            ->orderBy('tahun', 'desc')
+            ->get()
+            ->groupBy('tingkatan')
+            ->map(function ($group) {
+                return $group->sum('total_siswa');
+            });
 
-    $years = range($currentYear - 2, $currentYear);
-    $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3); 
-    
-    // Retrieve all URLs from the 'url' column
-    $urls = Video::pluck('url');
+        $years = range($currentYear - 2, $currentYear);
+        $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3);
 
-    // Initialize an empty embed URL
-    $embedUrl = '';
+        // Retrieve all URLs from the 'url' column
+        $urls = Video::pluck('url');
 
-    // Check if there is at least one URL in the database
-    if ($urls->isNotEmpty()) {
-        // Get the first URL
-        $videoUrl = $urls[0];
+        // Initialize an empty embed URL
+        $embedUrl = '';
 
-        // Check if the URL is a valid YouTube URL
-        if (strpos($videoUrl, 'youtube.com') !== false || strpos($videoUrl, 'youtu.be') !== false) {
-            // Extract the video ID from the URL
-            preg_match('/(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\s]{11}))/i', $videoUrl, $matches);
+        // Check if there is at least one URL in the database
+        if ($urls->isNotEmpty()) {
+            // Get the first URL
+            $videoUrl = $urls[0];
 
-            // If a video ID is found, construct the embed URL
-            if (!empty($matches[1])) {
-                $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
+            // Check if the URL is a valid YouTube URL
+            if (strpos($videoUrl, 'youtube.com') !== false || strpos($videoUrl, 'youtu.be') !== false) {
+                // Extract the video ID from the URL
+                preg_match('/(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\s]{11}))/i', $videoUrl, $matches);
+
+                // If a video ID is found, construct the embed URL
+                if (!empty($matches[1])) {
+                    $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
+                }
             }
         }
 
-        // Kirim data ke view
+        // Pastikan return view() tetap berjalan
         return view('pages.home', compact('headers', 'students', 'years', 'teacherStaffs', 'blogs', 'embedUrl'));
     }
 
@@ -85,7 +86,7 @@ class MainController extends Controller
 
     public function show($slug)
     {
-        $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3); 
+        $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3);
 
         $blog = Blog::where('slug', $slug)->firstOrFail();
 
