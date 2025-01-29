@@ -5,17 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Video;
 use App\Models\Header;
+use App\Models\JumlahSiswa;
 use App\Models\NavLink;
 use App\Models\TeacherStaff;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
     public function index()
-
 {   
     $teacherStaffs = TeacherStaff::all();
     $headers = Header::all();
+    $currentYear = Carbon::now()->year;
+
+    // Fetch data for the past 3 years
+    $students = JumlahSiswa::where('tahun', '>=', $currentYear - 2)
+        ->orderBy('tahun', 'desc')
+        ->get()
+        ->groupBy('tingkatan')
+        ->map(function ($group) {
+            return $group->sum('total_siswa');
+        });
+
+    $years = range($currentYear - 2, $currentYear);
     $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3); 
     
     // Retrieve all URLs from the 'url' column
@@ -39,11 +52,10 @@ class MainController extends Controller
                 $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
             }
         }
-    }
 
-    // Kirim data ke view
-    return view('pages.home', compact('headers', 'blogs','embedUrl', 'teacherStaffs'));
-}
+        // Kirim data ke view
+        return view('pages.home', compact('headers', 'students', 'years', 'teacherStaffs', 'blogs', 'embedUrl'));
+    }
 
 
     public function cek_status()
@@ -67,10 +79,10 @@ class MainController extends Controller
         $blogs = Blog::where('category', $category)
             ->orderBy('created_at', 'desc')
             ->paginate(9);
-    
+
         return view('pages.blog', compact('blogs')); // Corrected variable name
     }
-    
+
     public function show($slug)
     {
         $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3); 
@@ -110,5 +122,4 @@ class MainController extends Controller
         // Return data sebagai JSON
         return response()->json($blogs);
     }
-
 }

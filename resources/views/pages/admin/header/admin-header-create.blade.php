@@ -56,7 +56,7 @@
                     maxlength="100">
 
             </div>
-            
+
             <p>Jumlah Karakter <span class="jumlah">0</span></p>
 
             <label for="label" class="block my-4 text-sm font-medium text-gray-900">Tambahkan Label</label>
@@ -105,7 +105,7 @@
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
                 placeholder="Masukkan Deskripsi">{{ old('description') }}
             </textarea>
-            
+
             <label class="block my-5 text-sm font-medium text-gray-900" for="image">Tambahkan Gambar Thumbnail</label>
 
             <div x-data="{ imagePreview: null, handleFilePreview(event) {
@@ -124,6 +124,7 @@
                     @change="handleFilePreview($event)">
                 
                 <p class="bg-white text-center text-red-700 border border-red-700 p-4 rounded" >thumbnail menggunakan format ; jpeg,png,jpg | max: 5mb | HD / FULL HD</p>
+
 
                 <!-- Image Preview -->
                 <template x-if="imagePreview">

@@ -40,74 +40,76 @@ class SiswaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nisn' => 'required|digits:10|unique:siswa',
-            'nama' => 'required|string|max:255',
-            'program_pendidikan' => 'required|in:wustha,ulya,mts,ma',
-            'nik' => 'required|digits:16|unique:siswa',
-            'nomor_kk' => 'required|digits:16',
-            'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date|before:today',
-            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
-            'alamat_domisili' => 'required|string|max:255',
-            'provinsi' => 'required|string|max:255',
-            'kota' => 'required|string|max:255',
-            'kecamatan' => 'required|string|max:255',
-            'kelurahan' => 'required|string|max:255',
-            'jumlah_saudara' => 'required|integer|min:0',
-            'anak_ke' => 'required|integer|min:1',
-            'asal_sekolah' => 'required|string|max:255',
-            'nama_ayah' => 'required|string|max:255',
-            'nik_ayah' => 'required|digits:16',
-            'pendidikan_ayah' => 'required|string|max:255',
-            'pekerjaan_ayah' => 'required|string|max:255',
-            'nama_ibu' => 'required|string|max:255',
-            'nik_ibu' => 'required|digits:16',
-            'pendidikan_ibu' => 'required|string|max:255',
-            'pekerjaan_ibu' => 'required|string|max:255',
-            'penghasilan' => 'required|string|max:255',
-            'alamat_kk' => 'required|string|max:255',
-            'no_hp_orangtua' => 'required|string',
-            'kopiah' => 'nullable|string|max:10',
-            'seragam' => 'nullable|string|max:10',
-            'nama_pengirim' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
-        ], 
-        
-        [
-            'nisn.required' => 'NISN harus diisi.',
-            'nama.required' => 'Nama harus diisi.',
-            'program_pendidikan.required' => 'Program pendidikan harus dipilih.',
-            'nik.required' => 'NIK harus diisi.',
-            'nomor_kk.required' => 'Nomor KK harus diisi.',
-            'tempat_lahir.required' => 'Tempat lahir harus diisi.',
-            'tanggal_lahir.required' => 'Tanggal lahir harus diisi.',
-            'jenis_kelamin.required' => 'Jenis kelamin harus dipilih.',
-            'alamat_domisili.required' => 'Alamat domisili harus diisi.',
-            'provinsi.required' => 'Provinsi harus diisi.',
-            'kota.required' => 'Kota harus diisi.',
-            'kecamatan.required' => 'Kecamatan harus diisi.',
-            'kelurahan.required' => 'Kelurahan harus diisi.',
-            'jumlah_saudara.required' => 'Jumlah saudara harus diisi.',
-            'anak_ke.required' => 'Anak ke harus diisi.',
-            'asal_sekolah.required' => 'Asal sekolah harus diisi.',
-            'nama_ayah.required' => 'Nama ayah harus diisi.',
-            'nik_ayah.required' => 'NIK ayah harus diisi.',
-            'pendidikan_ayah.required' => 'Pendidikan ayah harus diisi.',
-            'pekerjaan_ayah.required' => 'Pekerjaan ayah harus diisi.',
-            'nama_ibu.required' => 'Nama ibu harus diisi.',
-            'nik_ibu.required' => 'NIK ibu harus diisi.',
-            'pendidikan_ibu.required' => 'Pendidikan ibu harus diisi.',
-            'pekerjaan_ibu.required' => 'Pekerjaan ibu harus diisi.',
-            'penghasilan.required' => 'Penghasilan harus diisi.',
-            'alamat_kk.required' => 'Alamat KK harus diisi.',
-            'no_hp_orangtua.required' => 'Nomor HP orangtua harus diisi.',
-            'kopiah.max' => 'Kopiah maksimal 10 karakter.',
-            'seragam.max' => 'Seragam maksimal 10 karakter.',
-            'image.image' => 'File yang diunggah harus berupa gambar.',
-            'image.mimes' => 'File gambar harus dalam format jpeg, png, atau jpg.',
-            'image.max' => 'Ukuran file gambar tidak boleh lebih dari 5MB.',
-        ]);
+        $request->validate(
+            [
+                'nisn' => 'required|digits:10|unique:siswa',
+                'nama' => 'required|string|max:255',
+                'program_pendidikan' => 'required|in:wustha,ulya,mts,ma',
+                'nik' => 'required|digits:16|unique:siswa',
+                'nomor_kk' => 'required|digits:16',
+                'tempat_lahir' => 'required|string|max:255',
+                'tanggal_lahir' => 'required|date|before:today',
+                'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+                'alamat_domisili' => 'required|string|max:255',
+                'provinsi' => 'required|string|max:255',
+                'kota' => 'required|string|max:255',
+                'kecamatan' => 'required|string|max:255',
+                'kelurahan' => 'required|string|max:255',
+                'jumlah_saudara' => 'required|integer|min:0',
+                'anak_ke' => 'required|integer|min:1',
+                'asal_sekolah' => 'required|string|max:255',
+                'nama_ayah' => 'required|string|max:255',
+                'nik_ayah' => 'required|digits:16',
+                'pendidikan_ayah' => 'required|string|max:255',
+                'pekerjaan_ayah' => 'required|string|max:255',
+                'nama_ibu' => 'required|string|max:255',
+                'nik_ibu' => 'required|digits:16',
+                'pendidikan_ibu' => 'required|string|max:255',
+                'pekerjaan_ibu' => 'required|string|max:255',
+                'penghasilan' => 'required|string|max:255',
+                'alamat_kk' => 'required|string|max:255',
+                'no_hp_orangtua' => 'required|string',
+                'kopiah' => 'nullable|string|max:10',
+                'seragam' => 'nullable|string|max:10',
+                'nama_pengirim' => 'nullable|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            ],
+
+            [
+                'nisn.required' => 'NISN harus diisi.',
+                'nama.required' => 'Nama harus diisi.',
+                'program_pendidikan.required' => 'Program pendidikan harus dipilih.',
+                'nik.required' => 'NIK harus diisi.',
+                'nomor_kk.required' => 'Nomor KK harus diisi.',
+                'tempat_lahir.required' => 'Tempat lahir harus diisi.',
+                'tanggal_lahir.required' => 'Tanggal lahir harus diisi.',
+                'jenis_kelamin.required' => 'Jenis kelamin harus dipilih.',
+                'alamat_domisili.required' => 'Alamat domisili harus diisi.',
+                'provinsi.required' => 'Provinsi harus diisi.',
+                'kota.required' => 'Kota harus diisi.',
+                'kecamatan.required' => 'Kecamatan harus diisi.',
+                'kelurahan.required' => 'Kelurahan harus diisi.',
+                'jumlah_saudara.required' => 'Jumlah saudara harus diisi.',
+                'anak_ke.required' => 'Anak ke harus diisi.',
+                'asal_sekolah.required' => 'Asal sekolah harus diisi.',
+                'nama_ayah.required' => 'Nama ayah harus diisi.',
+                'nik_ayah.required' => 'NIK ayah harus diisi.',
+                'pendidikan_ayah.required' => 'Pendidikan ayah harus diisi.',
+                'pekerjaan_ayah.required' => 'Pekerjaan ayah harus diisi.',
+                'nama_ibu.required' => 'Nama ibu harus diisi.',
+                'nik_ibu.required' => 'NIK ibu harus diisi.',
+                'pendidikan_ibu.required' => 'Pendidikan ibu harus diisi.',
+                'pekerjaan_ibu.required' => 'Pekerjaan ibu harus diisi.',
+                'penghasilan.required' => 'Penghasilan harus diisi.',
+                'alamat_kk.required' => 'Alamat KK harus diisi.',
+                'no_hp_orangtua.required' => 'Nomor HP orangtua harus diisi.',
+                'kopiah.max' => 'Kopiah maksimal 10 karakter.',
+                'seragam.max' => 'Seragam maksimal 10 karakter.',
+                'image.image' => 'File yang diunggah harus berupa gambar.',
+                'image.mimes' => 'File gambar harus dalam format jpeg, png, atau jpg.',
+                'image.max' => 'Ukuran file gambar tidak boleh lebih dari 5MB.',
+            ]
+        );
 
         // Initialize image path
         $imagePath = null;
@@ -115,8 +117,13 @@ class SiswaController extends Controller
         // Check if an image is uploaded
         if ($request->hasFile('image')) {
             try {
-                // Store image in the 'blog_images' folder
-                $imagePath = $request->file('image')->store('transaction_images', 'public');
+                $nisn = $request->nisn;
+                $nama = str_replace(' ', '_', $request->nama); // Replace spaces with underscores in the name
+                $fileExtension = $request->file('image')->getClientOriginalExtension(); // Get the file extension
+                $fileName = "{$nisn}_{$nama}.{$fileExtension}"; // Construct the file name
+
+                // Store the image in the 'transaction_images' directory with the new name
+                $imagePath = $request->file('image')->storeAs('transaction_images', $fileName, 'public');
             } catch (\Exception $e) {
                 // Handle errors during file upload
                 return back()->with('error', 'There was an issue uploading the image.');
@@ -196,130 +203,132 @@ class SiswaController extends Controller
     }
 
     public function update(Request $request, string $id)
-{
-    $request->validate([
-        'nisn' => 'required|digits:10|unique:siswa,nisn,' . $id, // Allow the same NISN for the current record
-        'nama' => 'required|string|max:255',
-        'program_pendidikan' => 'required|in:wustha,ulya,mts,ma',
-        'nik' => 'required|digits:16|unique:siswa,nik,' . $id, // Allow the same NIK for the current record
-        'nomor_kk' => 'required|digits:16',
-        'tempat_lahir' => 'required|string|max:255',
-        'tanggal_lahir' => 'required|date|before:today',
-        'jenis_kelamin' => 'required|in:laki-laki,perempuan',
-        'alamat_domisili' => 'required|string|max:255',
-        'provinsi' => 'required|string|max:255',
-        'kota' => 'required|string|max:255',
-        'kecamatan' => 'required|string|max:255',
-        'kelurahan' => 'required|string|max:255',
-        'jumlah_saudara' => 'required|integer|min:0',
-        'anak_ke' => 'required|integer|min:1',
-        'asal_sekolah' => 'required|string|max:255',
-        'nama_ayah' => 'required|string|max:255',
-        'nik_ayah' => 'required|digits:16',
-        'pendidikan_ayah' => 'required|string|max:255',
-        'pekerjaan_ayah' => 'required|string|max:255',
-        'nama_ibu' => 'required|string|max:255',
-        'nik_ibu' => 'required|digits:16',
-        'pendidikan_ibu' => 'required|string|max:255',
-        'pekerjaan_ibu' => 'required|string|max:255',
-        'penghasilan' => 'required|string|max:255',
-        'alamat_kk' => 'required|string|max:255',
-        'no_hp_orangtua' => 'required|string',
-        'kopiah' => 'nullable|string|max:10',
-        'seragam' => 'nullable|string|max:10',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
-    ],  
-        
-    [
-        'nisn.required' => 'NISN harus diisi.',
-        'nama.required' => 'Nama harus diisi.',
-        'program_pendidikan.required' => 'Program pendidikan harus dipilih.',
-        'nik.required' => 'NIK harus diisi.',
-        'nomor_kk.required' => 'Nomor KK harus diisi.',
-        'tempat_lahir.required' => 'Tempat lahir harus diisi.',
-        'tanggal_lahir.required' => 'Tanggal lahir harus diisi.',
-        'jenis_kelamin.required' => 'Jenis kelamin harus dipilih.',
-        'alamat_domisili.required' => 'Alamat domisili harus diisi.',
-        'provinsi.required' => 'Provinsi harus diisi.',
-        'kota.required' => 'Kota harus diisi.',
-        'kecamatan.required' => 'Kecamatan harus diisi.',
-        'kelurahan.required' => 'Kelurahan harus diisi.',
-        'jumlah_saudara.required' => 'Jumlah saudara harus diisi.',
-        'anak_ke.required' => 'Anak ke harus diisi.',
-        'asal_sekolah.required' => 'Asal sekolah harus diisi.',
-        'nama_ayah.required' => 'Nama ayah harus diisi.',
-        'nik_ayah.required' => 'NIK ayah harus diisi.',
-        'pendidikan_ayah.required' => 'Pendidikan ayah harus diisi.',
-        'pekerjaan_ayah.required' => 'Pekerjaan ayah harus diisi.',
-        'nama_ibu.required' => 'Nama ibu harus diisi.',
-        'nik_ibu.required' => 'NIK ibu harus diisi.',
-        'pendidikan_ibu.required' => 'Pendidikan ibu harus diisi.',
-        'pekerjaan_ibu.required' => 'Pekerjaan ibu harus diisi.',
-        'penghasilan.required' => 'Penghasilan harus diisi.',
-        'alamat_kk.required' => 'Alamat KK harus diisi.',
-        'no_hp_orangtua.required' => 'Nomor HP orangtua harus diisi.',
-        'kopiah.max' => 'Kopiah maksimal 10 karakter.',
-        'seragam.max' => 'Seragam maksimal 10 karakter.',
-        'image.image' => 'File yang diunggah harus berupa gambar.',
-        'image.mimes' => 'File gambar harus dalam format jpeg, png, atau jpg.',
-        'image.max' => 'Ukuran file gambar tidak boleh lebih dari 5MB.',
-    ]);
+    {
+        $request->validate(
+            [
+                'nisn' => 'required|digits:10|unique:siswa,nisn,' . $id, // Allow the same NISN for the current record
+                'nama' => 'required|string|max:255',
+                'program_pendidikan' => 'required|in:wustha,ulya,mts,ma',
+                'nik' => 'required|digits:16|unique:siswa,nik,' . $id, // Allow the same NIK for the current record
+                'nomor_kk' => 'required|digits:16',
+                'tempat_lahir' => 'required|string|max:255',
+                'tanggal_lahir' => 'required|date|before:today',
+                'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+                'alamat_domisili' => 'required|string|max:255',
+                'provinsi' => 'required|string|max:255',
+                'kota' => 'required|string|max:255',
+                'kecamatan' => 'required|string|max:255',
+                'kelurahan' => 'required|string|max:255',
+                'jumlah_saudara' => 'required|integer|min:0',
+                'anak_ke' => 'required|integer|min:1',
+                'asal_sekolah' => 'required|string|max:255',
+                'nama_ayah' => 'required|string|max:255',
+                'nik_ayah' => 'required|digits:16',
+                'pendidikan_ayah' => 'required|string|max:255',
+                'pekerjaan_ayah' => 'required|string|max:255',
+                'nama_ibu' => 'required|string|max:255',
+                'nik_ibu' => 'required|digits:16',
+                'pendidikan_ibu' => 'required|string|max:255',
+                'pekerjaan_ibu' => 'required|string|max:255',
+                'penghasilan' => 'required|string|max:255',
+                'alamat_kk' => 'required|string|max:255',
+                'no_hp_orangtua' => 'required|string',
+                'kopiah' => 'nullable|string|max:10',
+                'seragam' => 'nullable|string|max:10',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            ],
 
-    $siswa = Siswa::findOrFail($id);
+            [
+                'nisn.required' => 'NISN harus diisi.',
+                'nama.required' => 'Nama harus diisi.',
+                'program_pendidikan.required' => 'Program pendidikan harus dipilih.',
+                'nik.required' => 'NIK harus diisi.',
+                'nomor_kk.required' => 'Nomor KK harus diisi.',
+                'tempat_lahir.required' => 'Tempat lahir harus diisi.',
+                'tanggal_lahir.required' => 'Tanggal lahir harus diisi.',
+                'jenis_kelamin.required' => 'Jenis kelamin harus dipilih.',
+                'alamat_domisili.required' => 'Alamat domisili harus diisi.',
+                'provinsi.required' => 'Provinsi harus diisi.',
+                'kota.required' => 'Kota harus diisi.',
+                'kecamatan.required' => 'Kecamatan harus diisi.',
+                'kelurahan.required' => 'Kelurahan harus diisi.',
+                'jumlah_saudara.required' => 'Jumlah saudara harus diisi.',
+                'anak_ke.required' => 'Anak ke harus diisi.',
+                'asal_sekolah.required' => 'Asal sekolah harus diisi.',
+                'nama_ayah.required' => 'Nama ayah harus diisi.',
+                'nik_ayah.required' => 'NIK ayah harus diisi.',
+                'pendidikan_ayah.required' => 'Pendidikan ayah harus diisi.',
+                'pekerjaan_ayah.required' => 'Pekerjaan ayah harus diisi.',
+                'nama_ibu.required' => 'Nama ibu harus diisi.',
+                'nik_ibu.required' => 'NIK ibu harus diisi.',
+                'pendidikan_ibu.required' => 'Pendidikan ibu harus diisi.',
+                'pekerjaan_ibu.required' => 'Pekerjaan ibu harus diisi.',
+                'penghasilan.required' => 'Penghasilan harus diisi.',
+                'alamat_kk.required' => 'Alamat KK harus diisi.',
+                'no_hp_orangtua.required' => 'Nomor HP orangtua harus diisi.',
+                'kopiah.max' => 'Kopiah maksimal 10 karakter.',
+                'seragam.max' => 'Seragam maksimal 10 karakter.',
+                'image.image' => 'File yang diunggah harus berupa gambar.',
+                'image.mimes' => 'File gambar harus dalam format jpeg, png, atau jpg.',
+                'image.max' => 'Ukuran file gambar tidak boleh lebih dari 5MB.',
+            ]
+        );
 
-    // Initialize image path
-    $imagePath = $siswa->image_bukti_transaksi_url;
-  
-    // Check if a new image is uploaded
-    if ($request->hasFile('image')) {
-        try {
-            // Delete the old image if it exists
-            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-                Storage::disk('public')->delete($imagePath);
+        $siswa = Siswa::findOrFail($id);
+
+        // Initialize image path
+        $imagePath = $siswa->image_bukti_transaksi_url;
+
+        // Check if a new image is uploaded
+        if ($request->hasFile('image')) {
+            try {
+                // Delete the old image if it exists
+                if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                    Storage::disk('public')->delete($imagePath);
+                }
+
+                // Store the new image in the 'transaction_images' folder
+                $imagePath = $request->file('image')->store('transaction_images', 'public');
+            } catch (\Exception $e) {
+                return back()->with('error', 'There was an issue uploading the image.');
             }
-
-            // Store the new image in the 'transaction_images' folder
-            $imagePath = $request->file('image')->store('transaction_images', 'public');
-        } catch (\Exception $e) {
-            return back()->with('error', 'There was an issue uploading the image.');
         }
+
+        $siswa->update([
+            'nisn' => $request->nisn,
+            'nama' => $request->nama,
+            'nik' => $request->nik,
+            'no_hp_orangtua' => $request->no_hp_orangtua,
+            'program_pendidikan' => $request->program_pendidikan,
+            'nomor_kk' => $request->nomor_kk,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'alamat_domisili' => $request->alamat_domisili,
+            'provinsi' => $request->provinsi,
+            'kota' => $request->kota,
+            'kecamatan' => $request->kecamatan,
+            'kelurahan' => $request->kelurahan,
+            'jumlah_saudara' => $request->jumlah_saudara,
+            'anak_ke' => $request->anak_ke,
+            'asal_sekolah' => $request->asal_sekolah,
+            'nama_ayah' => $request->nama_ayah,
+            'nik_ayah' => $request->nik_ayah,
+            'pendidikan_ayah' => $request->pendidikan_ayah,
+            'pekerjaan_ayah' => $request->pekerjaan_ayah,
+            'nama_ibu' => $request->nama_ibu,
+            'nik_ibu' => $request->nik_ibu,
+            'pendidikan_ibu' => $request->pendidikan_ibu,
+            'pekerjaan_ibu' => $request->pekerjaan_ibu,
+            'penghasilan' => $request->penghasilan,
+            'alamat_kk' => $request->alamat_kk,
+            'kopiah' => $request->kopiah,
+            'seragam' => $request->seragam,
+            'image_bukti_transaksi_url' => $imagePath,
+        ]);
+
+        return redirect()->route('siswa.edit', ['id' => $siswa->id])->with('success', 'Update Siswa Berhasil');
     }
-
-    $siswa->update([
-        'nisn' => $request->nisn,
-        'nama' => $request->nama,
-        'nik' => $request->nik,
-        'no_hp_orangtua' => $request->no_hp_orangtua,
-        'program_pendidikan' => $request->program_pendidikan,
-        'nomor_kk' => $request->nomor_kk,
-        'tempat_lahir' => $request->tempat_lahir,
-        'tanggal_lahir' => $request->tanggal_lahir,
-        'jenis_kelamin' => $request->jenis_kelamin,
-        'alamat_domisili' => $request->alamat_domisili,
-        'provinsi' => $request->provinsi,
-        'kota' => $request->kota,
-        'kecamatan' => $request->kecamatan,
-        'kelurahan' => $request->kelurahan,
-        'jumlah_saudara' => $request->jumlah_saudara,
-        'anak_ke' => $request->anak_ke,
-        'asal_sekolah' => $request->asal_sekolah,
-        'nama_ayah' => $request->nama_ayah,
-        'nik_ayah' => $request->nik_ayah,
-        'pendidikan_ayah' => $request->pendidikan_ayah,
-        'pekerjaan_ayah' => $request->pekerjaan_ayah,
-        'nama_ibu' => $request->nama_ibu,
-        'nik_ibu' => $request->nik_ibu,
-        'pendidikan_ibu' => $request->pendidikan_ibu,
-        'pekerjaan_ibu' => $request->pekerjaan_ibu,
-        'penghasilan' => $request->penghasilan,
-        'alamat_kk' => $request->alamat_kk,
-        'kopiah' => $request->kopiah,
-        'seragam' => $request->seragam,
-        'image_bukti_transaksi_url' => $imagePath,
-    ]);
-
-    return redirect()->route('siswa.edit', ['id' => $siswa->id])->with('success', 'Update Siswa Berhasil');
-}
 
 
     public function destroy(string $id)

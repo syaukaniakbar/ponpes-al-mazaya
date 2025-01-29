@@ -52,22 +52,22 @@
                     placeholder="Masukkan Nama Link"
                     value="{{ old('name')}}"
                     maxlength="100">
-
-                <p>Jumlah Karakter <span class="jumlah">0</span></p>
+                <span class="text-xs text-gray-700 mt">Jumlah Karakter: <span class="jumlah">0</span></span>
             </div>
             <div class="mb-6">
-                <label for="content" class="block mb-2 text-lg font-medium text-gray-800">Content</label>
+                <label for="content" class="hidden mb-1 text-lg font-medium text-gray-800">Isi Konten Link</label>
                 <input
                     type="hidden"
                     id="content"
                     name="content"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    class="w-full px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     placeholder="Masukkan Nama Link"
                     value="{{ old('content')}}">
             </div>
 
 
             {{-- EDITOR --}}
+            <p for="content" class="block mb-1 text-lg font-medium text-gray-800">Isi Konten Link</p>
             <div class="">
                 <div class="w-full max-w-6xl mx-auto text-black bg-white rounded-xl" x-data="app()" x-init="init($refs.wysiwyg)">
                     <div class="overflow-hidden border border-gray-200 rounded-md">
@@ -83,9 +83,6 @@
                             </button>
                             <button type="button" class="w-10 h-10 border-l border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('formatBlock','P')">
                                 <i class="mdi mdi-format-paragraph"></i>
-                            </button>
-                            <button type="button" class="w-10 h-10 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('formatBlock','H1')">
-                                <i class="mdi mdi-format-header-1"></i>
                             </button>
                             <button type="button" class="w-10 h-10 border-r border-gray-200 outline-none focus:outline-none hover:text-indigo-500 active:bg-gray-50" @click="format('formatBlock','H2')">
                                 <i class="mdi mdi-format-header-2"></i>
@@ -120,18 +117,48 @@
             </div>
 
             <div class="mb-6">
-                <label for="is_active" class="block mb-2 text-lg font-medium text-gray-800">Is Active</label>
-                <input
-                    type="checkbox"
-                    id="is_active"
-                    name="is_active"
-                    value="1"
-                    class="rounded-md"
-                    {{ old('is_active') ? 'checked' : '' }}>
+                <label for="is_active" class="block mb-2 text-lg font-medium text-gray-800">
+                    Toggle Active Link
+                </label>
+                <div class="flex items-center space-x-3">
+                    <!-- Hidden Checkbox -->
+                    <input
+                        type="checkbox"
+                        id="is_active"
+                        name="is_active"
+                        value="1"
+                        class="hidden peer"
+                        {{ old('is_active') ? 'checked' : '' }}>
+
+                    <!-- Toggle Switch -->
+                    <label for="is_active"
+                        class="relative flex h-6 w-11 cursor-pointer items-center rounded-full border 
+                   transition-colors duration-200 peer-checked:bg-green-500 peer-checked:border-green-500 
+                   peer-unchecked:bg-gray-300 peer-unchecked:border-gray-300 @error('is_active') border-red-500 @enderror">
+                        <span
+                            class="absolute w-4 h-4 transition-transform duration-200 transform bg-white rounded-full shadow-lg left-1 top-1 peer-checked:translate-x-5 peer-unchecked:translate-x-0">
+                            <svg class="hidden w-4 h-4 text-green-500 peer-checked:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <svg class="hidden w-4 h-4 text-gray-400 peer-unchecked:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </span>
+                    </label>
+
+                    <!-- Status Text -->
+                    <span class="text-sm font-medium text-gray-700">
+                        <span class="peer-checked:text-green-600 peer-unchecked:text-gray-500">
+                            {{ old('is_active') ? 'Active' : 'Inactive' }}
+                        </span>
+                    </span>
+                </div>
+
                 @error('is_active')
-                <div class="text-sm text-red-600">{{ $message }}</div>
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
+
 
 
             <div class="flex justify-start">
@@ -185,7 +212,7 @@
                         :root { tab-size: 4; }
                         html { line-height: 1.15; text-size-adjust: 100%; }
                         body { margin: 0; padding: 1rem; color: #111827; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-                        h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+                        h2, h3, h4, h5, h6 { font-weight: bold; }
                         b, strong { font-weight: bold; }
                         i, em { font-style: italic; }
                         u { text-decoration: underline; }

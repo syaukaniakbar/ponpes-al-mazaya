@@ -278,7 +278,7 @@
 
             fetchAndRenderLineChart();
 
-            const defaultYear = new Date().getFullYear() - 1;
+            const defaultYear = new Date().getFullYear();
             yearInput.value = defaultYear;
             fetchAndRenderChartBar(defaultYear);
             submitYearButton.addEventListener('click', () => {

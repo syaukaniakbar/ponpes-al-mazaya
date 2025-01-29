@@ -116,6 +116,7 @@
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Nisn</th>
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Nama</th>
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Program Pendidikan</th>
+                        <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Tahun</th>
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Nik</th>
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Nomor Kartu Keluarga</th>
                         <th class="px-4 py-3 text-sm font-semibold text-left uppercase">Tempat Lahir</th>
@@ -151,40 +152,41 @@
                     <tr class="border-b">
                         <td class="px-4 py-3">{{ $siswas->firstItem() + $key }}</td>
 
-                            <td class="px-4 py-3">{{ $siswa->nisn }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->nama }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->program_pendidikan}}</td>
-                            <td class="px-4 py-3">{{ $siswa->nik }}</td>
-                            <td class="px-4 py-3">{{ $siswa->nomor_kk}}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->tempat_lahir }}</td>
-                            <td class="px-4 py-3">{{ $siswa->tanggal_lahir }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->jenis_kelamin }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->alamat_domisili }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->provinsi }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->kota }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->kecamatan }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->kelurahan }}</td>
-                            <td class="px-4 py-3">{{ $siswa->jumlah_saudara }}</td>
-                            <td class="px-4 py-3">{{ $siswa->anak_ke }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->asal_sekolah }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->nama_ayah }}</td>
-                            <td class="px-4 py-3 ">{{ $siswa->nik_ayah }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->pendidikan_ayah }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->pekerjaan_ayah }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->nama_ibu }}</td>
-                            <td class="px-4 py-3">{{ $siswa->nik_ibu }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->pendidikan_ibu }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->pekerjaan_ibu }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->penghasilan }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->alamat_kk }}</td>
-                            <td class="px-4 py-3">{{ $siswa->no_hp_orangtua }}</td>
-                            <td class="px-4 py-3">{{ $siswa->kopiah }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $siswa->seragam }}</td>
-                            @if ($siswa->image_bukti_transaksi_url)
-                            <td class="px-4 py-3">
-                                <img src="{{ asset('storage/' . $siswa->image_bukti_transaksi_url) }}" alt="Blog Image" class="object-cover w-32 h-32">
-                            </td>
-                            @endif
+                        <td class="px-4 py-3">{{ $siswa->nisn }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->nama }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->program_pendidikan}}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->tahun}}</td>
+                        <td class="px-4 py-3">{{ $siswa->nik }}</td>
+                        <td class="px-4 py-3">{{ $siswa->nomor_kk}}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->tempat_lahir }}</td>
+                        <td class="px-4 py-3">{{ $siswa->tanggal_lahir }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->jenis_kelamin }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->alamat_domisili }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->provinsi }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->kota }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->kecamatan }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->kelurahan }}</td>
+                        <td class="px-4 py-3">{{ $siswa->jumlah_saudara }}</td>
+                        <td class="px-4 py-3">{{ $siswa->anak_ke }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->asal_sekolah }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->nama_ayah }}</td>
+                        <td class="px-4 py-3 ">{{ $siswa->nik_ayah }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->pendidikan_ayah }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->pekerjaan_ayah }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->nama_ibu }}</td>
+                        <td class="px-4 py-3">{{ $siswa->nik_ibu }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->pendidikan_ibu }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->pekerjaan_ibu }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->penghasilan }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->alamat_kk }}</td>
+                        <td class="px-4 py-3">{{ $siswa->no_hp_orangtua }}</td>
+                        <td class="px-4 py-3">{{ $siswa->kopiah }}</td>
+                        <td class="px-4 py-3 uppercase">{{ $siswa->seragam }}</td>
+                        @if ($siswa->image_bukti_transaksi_url)
+                        <td class="px-4 py-3">
+                            <img src="{{ asset('storage/' . $siswa->image_bukti_transaksi_url) }}" alt="Blog Image" class="object-cover w-32 h-32">
+                        </td>
+                        @endif
                         <td class="px-4 py-3">
                             <a href="{{ route('siswa.edit', $siswa->id) }}" class="block w-full p-2 mb-2 text-center text-white bg-blue-600 rounded">
                                 Edit
@@ -204,26 +206,26 @@
                     <!-- Pagination -->
                 </tbody>
             </table>
-            <div class="w-full mt-16 mb-16 flex justify-center">
+            <div class="flex justify-center w-full mt-16 mb-16">
                 <div class="flex items-center space-x-2">
                     @if ($siswas->onFirstPage())
-                        <span class="px-4 py-2 bg-gray-300 text-gray-700 rounded cursor-not-allowed">← Previous</span>
+                    <span class="px-4 py-2 text-gray-700 bg-gray-300 rounded cursor-not-allowed">← Previous</span>
                     @else
-                        <a href="{{ $siswas->previousPageUrl() }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">← Previous</a>
+                    <a href="{{ $siswas->previousPageUrl() }}" class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">← Previous</a>
                     @endif
-        
+
                     @foreach ($siswas->getUrlRange(1, $siswas->lastPage()) as $page => $url)
-                        @if ($page == $siswas->currentPage())
-                            <span class="px-4 py-2 bg-green-600 text-white rounded font-bold">{{ $page }}</span>
-                        @else
-                            <a href="{{ $url }}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-green-600 hover:text-white">{{ $page }}</a>
-                        @endif
-                    @endforeach
-        
-                    @if ($siswas->hasMorePages())
-                        <a href="{{ $siswas->nextPageUrl() }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Next →</a>
+                    @if ($page == $siswas->currentPage())
+                    <span class="px-4 py-2 font-bold text-white bg-green-600 rounded">{{ $page }}</span>
                     @else
-                        <span class="px-4 py-2 bg-gray-300 text-gray-700 rounded cursor-not-allowed">Next →</span>
+                    <a href="{{ $url }}" class="px-4 py-2 text-gray-800 bg-gray-200 rounded hover:bg-green-600 hover:text-white">{{ $page }}</a>
+                    @endif
+                    @endforeach
+
+                    @if ($siswas->hasMorePages())
+                    <a href="{{ $siswas->nextPageUrl() }}" class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">Next →</a>
+                    @else
+                    <span class="px-4 py-2 text-gray-700 bg-gray-300 rounded cursor-not-allowed">Next →</span>
                     @endif
                 </div>
             </div>
