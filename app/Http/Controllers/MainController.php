@@ -6,12 +6,15 @@ use App\Models\Blog;
 use App\Models\Video;
 use App\Models\Header;
 use App\Models\NavLink;
+use App\Models\TeacherStaff;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
     public function index()
+
 {   
+    $teacherStaffs = TeacherStaff::all();
     $headers = Header::all();
     $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3); 
     
@@ -39,7 +42,7 @@ class MainController extends Controller
     }
 
     // Kirim data ke view
-    return view('pages.home', compact('headers', 'blogs','embedUrl'));
+    return view('pages.home', compact('headers', 'blogs','embedUrl', 'teacherStaffs'));
 }
 
 
@@ -70,6 +73,8 @@ class MainController extends Controller
     
     public function show($slug)
     {
+        $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3); 
+
         $blog = Blog::where('slug', $slug)->firstOrFail();
 
         // Get previous blog
@@ -82,7 +87,7 @@ class MainController extends Controller
             ->orderBy('id', 'asc')
             ->first();
 
-        return view('pages.blog-detail', compact('blog', 'previousBlog', 'nextBlog'));
+        return view('pages.blog-detail', compact('blog', 'previousBlog', 'nextBlog', 'blogs'));
     }
 
     public function navShow($slug)

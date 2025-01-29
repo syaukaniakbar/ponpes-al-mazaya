@@ -9,8 +9,11 @@ class Header extends Model
     protected $table = 'header';
 
     protected $fillable = [
-        'image_url',
         'title',
+        'label',
+        'nama_tombol_aksi',
+        'url_aksi',
+        'image_url',
         'description',
     ];
 }

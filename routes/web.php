@@ -3,6 +3,7 @@
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\TeacherStaffController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\ExcellController;
 use App\Http\Controllers\HeaderController;
@@ -13,7 +14,6 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TotalSiswaController;
-use App\Models\Siswa;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/')->group(function () {
@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('siswa.edit');
     Route::put('/siswa/update/{id}', [SiswaController::class, 'update'])->name('siswa.update');
     Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('siswa.delete');
+    Route::post('/siswa/search/admin', [SiswaController::class, 'cari_siswa'])->name('cari_siswa');
 
     Route::get('/download-images', [ImageDownloadController::class, 'downloadImages'])->name('download.images');
 
@@ -91,8 +92,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/total-siswa/delete/{id}', [TotalSiswaController::class, 'destroy'])->name('total-siswa.delete');
 
     Route::get('/video-profile', [VideoController::class, 'index'])->name('video');
+    Route::get('/video-profile/create', [VideoController::class, 'create'])->name('video.create');
+    Route::post('/video-profile/store', [VideoController::class, 'store'])->name('video.store');
     Route::get('/video-profile/edit/{id}', [VideoController::class, 'edit'])->name('video.edit');
     Route::put('/video-profile/update/{id}', [VideoController::class, 'update'])->name('video.update');
+    Route::delete('/video-profile/delete/{id}', [VideoController::class, 'destroy'])->name('video.destroy');
+
+    Route::get('/document', [DocumentController::class, 'index'])->name('document');
+    Route::get('/document/create', [DocumentController::class, 'create'])->name('document.create');
+    Route::post('/document/store', [DocumentController::class, 'store'])->name('document.store');
+    Route::get('/document/edit/{id}', [DocumentController::class, 'edit'])->name('document.edit');
+    Route::put('/document/update/{id}', [DocumentController::class, 'update'])->name('document.update');
+    Route::delete('/document/delete/{id}', [DocumentController::class, 'destroy'])->name('document.destroy');
 
     Route::get('/export', [ExcelController::class, 'index'])->name('export');
     Route::get('/export-excel', [ExcelController::class, 'exportExcel'])->name('export.excel');

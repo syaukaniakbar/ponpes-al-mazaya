@@ -45,7 +45,7 @@
         <form action="{{ route('header.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="my-6">
-                <label for="title" class="block mb-2 text-lg font-medium text-gray-800">Judul</label>
+                <label for="title" class="block my-4 text-sm font-medium text-gray-900">Judul</label>
                 <input
                     type="text"
                     id="title"
@@ -58,13 +58,51 @@
             </div>
             
             <p>Jumlah Karakter <span class="jumlah">0</span></p>
-      
-            <label for="message" class="block my-4 text-sm font-medium text-gray-900 dark:text-white">Tambahkan Deskripsi</label>
+
+            <label for="label" class="block my-4 text-sm font-medium text-gray-900">Tambahkan Label</label>
+            <input 
+                type="text" 
+                id="label"
+                name="label"
+                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Masukkan Judul"
+                value="{{ old('label')}}"
+                maxlength="100
+            ">
+            
+            <label for="nama_tombol_aksi" class="block my-4 text-sm font-medium text-gray-900">Nama Tombol Aksi</label>
+            <input  
+                type="text" 
+                id="nama_tombol_aksi"
+                name="nama_tombol_aksi"
+                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Masukkan Nama Tombol Aksi"
+                value="{{ old('nama_tombol_aksi') }}"
+                maxlength="100"
+                required
+            >
+
+            <label for="url_aksi" class="block text-sm font-medium text-gray-700 my-4">Pilih URL Aksi</label>
+            <select id="url_aksi" name="url_aksi" class="w-full p-2 border border-gray-300 rounded-md" onchange="handleUrlAksiChange()">
+                <option value="">Pilih URL Aksi</option>
+                <option value="/pendaftaran" {{ old('url_aksi') == '/pendaftaran' ? 'selected' : '' }}>Direct Pendaftaran</option>
+                <option value="/al-mazaya-blog" {{ old('url_aksi') == '/al-mazaya-blog' ? 'selected' : '' }}>Direct Blog</option>
+                <option value="custom">Custom URL</option>
+            </select>
+            
+            <!-- Input custom akan muncul saat opsi "Custom URL" dipilih -->
+            <input type="text" id="custom_url_input" name="custom_url_input" class="w-full p-2 border border-gray-300 rounded-md mt-2 hidden" 
+                   placeholder="Masukkan URL custom" oninput="setCustomUrlValue()" 
+            />
+            <input type="hidden" id="custom_url_aksi" name="url_aksi" value="" />
+
+    
+
+            <label for="description" class="block my-4 text-sm font-medium text-gray-900 ">Tambahkan Deskripsi</label>
             <textarea 
                 id="description" 
-                name="description" 
-                rows="2" 
-                class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" 
+                name="description"  
+                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
                 placeholder="Masukkan Deskripsi">{{ old('description') }}
             </textarea>
             
@@ -85,7 +123,7 @@
                     accept="image/*"
                     @change="handleFilePreview($event)">
                 
-                <p class="bg-red-600 text-center text-white p-4 rounded" >thumbnail menggunakan format ; jpeg,png,jpg | max: 2mb | 16:9 diutamakan</p>
+                <p class="bg-white text-center text-red-700 border border-red-700 p-4 rounded" >thumbnail menggunakan format ; jpeg,png,jpg | max: 5mb | HD / FULL HD</p>
 
                 <!-- Image Preview -->
                 <template x-if="imagePreview">
@@ -131,6 +169,32 @@
         </div>
         @endif
     </div>
+
+    {{-- Dropdown Url Aksi --}}
+    <script>
+        function handleUrlAksiChange() {
+            const select = document.getElementById('url_aksi');
+            const customInput = document.getElementById('custom_url_input');
+            const hiddenInput = document.getElementById('custom_url_aksi');
+
+            if (select.value === 'custom') {
+                customInput.classList.remove('hidden'); // Tampilkan input custom
+                customInput.value = ''; // Reset input saat pertama kali dipilih
+            } else {
+                customInput.classList.add('hidden'); // Sembunyikan input custom
+                customInput.value = ''; // Reset input jika opsi lain dipilih
+                hiddenInput.value = select.value; // Set hidden input ke nilai dropdown
+            }
+        }
+
+        function setCustomUrlValue() {
+            const customInput = document.getElementById('custom_url_input');
+            const hiddenInput = document.getElementById('custom_url_aksi');
+
+            // Salin nilai dari input custom ke hidden input
+            hiddenInput.value = customInput.value;
+        }
+    </script>
     
     {{-- Menghitung jumlah karakter title --}}
     <script>

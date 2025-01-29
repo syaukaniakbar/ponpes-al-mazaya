@@ -38,7 +38,7 @@ class BlogController extends Controller
             'title' => 'required|string|max:155',
             'description' => 'required|string',
             'category' => 'required|in:umum,prestasi,ilmiah',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
         // Initialize image path

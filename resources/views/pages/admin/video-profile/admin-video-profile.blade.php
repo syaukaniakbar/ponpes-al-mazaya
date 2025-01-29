@@ -2,7 +2,6 @@
 
     @section('title', 'Video Profile | Ponpes Al-Mazaya')
 
-
     <div class="w-full mt-12">
         @if(session('success'))
         <div x-data="{ show: true }"
@@ -24,10 +23,14 @@
             <span>{{ session('success') }}</span>
         </div>
         @endif
-        <p class="flex items-center p-5 text-xl">
+
+        <p class="flex items-center text-xl mb-4">
             Al-Mazaya Video Profile
         </p>
-        <div class="overflow-auto bg-white">
+
+        <a href="{{route('video.create')}}" class="bg-green-600 text-white px-4 py-2 rounded">Tambah URL</a>
+
+        <div class="overflow-auto bg-white mt-4">
             <table class="min-w-full bg-white table-auto">
                 <thead>
                     <tr class="text-white bg-gray-800">
@@ -37,18 +40,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if($embedUrl)
+                    @if($video)
                         <tr class="border-b">
                             <td class="px-4 py-3 text-center">1</td>
                             <td class="px-4 py-3">
-                                <a href="" target="_blank" class="text-blue-600 hover:underline">
-                                    {{ $embedUrl }}
+                                <a href="{{ $video->url }}" target="_blank" class="text-blue-600 hover:underline">
+                                    {{ $video->url }}
                                 </a>
                             </td>
                             <td class="px-4 py-3">
-                                <a href="{{ route('video.edit', $id) }}" class="block w-full p-2 mb-2 text-center text-white bg-blue-600 rounded">
+                                <a href="{{ route('video.edit', $video->id) }}" class="block w-full p-2 mb-2 text-center text-white bg-blue-600 rounded">
                                     Edit
                                 </a>
+                                <form action="{{ route('video.destroy', $video->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this video?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="block w-full p-2 mb-2 text-center text-white bg-red-600 rounded">
+                                        Delete
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @else
@@ -56,10 +66,10 @@
                             <td colspan="3" class="py-10 text-center">No records found!</td>
                         </tr>
                     @endif
-
                 </tbody>
             </table>
         </div>
+
         @if(session('error'))
             <div x-data="{ show: true }"
                 x-init="setTimeout(() => show = false, 3000)"
@@ -81,4 +91,5 @@
             </div>
         @endif
     </div>
+
 </x-dashboard-layout>

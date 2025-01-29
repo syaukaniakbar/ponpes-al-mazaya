@@ -119,118 +119,45 @@
             
             <!-- Sidebar -->
             <aside class="w-full lg:col-span-4 flex flex-col items-center px-3">
-                <div class="w-full bg-white shadow-lg flex flex-col my-4 p-6 rounded-lg">
+                <div class="w-full flex flex-col my-4 p-6">
                     <p class="text-xl font-semibold pb-5 border-b border-gray-300">Berita Lainnya</p>
             
                     <div class="flex flex-col space-y-6 mt-6">
-                        <!-- Berita 1 (Highlight) -->
-                        <div class="relative group border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300">
-                            <!-- Gambar -->
-                            <div class="overflow-hidden">
-                                <img src="{{ asset('images/ponpes-headline.png') }}" alt="Berita Utama" 
-                                     class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105">
+                        @foreach ($blogs as $blogItem)
+                            <div class="relative group border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300">
+                                <!-- Gambar -->
+                               <a href="{{ route('blog.show', ['slug' => $blogItem->slug]) }}">
+                                    <div class="overflow-hidden">
+                                        <img src="{{ asset('storage/' . $blogItem->image_url) }}" alt="{{ $blog->title }}" class="w-full h-48 object-cover group-hover:opacity-90 transition">
+                                    </div>
+                                
+                                    <!-- Label Kategori -->
+                                    <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded shadow-md uppercase">
+                                        {{ $blogItem->category }}
+                                    </div>
+                                
+                                    <!-- Konten -->
+                                    <div class="p-5 space-y-3">
+                                        <!-- Judul -->
+                                        <p
+                                        class="block text-lg font-bold text-gray-800 hover:text-blue-600 leading-snug transition-colors duration-300">
+                                            {{ $blogItem->title }}
+                                        </p>
+                                
+                                        <!-- Deskripsi -->
+                                        <p class="text-gray-600 text-sm mt-2 mb-4">
+                                            {!! Str::limit($blogItem->description, 100) !!}
+                                        </p>
+                                
+                                        <!-- Tanggal atau Metadata -->
+                                        <div class="flex items-center text-xs text-green-400 space-x-2">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span> {{$blogItem->created_at->translatedFormat('l, d F Y') }}</span>
+                                        </div>
+                                    </div>
+                               </a>
                             </div>
-                        
-                            <!-- Label Kategori -->
-                            <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded shadow-md uppercase">
-                                ILMIAH
-                            </div>
-                        
-                            <!-- Konten -->
-                            <div class="p-5 space-y-3">
-                                <!-- Judul -->
-                                <a href="#" 
-                                   class="block text-lg font-bold text-gray-800 hover:text-blue-600 leading-snug transition-colors duration-300">
-                                    Al Mazaya Mengadakan Kurban di Lingkungan Pondok
-                                </a>
-                        
-                                <!-- Deskripsi -->
-                                <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.
-                                </p>
-                        
-                                <!-- Tanggal atau Metadata -->
-                                <div class="flex items-center text-xs text-gray-400 space-x-2">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span>10 Januari 2025</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-            
-                        <!-- Berita 2 -->
-                        <div class="relative group border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300">
-                            <!-- Gambar -->
-                            <div class="overflow-hidden">
-                                <img src="{{ asset('images/ponpes-headline.png') }}" alt="Berita Utama" 
-                                     class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105">
-                            </div>
-                        
-                            <!-- Label Kategori -->
-                            <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded shadow-md uppercase">
-                                ILMIAH
-                            </div>
-                        
-                            <!-- Konten -->
-                            <div class="p-5 space-y-3">
-                                <!-- Judul -->
-                                <a href="#" 
-                                   class="block text-lg font-bold text-gray-800 hover:text-blue-600 leading-snug transition-colors duration-300">
-                                    Al Mazaya Mengadakan Kurban di Lingkungan Pondok
-                                </a>
-                        
-                                <!-- Deskripsi -->
-                                <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.
-                                </p>
-                        
-                                <!-- Tanggal atau Metadata -->
-                                <div class="flex items-center text-xs text-gray-400 space-x-2">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span>10 Januari 2025</span>
-                                </div>
-                            </div>
-                        </div>
-            
-                        <!-- Berita 3 -->
-                        <div class="relative group border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300">
-                            <!-- Gambar -->
-                            <div class="overflow-hidden">
-                                <img src="{{ asset('images/ponpes-headline.png') }}" alt="Berita Utama" 
-                                     class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105">
-                            </div>
-                        
-                            <!-- Label Kategori -->
-                            <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded shadow-md uppercase">
-                                ILMIAH
-                            </div>
-                        
-                            <!-- Konten -->
-                            <div class="p-5 space-y-3">
-                                <!-- Judul -->
-                                <a href="#" 
-                                   class="block text-lg font-bold text-gray-800 hover:text-blue-600 leading-snug transition-colors duration-300">
-                                    Al Mazaya Mengadakan Kurban di Lingkungan Pondok
-                                </a>
-                        
-                                <!-- Deskripsi -->
-                                <p class="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.
-                                </p>
-                        
-                                <!-- Tanggal atau Metadata -->
-                                <div class="flex items-center text-xs text-gray-400 space-x-2">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span>10 Januari 2025</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            
-                    <!-- Tombol Lihat Selengkapnya -->
-                    <a href="#" class="mt-6 bg-blue-600 text-white text-center py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-300 font-semibold">
-                        Lihat Semua Berita
-                    </a>
+                        @endforeach
                 </div>
             </aside>
                      

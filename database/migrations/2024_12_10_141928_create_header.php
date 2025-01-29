@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('header', function (Blueprint $table) {
             $table->id();
             $table->string('image_url')->nullable();
+            $table->string('label');
+            $table->string('nama_tombol_aksi');
+            $table->string('url_aksi');
             $table->string('title');
             $table->string('description');
             $table->timestamps();

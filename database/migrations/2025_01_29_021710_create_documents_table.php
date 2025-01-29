@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('guru', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
+            $table->string('name');
+            $table->string('type');
+            $table->string('path');
             $table->id();
-            $table->string('nama');
-            $table->enum('jenis_kelamin', ['pria, wanita']);
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('guru');
+        Schema::dropIfExists('documents');
     }
 };

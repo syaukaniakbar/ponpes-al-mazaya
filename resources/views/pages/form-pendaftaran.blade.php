@@ -116,11 +116,16 @@
                     </div>
                     <!-- Tampilan PDF -->
                     <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg m-12">
-                        <iframe src="{{ $pdf1Path }}" width="100%" height="600px" class="object-cover rounded-lg shadow-lg"></iframe>
+                          <!-- Menampilkan PDF Aturan -->
+                        @if ($aturanDocument)
+                            <iframe src="{{ asset($aturanDocument->path) }}" width="100%" height="600px"></iframe>
+                        @else
+                            <p>Dokumen aturan tidak ditemukan.</p>
+                        @endif
                     </div>
                 </div>
 
-                
+
                 <!-- Step 2 -->
                 <div  x-show="currentStep === 3" 
                         class="step-content"
@@ -133,17 +138,23 @@
                     >
                     <div class="text-center mb-6">
                         <h2 class="text-3xl font-semibold text-gray-800 mb-2">Surat Pernyataan</h2>
-                        <p class="text-gray-600 text-lg">Dokumen ini menjelaskan berbagai aturan yang berlaku di Pondok Pesantren kami. Pastikan Anda membacanya dengan baik.</p>
+                        <p class="text-gray-600 text-lg">Surat pernyataan memerlukan tanda tangan, harap mencantumkan materai 10000 sebagai bukti keabsahan dan kesepakatan terhadap aturan yang berlaku.</p>
                     </div>
                     <!-- Tombol Unduh PDF -->
                     <div class="text-center mt-4">
-                        <a href="{{ $pdf2Path }}" download="{{ $pdf2Path }}" class="inline-block text-white bg-orange-600 hover:bg-orange-800 rounded-lg px-6 py-3 mt-4">
-                            Unduh Surat Pernyataan
-                        </a>
+                        <a href="{{ asset($suratPernyataanDocument->path) }}" 
+                            download 
+                            class="inline-block text-white bg-orange-600 hover:bg-orange-800 rounded-lg px-6 py-3 mt-4">
+                             Unduh Surat Pernyataan
+                         </a>
                     </div>
                      <!-- Tampilan PDF -->
                      <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg m-12">
-                        <iframe src="{{ $pdf2Path }}" width="100%" height="600px" class="object-cover rounded-lg shadow-lg"></iframe>
+                        @if ($suratPernyataanDocument)
+                            <iframe src="{{ asset($suratPernyataanDocument->path) }}" width="100%" height="600px"></iframe>
+                        @else
+                            <p>Dokumen surat pernyataan tidak ditemukan.</p>
+                        @endif
                     </div>
                 </div>
 
