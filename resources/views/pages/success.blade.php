@@ -1,7 +1,7 @@
 <x-main-layout>
     @section('title', 'Official Website Ponpes Al-Mazaya | Home') <!-- Mengisi bagian @yield('title') di parent -->
 
-    <div class="container mx-auto p-4 min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="container mx-auto p-4 min-h-screen flex items-center justify-center bg-green-100">
         <div id="success" class="flex items-center justify-center w-full">
             <div class="relative p-6 w-full max-w-lg bg-white rounded-xl shadow-lg space-y-6">
     
@@ -20,6 +20,10 @@
                         dengan NISN <span class="text-green-600 font-semibold uppercase">{{ $siswa->nisn }}</span> telah berhasil terdaftar 
                         dalam program pendidikan <span class="text-green-600 font-semibold uppercase">({{ $siswa->program_pendidikan }})</span>.
                     </p>
+                    <p class="mt-2 text-sm sm:text-base text-gray-600">
+                        Harap diperhatikan bahwa daftar ulang dijadwalkan pada tanggal 
+                        <span class="text-green-600 font-semibold">7 Februari 2025</span>. Mohon untuk hadir sesuai jadwal.
+                    </p>                    
                 </div>
     
                 <!-- Button to close or redirect -->

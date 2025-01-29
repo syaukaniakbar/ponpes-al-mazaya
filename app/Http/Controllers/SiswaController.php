@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Document;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,14 +23,19 @@ class SiswaController extends Controller
 
     public function create()
     {
-        $pdf1Path = asset('pdf/aturan.pdf'); // Lokasi PDF 1
-        $pdf2Path = asset('pdf/surat_pernyataan.pdf'); // Lokasi PDF 2
-
-        // Kirim path ke view
-        return view('pages.form-pendaftaran', [
-            'pdf1Path' => $pdf1Path,
-            'pdf2Path' => $pdf2Path,
-        ]);
+        {
+            // Ambil satu dokumen dengan tipe 'aturan'
+            $aturanDocument = Document::where('type', 'aturan')->first();
+            
+            // Ambil satu dokumen dengan tipe 'surat_pernyataan'
+            $suratPernyataanDocument = Document::where('type', 'surat_pernyataan')->first();
+        
+            // Kirim dokumen ke view
+            return view('pages.form-pendaftaran', [
+                'aturanDocument' => $aturanDocument,
+                'suratPernyataanDocument' => $suratPernyataanDocument,
+            ]);
+        }
     }
 
     public function store(Request $request)
@@ -355,6 +361,28 @@ class SiswaController extends Controller
 
         // Redirect ke halaman siswa dengan pesan sukses
         return redirect()->route('siswa', ['program_pendidikan' => $program_pendidikan])
-            ->with('success', 'Siswa ' . $nama . ' berhasil dihapus.');
+            ->with('success', 'Siswa / Siswi ' . $nama . ' berhasil dihapus.');
+    }
+
+    public function cari_siswa(Request $request)
+    {
+        $keyword = trim(strtolower($request->input('siswa'))); // Normalisasi input
+
+        // Mencari berdasarkan NISN atau Nama (case-insensitive)
+        $siswa = Siswa::where('nisn', $keyword) // Cari berdasarkan NISN eksak
+                    ->orWhereRaw('LOWER(nama) LIKE ?', ['%' . $keyword . '%']) // Case-insensitive LIKE
+                    ->get();
+
+        if ($siswa->isNotEmpty()) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $siswa,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Siswa tidak ditemukan',
+            ]);
+        }
     }
 }

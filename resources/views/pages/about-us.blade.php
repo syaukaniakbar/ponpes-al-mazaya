@@ -27,7 +27,7 @@
     
 
     <!-- Second section -->
-    <section class="sambutan bg-gray-50 relative w-full overflow-hidden py-12 px-4 sm:py-16 sm:px-6 lg:py-20 lg:px-8">
+    <section class="sambutan bg-white relative w-full overflow-hidden py-12 px-4 sm:py-16 sm:px-6 lg:py-20 lg:px-8">
         <div class="grid max-w-screen-xl mx-auto lg:gap-16 xl:gap-24 lg:grid-cols-12 items-center">
             <!-- Gambar dan Informasi -->
             <div class="flex flex-col justify-center items-center lg:col-span-5 lg:items-start text-center lg:text-start px-6 lg:px-8 mb-8 lg:mb-0">
@@ -72,7 +72,7 @@
     
 
     <!-- Third section -->
-    <section class="sejarah bg-gray-50 relative w-full overflow-hidden">
+    <section class="sejarah bg-white relative w-full overflow-hidden">
         <div class="bg-green-900 rounded-2xl mx-6 sm:mx-auto max-w-screen-xl px-6 py-10 my-16 shadow-lg">
         <div class="flex flex-col items-center text-center text-white">
             <!-- Judul Section -->
@@ -83,7 +83,7 @@
             <div class="w-24 sm:w-32 h-1 bg-white rounded-full mx-auto mb-8"></div>
             
             <!-- Konten -->
-            <p class="text-base sm:text-lg font-light text-justify leading-relaxed px-6 sm:px-10 lg:px-16">
+            <p class="text-base sm:text-lg font-light text-left leading-relaxed px-6 sm:px-10 lg:px-16">
             Pondok Pesantren Al Mazaya Paser didirikan pada pertengahan tahun 2021 oleh Ustadz H. Nashruddin, Lc, M.Pd atas arahan 
             Dr. Habib Segaf Baharun, Rektor UII Darul Lughah wad Da’wah, Pasuruan, Jawa Timur. <br><br>
             Awalnya, Ustadz Nashruddin menyewa 2 rumah untuk menampung santri Al Mazaya Center Paser yang akan melanjutkan studi di Universitas Al Azhar, Mesir. 
@@ -139,7 +139,7 @@
                 <div class="flex flex-col text-center md:text-left text-black h-full">
                     <h2 class="text-4xl md:text-5xl font-semibold mb-4 text-gray-800">Misi</h2>
                     <div class="w-24 h-1 bg-black mx-auto mb-6"></div>
-                    <ul class="list-disc pl-6 space-y-4 text-xl font-light text-gray-700">
+                    <ul class="list-disc pl-6 space-y-4 text-xl font-light text-gray-700 text-left">
                         <li>Menanamkan nilai-nilai iman, takwa, dan akhlak mulia sebagai fondasi karakter santri.</li>
                         <li>Mengembangkan sistem pembelajaran terintegrasi yang mencakup ilmu (kognitif), amal (psikomotorik), dan akhlak (afektif).</li>
                         <li>Memperluas wawasan santri melalui penguatan kearifan lokal dan perspektif global.</li>
@@ -233,46 +233,22 @@
     </section> --}}
 
     <!-- Seventh section -->
-    <section class="kerjasama bg-white relative mb-14 w-full overflow-hidden">
-        <div class="flex flex-col justify-center items-center max-w-screen-xl px-4 py-8 mx-auto text-center">
-            <!-- Kolom Teks -->
-            <h2 class="text-6xl font-bold mb-4">Kerjasama Lembaga</h2>
-            <div class="w-52 h-0.5 bg-black mx-auto mb-6"></div>
-    
-            <!-- Carousel Section -->
-            <div class="max-w-4xl mx-auto relative" x-data="{
-                activeSlide: 1,
-                slides: [
-                    {id: 1, title: 'Kemenag', image: 'images/kemenag.png'},
-                ],
-                totalGroups: 1,
-                get visibleSlides() {
-                    const groupSize = 1;
-                    const start = (this.activeSlide - 1) * groupSize;
-                    const end = start + groupSize;
-                    return this.slides.slice(start, end);
-                }
-            }" x-init="loop">
-                
-                <!-- Carousel Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                    <template x-for="slide in visibleSlides" :key="slide.id">
-                        <div class="p-4 h-80 flex flex-col items-center justify-center text-center bg-white text-black rounded-lg shadow-md">
-                            <img :src="slide.image" :alt="slide.title" class="w-full h-auto object-cover rounded-lg">
-                        </div>
-                    </template>
-                </div>            
-              
-            </div>
+    <section class="bg-white py-8 lg:py-16 mx-auto max-w-screen-xl px-4">
+        <h2 class="text-4xl sm:text-6xl font-extrabold tracking-wide mb-4 text-center">
+            Kerja Sama
+        </h2>
+        <div class="flex justify-center items-center">
+            <img src="{{ asset('images/kemenag.png') }}" alt="Logo Kerja Sama" class="w-64 h-64 object-contain transition-transform transform hover:scale-110 hover:shadow-xl hover:shadow-green-500/50 rounded-lg">
         </div>
     </section>
+    
     
 
     <!-- Eighth section -->
     <section class="alamat bg-white relative w-full overflow-hidden">
-        <div class="flex flex-col justify-center items-center max-w-screen-xl px-4 py-8 mx-auto text-center w-full">
+        <div class="flex flex-col justify-center items-center max-w-screen-xl px-4 py-8 md:py-20 mx-auto text-center w-full">
             <!-- Kolom Teks -->
-            <h2 class="text-6xl font-bold mb-4">Alamat Kami</h2>
+            <h2 class="text-4xl sm:text-6xl font-extrabold tracking-wide mb-4">Alamat Kami</h2>
             <div class="w-64 h-0.5 bg-black mx-auto mb-10"></div>
             <!-- Maps section -->
             <div class="flex justify-center items-center w-full h-96 bg-gray-100">

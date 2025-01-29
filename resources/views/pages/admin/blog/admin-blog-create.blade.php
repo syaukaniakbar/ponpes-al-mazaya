@@ -170,7 +170,8 @@
                     accept="image/*"
                     @change="handleFilePreview($event)">
 
-                <p class="p-4 text-center text-red-600 border border-red-600 rounded">thumbnail menggunakan format ; jpeg,png,jpg | max: 5mb | 16:9 diutamakan</p>
+                <p class="p-4 text-center text-red-600 border border-red-600 rounded">thumbnail menggunakan format ; jpeg,png,jpg | max: 5mb | HD / Full HD</p>
+
 
                 <!-- Image Preview -->
                 <template x-if="imagePreview">

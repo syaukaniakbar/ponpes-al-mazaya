@@ -86,9 +86,14 @@
                 });
     
                 const result = await response.json();
+                
     
                 // If successful, display data
                 if (result.status === 'success') {
+
+                    const imageUrl = result.data.image_bukti_transaksi_url;
+                    console.log(imageUrl);
+
                     let content = `
                         <div class="grid grid-cols-1 gap-6">
                             <h2 class="text-3xl font-semibold text-center text-gray-900">Detail Siswa</h2>
@@ -308,9 +313,6 @@
                                 ${result.data.no_hp_orangtua}
                             </div>
                         </div>
-
-
-                            
                     `;
     
                     // Only show Kopiah field if gender is male
@@ -331,7 +333,17 @@
                         <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 uppercase">
                             ${result.data.seragam}
                         </div>        
-                    </div>`;
+                    </div>
+                    <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Bukti Transaksi</label>
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 flex justify-center items-center">
+                            <img src="/storage/${imageUrl}" alt="Bukti Transaksi" class="object-cover w-full h-full rounded-lg shadow-md">
+                        </div>
+                    </div>
+
+
+
+                    `;
     
                     blogDetailContent.innerHTML = content;
                     openModal(); // Open modal

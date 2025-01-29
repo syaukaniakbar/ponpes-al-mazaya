@@ -2,6 +2,7 @@
 
     <div class="flex flex-wrap mt-6">
         <div class="w-full pr-0 lg:w-1/2 lg:pr-2 h-[420px] max-h-[520px]">
+
             <p class="flex items-center justify-center pb-3 text-xl font-semibold">
                 Total Siswa
             </p>
@@ -30,5 +31,4 @@
             </div>
         </div>
     </div>
-
 </x-dashboard-layout>

@@ -8,40 +8,63 @@ use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
-    public function index()
+        public function index()
     {
-        // Retrieve all URLs from the 'url' column
-        $urls = Video::pluck('url');
-        $id = Video::get()->pluck('id');
-        $id = $id[0];
-    
-        // Initialize an empty embed URL
+        // Retrieve all videos from the 'Video' model
+        $video = Video::first();
+
+        // Pass the video data to the view
+        return view('pages.admin.video-profile.admin-video-profile', compact('video'));
+    }
+
+    public function create()
+    {
+        return view('pages.admin.video-profile.admin-video-profile-create');
+    }
+
+    public function store(Request $request)
+    {
+        // Validasi input dari request
+        $request->validate([
+            'url' => 'required|url', // Validasi URL harus valid
+        ]);
+
+        // Ambil URL yang dikirimkan dari form
+        $videoUrl = $request->input('url');
+        
+        // Validasi apakah URL mengarah ke YouTube
         $embedUrl = '';
-        $videoUrl = ''; // Menyimpan URL asli
 
-        // Check if there is at least one URL in the database
-        if ($urls->isNotEmpty()) {
-            // Get the first URL
-            $videoUrl = $urls[0];
-
-            // Check if the URL is a valid YouTube URL
-            if (strpos($videoUrl, 'youtube.com') !== false || strpos($videoUrl, 'youtu.be') !== false) {
-                // Extract the video ID from the URL
-                preg_match('/(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\s]{11}))/i', $videoUrl, $matches);
-
-                // If a video ID is found, construct the embed URL
-                if (!empty($matches[1])) {
-                    $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
-                }
+        // Jika URL valid dan mengarah ke YouTube
+        if (strpos($videoUrl, 'youtube.com') !== false || strpos($videoUrl, 'youtu.be') !== false) {
+            // Ekstrak video ID dari URL YouTube
+            preg_match('/(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\s]{11}))/i', $videoUrl, $matches);
+            
+            // Jika video ID ditemukan, buat URL embed YouTube
+            if (!empty($matches[1])) {
+                $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
+                $videoUrl = $embedUrl; // Ganti URL dengan embed URL
             } else {
-                // Jika URL bukan YouTube, tetap simpan URL asli
-                $embedUrl = $videoUrl; // Menyimpan URL asli jika bukan YouTube
+                return back()->withErrors(['url' => 'Invalid YouTube URL.']);
             }
         }
 
-        // Pass the embed URL and original URL to the view
-        return view('pages.admin.video-profile.admin-video-profile', compact('embedUrl', 'videoUrl', 'id'));
+        // Cek apakah video dengan URL yang sama sudah ada di database
+        $existingVideo = Video::where('url', $videoUrl)->first();
+
+        if ($existingVideo) {
+            return back()->withErrors(['url' => 'This video URL already exists in the database.']);
+        }
+
+        // Simpan data video baru ke database (hanya satu kolom 'url')
+        Video::create([
+            'url' => $videoUrl, // Menyimpan embed URL atau URL asli yang sudah diproses
+        ]);
+
+        // Redirect ke halaman dengan URL embed yang baru disimpan
+        return redirect()->route('video.create')->with('success', 'Video URL has been successfully saved!');
     }
+
 
     public function edit($id)
     {
@@ -49,23 +72,62 @@ class VideoController extends Controller
         return view('pages.admin.video-profile.admin-video-profile-edit', compact('url'));
     }
 
+
     public function update(Request $request, $id)
     {
-        // Validate the incoming URL
+        // Validasi input dari request
         $request->validate([
-            'url' => 'required|url', // Ensure the URL is valid
+            'url' => 'required|url', // Validasi URL harus valid
         ]);
 
-        // Find the video by ID
-        $video = Video::findOrFail($id);
+        // Ambil URL yang dikirimkan dari form
+        $videoUrl = $request->input('url');
+        
+        // Validasi apakah URL mengarah ke YouTube
+        $embedUrl = '';
 
-        // Update the URL
-        $video->url = $request->input('url');
-        $video->save(); // Save the changes
+        // Jika URL valid dan mengarah ke YouTube
+        if (strpos($videoUrl, 'youtube.com') !== false || strpos($videoUrl, 'youtu.be') !== false) {
+            // Ekstrak video ID dari URL YouTube
+            preg_match('/(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([^"&?\/\s]{11}))/i', $videoUrl, $matches);
+            
+            // Jika video ID ditemukan, buat URL embed YouTube
+            if (!empty($matches[1])) {
+                $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
+                $videoUrl = $embedUrl; // Ganti URL dengan embed URL
+            } else {
+                return back()->withErrors(['url' => 'Invalid YouTube URL.']);
+            }
+        }
 
-        // Redirect to the video profile page with a success message
-        return redirect()->route('video')->with('success', 'Video URL updated successfully!');
+        // Temukan video berdasarkan ID
+        $video = Video::find($id);
+
+        if (!$video) {
+            return back()->withErrors(['url' => 'Video not found.']);
+        }
+
+        // Update video URL
+        $video->url = $videoUrl;
+        $video->save();
+
+        // Redirect ke halaman dengan URL embed yang baru disimpan
+        return redirect()->route('video.edit', $id)->with('success', 'Video URL berhasil diperbaharui!');
+
     }
+
+
+    public function destroy($id)
+{
+    // Cari video berdasarkan ID
+    $video = Video::findOrFail($id);
+
+    // Hapus video
+    $video->delete();
+
+    // Redirect dengan pesan sukses
+    return redirect()->route('video')->with('success', 'Video URL has been successfully deleted!');
+}
 
     
 

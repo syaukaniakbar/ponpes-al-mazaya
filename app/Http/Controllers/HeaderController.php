@@ -29,9 +29,36 @@ class HeaderController extends Controller
     {
         // Validate input fields
         $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'label' => 'required|string|max:155',
+            'nama_tombol_aksi' => 'required|string|max:155',
+            'url_aksi' => 'required|string|max:155',
             'title' => 'required|string|max:155',
             'description' => 'required|string',
+        ],
+        [
+            'image.image' => 'File yang diunggah harus berupa gambar.',
+            'image.mimes' => 'File gambar harus dalam format jpeg, png, atau jpg.',
+            'image.max' => 'Ukuran file gambar tidak boleh lebih dari 5MB.',
+            
+            'label.required' => 'Label harus diisi.',
+            'label.string' => 'Label harus berupa teks.',
+            'label.max' => 'Label tidak boleh lebih dari 155 karakter.',
+            
+            'nama_tombol_aksi.required' => 'Nama tombol aksi harus diisi.',
+            'nama_tombol_aksi.string' => 'Nama tombol aksi harus berupa teks.',
+            'nama_tombol_aksi.max' => 'Nama tombol aksi tidak boleh lebih dari 155 karakter.',
+            
+            'url_aksi.required' => 'URL aksi harus diisi.',
+            'url_aksi.string' => 'URL aksi harus berupa teks.',
+            'url_aksi.max' => 'URL aksi tidak boleh lebih dari 155 karakter.',
+            
+            'title.required' => 'Title harus diisi.',
+            'title.string' => 'Title harus berupa teks.',
+            'title.max' => 'Title tidak boleh lebih dari 155 karakter.',
+            
+            'description.required' => 'Deskripsi harus diisi.',
+            'description.string' => 'Deskripsi harus berupa teks.',
         ]);
 
         // Initialize image path
@@ -44,19 +71,22 @@ class HeaderController extends Controller
                 $imagePath = $request->file('image')->store('header_images', 'public');
             } catch (\Exception $e) {
                 // Handle errors during file upload
-                return back()->with('error', 'There was an issue uploading the image.');
+                return back()->with('error', 'Terjadi masalah saat mengunggah gambar.');
             }
         }
 
         // Create the new header post
         Header::create([
             'image_url' => $imagePath,
+            'label' => $request->label,
+            'nama_tombol_aksi' => $request->nama_tombol_aksi,
+            'url_aksi' => $request->url_aksi,
             'title' => $request->title,
             'description' => $request->description,
         ]);
 
         // Redirect back with success message
-        return redirect()->route('header.create')->with('success', 'Banner Created Successfully');
+        return redirect()->route('header.create')->with('success', 'Pembuatan Banner Berhasil');
     }
 
     public function edit(string $id)
@@ -72,6 +102,9 @@ class HeaderController extends Controller
     {
         $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'label' => 'required|string|max:155',
+            'tombol_aksi' => 'required|string|max:155',
+            'url_aksi' => 'required|string|max:155',
             'title' => 'required|string|max:155',
             'description' => 'required|string',
         ]);
@@ -89,11 +122,14 @@ class HeaderController extends Controller
 
         // Update header data
         $header->update([
+            'label' => $request->label,
+            'tombol_aksi' => $request->tombol_aksi,
+            'url_aksi' => $request->url_aksi,
             'title' => $request->title,
             'description' => $request->description,
         ]);
 
-        return redirect()->route('header.edit', ['id' => $header->id])->with('success', 'Banner updated successfully!');
+        return redirect()->route('header.edit', ['id' => $header->id])->with('success', 'Pembaharuan Banner Berhasil');
     }
 
     /**
