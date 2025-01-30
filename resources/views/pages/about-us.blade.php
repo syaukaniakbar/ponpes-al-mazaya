@@ -109,13 +109,13 @@
                 <!-- Card 2 -->
                 <div class="text-start p-4 rounded-lg border border-green-100 bg-green-100">
                     <img src="{{ asset('images/students.png') }}" alt="ponpes-al-mazaya-highlight" class="mx-auto rounded-md max-w-none">
-                    <h3 class="text-4xl font-bold mt-4 mb-2 text-center text-green-700">1278</h3>
+                    <h3 class="text-4xl font-bold mt-4 mb-2 text-center text-green-700">{{ $students->sum() }}</h3>
                     <p class="font-bold text-2xl text-center text-green-700">Santri Aktif</p>
                 </div>
                 <!-- Card 3 -->
                 <div class="text-start p-4 rounded-lg border border-green-100 bg-green-100">
                     <img src="{{ asset('images/teachers.png') }}" alt="ponpes-al-mazaya-highlight" class="mx-auto rounded-md max-w-none">
-                    <h3 class="text-4xl font-bold mt-4 mb-2 text-center text-green-700">15</h3>
+                    <h3 class="text-4xl font-bold mt-4 mb-2 text-center text-green-700">{{ $totalTeacherStaffs }}</h3>
                     <p class="font-bold text-2xl text-center text-green-700">Guru</p>
                 </div>
             </div>

@@ -29,6 +29,7 @@ class MainController extends Controller
             });
 
         $years = range($currentYear - 2, $currentYear);
+
         $blogs = Blog::with('user')->orderBy('created_at', 'desc')->paginate(3);
 
         // Retrieve all URLs from the 'url' column
@@ -66,7 +67,23 @@ class MainController extends Controller
 
     public function about_us()
     {
-        return view('pages.about-us');
+        $currentYear = Carbon::now()->year;
+
+        // Fetch data for the past 3 years
+        $students = JumlahSiswa::where('tahun', '>=', $currentYear - 2)
+            ->orderBy('tahun', 'desc')
+            ->get()
+            ->groupBy('tingkatan')
+            ->map(function ($group) {
+                return $group->sum('total_siswa');
+            });
+
+        $years = range($currentYear - 2, $currentYear);
+
+        $teacherStaffs = TeacherStaff::all();
+        $totalTeacherStaffs = $teacherStaffs->count();
+
+        return view('pages.about-us', compact('totalTeacherStaffs', 'currentYear', 'students', 'years'));
     }
 
     public function blog()
